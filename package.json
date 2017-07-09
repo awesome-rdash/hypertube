@@ -4,7 +4,7 @@
   "description": "42 Project",
   "main": "start.js",
   "scripts": {
-    "start": "npm run nodemon start.js"
+    "start": "nodemon start.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,15 @@
   "bugs": {
     "url": "https://github.com/j-rouzier/hypertube/issues"
   },
-  "homepage": "https://github.com/j-rouzier/hypertube#readme"
+  "homepage": "https://github.com/j-rouzier/hypertube#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "mongoose": "^4.11.1",
+    "nodemon": "^1.11.0",
+    "path": "^0.12.7",
+    "pug": "^2.0.0-rc.2"
+  }
 }
