@@ -1,0 +1,19 @@
+{
+  "name": "hypertube",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j-rouzier/hypertube.git"
+  },
+  "author": "jrouzier, behamon, jmisiti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/j-rouzier/hypertube/issues"
+  },
+  "homepage": "https://github.com/j-rouzier/hypertube#readme"
+}
