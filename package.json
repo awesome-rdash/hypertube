@@ -1,0 +1,24 @@
+{
+  "name": "hypertube",
+  "version": "1.0.0",
+  "description": "42 Project",
+  "main": "start.js",
+  "scripts": {
+    "start": "npm run nodemon start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/j-rouzier/hypertube.git"
+  },
+  "keywords": [
+    "42",
+    "hypertube",
+    "torrent"
+  ],
+  "author": "jrouzier jmisiti behamon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/j-rouzier/hypertube/issues"
+  },
+  "homepage": "https://github.com/j-rouzier/hypertube#readme"
+}
