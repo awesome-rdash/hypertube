@@ -10,7 +10,9 @@ router.get('/', (req, res) => {
 
 router.post('/login/local', authController.loginLocal);
 router.get('/login/google', authController.loginGoogle);
-router.get('/login/google/cb', authController.loginGoogleCb, (req, res) => { res.redirect('/'); });
+router.get('/login/google/cb', authController.loginGoogleCb);
+
+router.get('/logout', authController.logout);
 
 // Export Routes
 module.exports = router;

@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: 'Please Supply a Username',
 		trim: true
+	},
+	userid: {
+		type: String
 	}
 });
 

@@ -10,13 +10,14 @@ if (major < 7 || (major === 7 && minor < 6)) {
 require('dotenv').config({ path: 'variables.env' });
 
 const mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 mongoose.connection.on('error', (err) => {
   console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
 });
 
 // Import Models
 
-require('./Models/User')
+require('./Models/User');
 
 // Launch Server
 const app = require('./app');
