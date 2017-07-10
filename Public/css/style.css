@@ -1,9 +1,6 @@
+@import url('http://getbootstrap.com/dist/css/bootstrap.css');
 body {
 	background-image: url('/assets/background.jpg');
-}
-
-label {
-	color: white;
 }
 
 .btn-styler {
@@ -12,4 +9,15 @@ label {
 	border-color: white;
 	color: black;
 	width: 100%;
+}
+
+ html, body, .container-table {
+    height: 100%;
+}
+.container-table {
+    display: table;
+}
+.vertical-center-row {
+    display: table-cell;
+    vertical-align: middle;
 }
