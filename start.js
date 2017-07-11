@@ -10,6 +10,7 @@ if (major < 7 || (major === 7 && minor < 6)) {
 require('dotenv').config({ path: 'variables.env' });
 
 const mongoose = require('mongoose');
+mongoose.connect(process.env.DATABASE, { useMongoClient: true });
 mongoose.Promise = global.Promise;
 mongoose.connection.on('error', (err) => {
   console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);

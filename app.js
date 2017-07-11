@@ -27,7 +27,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(expressValidator());
-
 // Db sessions
 app.use(session({
   secret: process.env.SECRET,

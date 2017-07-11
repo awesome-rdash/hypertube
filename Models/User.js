@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
 		unique: true,
 		lowercase: true,
 		trim: true,
-		validate: [validator.isEmail, 'Invalid Email Address'],
 		required: 'Please Supply an email address'
 	},
 	username: {
@@ -16,11 +15,16 @@ const userSchema = new mongoose.Schema({
 		required: 'Please Supply a Username',
 		trim: true
 	},
-	userid: {
-		type: String
+	google: {
+		id: { type: String },
+		token: { type: String }
 	}
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
+
+userSchema.statics.findAndModify = function (query, callback) {
+	return this.collection.findAndModify(query, callback);
+};
 
 module.exports = mongoose.model('User', userSchema);
