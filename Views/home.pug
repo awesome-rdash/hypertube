@@ -1,16 +1,20 @@
 extends layout
 
 block content
+	.hidden
+		span#password(tkey="password")
 	.container.container-table
 		.row.vertical-center-row
-			.bg-box.col-md-4.offset-md-4
+			#step1.bg-box.col-md-4.offset-md-4
 				.jumbotron
-					h2.display-3(tkey="signup")
-					p.lead Salut
-					form
-						.form-group
-							label(for="Email") E-mail
-							input.form-control(id="Email" type='text' placeholder="Email")
-							label(for="Password" tkey="password")
-							input.form-control(id="Password" type='password' placeholder="Password")
-							button.btn-styler.btn.btn-danger(type="submit") Login
+					.innerJumbotron
+						h2.display-3(tkey="signup")
+						.progress
+							.progress-bar(role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:25%") 25%
+						form
+							.form-group
+								label(for="Email")
+									span#i1 E-mail
+								input.form-control(id="Email" type='text' placeholder="Email")
+						button.btn-styler.btn.btn-danger
+							span(tkey="next")

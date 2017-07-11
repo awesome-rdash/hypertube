@@ -1,4 +1,5 @@
 {
-  "signup": "Sign-up !",
-  "password": "Password"
+  "signup": "Sign-up :",
+  "password": "Password",
+  "next": "next"
 }
