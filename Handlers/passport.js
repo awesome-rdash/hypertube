@@ -12,7 +12,7 @@ passport.use(new GoogleStrategy({
 		passReqToCallback: false
 	},
 	async function(token, refreshToken, profile, done) {
-		let user = await User.findOne({ email: profile.emails[0] });
+		let user = await User.findOne({ email: profile.emails[0].value });
 		if (!user) {
 			let user = new User({
 				username: `${profile.name.givenName} ${profile.name.familyName[0]}`,
@@ -34,7 +34,7 @@ passport.use(new FortyTwoStrategy({
 		callbackURL: '/login/42/cb'
 	},
 	async function(token, refreshToken, profile, done) {
-		let user = await User.findOne({ email: profile.emails[0] });
+		let user = await User.findOne({ email: profile.emails[0].value });
 		console.log(profile);
 		if (!user) {
 			let user = new User({

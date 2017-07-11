@@ -18,14 +18,12 @@ $( document ).ready(function() {
 		$("[tkey]").each (function (index)
 		{
 			var strTr = jsdata [$(this).attr ('tkey')];
-		    $(this).html (strTr);
+		    $(this).html(strTr + $(this).html());
 		});
 	}
 
 
 	langCode = navigator.languages[0];
-	console.log(langCode);
-	console.log(langs);
 	if (langs.contains(langCode))
 		$.getJSON('locals/'+langCode+'.json', translate);
 	else if (langs.contains(langCode[0] + "" + langCode[1]))

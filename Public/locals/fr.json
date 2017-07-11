@@ -2,5 +2,10 @@
   "signup": "Inscription :",
   "password": "Mot de passe",
   "repassword": "Confirmation du mot de passe",
-  "next": "Suivant"
+  "next": "Suivant",
+  "step": "Etape ",
+  "username": "Pseudo",
+  "signin": "Se connecter",
+  "1signin": "Déjà un compte ? Se connecter",
+  "signupwith": "Inscription avec "
 }
