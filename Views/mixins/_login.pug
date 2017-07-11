@@ -1,0 +1,23 @@
+mixin login()
+  .row.vertical-center-row
+    #step1.bg-box.col-md-4.offset-md-4
+      .jumbotron
+        .innerJumbotron
+          h2.display-3(tkey="signup")
+          .progress
+            .progress-bar(role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:25%") 25%
+          form
+            .form-group
+              label(for="Email")
+                span#i1 E-mail
+              input.form-control(id="Email" type='text' placeholder="Email")
+          button.btn-styler.btn.btn-danger
+            span(tkey="next")
+
+
+            
+              form.form(action="/account/forgot" method="POST")
+                h2 I forgot my password!
+                label(for="email") Email
+                input(type="email" name="email")
+                input.button(type="submit" value="Send a Reset")

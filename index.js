@@ -5,7 +5,8 @@ const authController = require('./Controllers/authController');
 const { catchErrors } = require('./Handlers/errorHandlers');
 
 router.get('/', (req, res) => {
-	res.render('home', { title: "Home" });
+	var user = req.user || null;
+	res.render('home', { title: "Home", user });
 });
 
 router.post('/login/local', authController.loginLocal);
