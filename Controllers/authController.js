@@ -15,6 +15,12 @@ exports.loginGoogleCb = passport.authenticate('google', {
 	failureRedirect: '/', successRedirect: '/'
 });
 
+exports.login42 = passport.authenticate('42');
+
+exports.login42Cb = passport.authenticate('42', {
+	failureRedirect: '/', successRedirect: '/'
+});
+
 exports.logout = (req, res) => {
 	req.logout();
 	res.redirect('/');

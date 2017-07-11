@@ -20,13 +20,9 @@ mongoose.connection.on('error', (err) => {
 
 require('./Models/User');
 
-<<<<<<< HEAD
 // Launch Server
 const app = require('./app');
-app.set('port', process.env.PORT || 7777);
-=======
 app.set('port', process.env.PORT || 8888);
->>>>>>> a482edd6fd74dc725c6c99d5f0b02a197342b116
 const server = app.listen(app.get('port'), () => {
   console.log(`Express running → PORT ${server.address().port}`);
 });
