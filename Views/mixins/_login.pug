@@ -13,11 +13,3 @@ mixin login()
               input.form-control(id="Email" type='text' placeholder="Email")
           button.btn-styler.btn.btn-danger
             span(tkey="next")
-
-
-            
-              form.form(action="/account/forgot" method="POST")
-                h2 I forgot my password!
-                label(for="email") Email
-                input(type="email" name="email")
-                input.button(type="submit" value="Send a Reset")

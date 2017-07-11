@@ -35,7 +35,6 @@
     "passport-google-oauth": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
     "path": "^0.12.7",
-    "pug": "^2.0.0-rc.2",
-    "typed.js": "^2.0.2"
+    "pug": "^2.0.0-rc.2"
   }
 }
