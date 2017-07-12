@@ -6,11 +6,17 @@ html
 		link(rel='stylesheet', href='/css/style.css')
 		//- link(rel="shortcut icon" type="image/png" href="/assets/hypertube.png")
 		meta(name="viewport" content="width=device-width, initial-scale=1")
-		
+		script(type="application/javascript", src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")
+		script(type="application/javascript", src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.0/bootstrap.min.js")
+		script(type="application/javascript", src="javascript/translate.js")
+		script(type="application/javascript", src="javascript/login.js")
+		script(type="application/javascript", src="javascript/jquery.typer.js")
 	body
 		
+		include mixins/_hiddenVar
+		include mixins/_login
 		block header
-			img(src="/assets/logo.png" width=300 alt="")
+			//- img(src="/assets/logo.png" width=300 alt="")
 					
 		block content
 			

@@ -1,0 +1,35 @@
+mixin login()
+  .row.vertical-center-row
+    #step1.bg-box.col-xl-4.offset-xl-4
+      .jumbotron(style="height: 100%;")
+        .innerJumbotron
+          h3.display-4(tkey="signup")
+          .progress
+            .progress-bar(role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:25%" tkey="step") 1
+          form
+            .form-group
+              #i1
+                label(for="i1")
+                  span Email
+                input.form-control(id="i1" type='text' placeholder="Email")
+              br
+              #i2
+                label(for="i2")
+                  span 
+                input.form-control(id="i2" type='password' placeholder="********")
+              br
+          button#b2.btn-styler.btn.btn-danger(style="width: 25%;")
+            span.glyphicon.glyphicon-chevron-left
+          button#b1.btn-styler.btn.btn-danger(style="width: 75%;")
+            span(tkey="next")
+          button#b3.btn-styler.btn.btn-danger(style="width: 100%;")
+            span(tkey="next")
+          #btnPannel
+            br
+            br
+            a(href="/login/google")
+              button.loginBtn.loginBtn--google(tkey="signupwith") Google
+            a(href="/login/42")
+              button.loginBtn.loginBtn--42(tkey="signupwith") 42
+          a#swap.text-center(href="#")
+            div(tkey="1signup")

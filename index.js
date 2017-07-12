@@ -5,7 +5,9 @@ const authController = require('./Controllers/authController');
 const { catchErrors } = require('./Handlers/errorHandlers');
 
 router.get('/', (req, res) => {
-	res.render('home', { title: "Home" });
+	var user = req.user || null;
+	console.log("coucou : " + req.user);
+	res.render('home', { title: "Home", user });
 });
 
 // Local Auth and Registration

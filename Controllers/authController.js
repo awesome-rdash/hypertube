@@ -4,7 +4,7 @@ const User = mongoose.model('User');
 
 
 exports.loginLocal = passport.authenticate('local', {
-  failureRedirect: '/', successRedirect: '/'
+  failureRedirect: '/yo', successRedirect: '/'
 });
 
 exports.loginGoogle = passport.authenticate('google', {
@@ -12,13 +12,13 @@ exports.loginGoogle = passport.authenticate('google', {
 });
 
 exports.loginGoogleCb = passport.authenticate('google', {
-	failureRedirect: '/', successRedirect: '/'
+	failureRedirect: '/yo', successRedirect: '/'
 });
 
 exports.login42 = passport.authenticate('42');
 
 exports.login42Cb = passport.authenticate('42', {
-	failureRedirect: '/', successRedirect: '/'
+	failureRedirect: '/yo', successRedirect: '/'
 });
 
 exports.logout = (req, res) => {

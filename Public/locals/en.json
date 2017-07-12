@@ -1,0 +1,13 @@
+{
+  "signup": "Sign-up :",
+  "password": "Password",
+  "repassword": "Confirm your password",
+  "next": "next",
+  "step": "Step ",
+  "username": "Username",
+  "signin": "Log-in",
+  "1signin": "Already an account ? Log-in",
+  "login": "Connection",
+  "1login": "Not already an account ? Create on",
+  "signupwith": "Sign-up with"
+}
