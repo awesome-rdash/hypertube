@@ -3,7 +3,7 @@ mixin login()
     #step1.bg-box.col-xl-4.offset-xl-4
       .jumbotron(style="height: 100%;")
         .innerJumbotron
-          h3.display-4(tkey="signup")
+          h3.display-4(tkey="titleLogin")
           .progress
             .progress-bar(role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:25%") Email
           form
@@ -18,11 +18,11 @@ mixin login()
                 input.form-control.form-control-warning(id="in2" type='password' placeholder="********")
                 small.form-text.text-muted
               br
-          button#b2.btn-styler.btn.btn-danger(style="width: 25%;")
+          button#b2.btn-styler.btn(style="width: 50%;")
             span.glyphicon.glyphicon-chevron-left
-          button#b1.btn-styler.btn.btn-danger(style="width: 75%;")
-            span(tkey="next")
-          button#b3.btn-styler.btn.btn-danger(style="width: 100%;")
+          button#b1.btn-styler.btn(style="width: 50%;")
+            span.glyphicon.glyphicon-chevron-right
+          button#b3.btn-styler.btn(style="width: 100%;")
             span(tkey="next")
           #btnPannel
             br

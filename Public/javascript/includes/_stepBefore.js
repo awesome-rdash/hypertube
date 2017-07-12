@@ -25,6 +25,9 @@ function stepBefore()
   }
   if (step == 3)
   {
+    $("#b1").show().html("<span class='glyphicon glyphicon-chevron-right'></span>");
+    $("#b3").hide();
+    $("#b2").show();
     $(".progress-bar").animate({
       width: "40%"
     }, 250, function() {
@@ -42,5 +45,11 @@ function stepBefore()
       $("#i1 input").val(stepInput[step][0]);
       $("#i2 input").val(stepInput[step][1]);
     });
+  }
+  if (step == 6)
+  {
+    console.log(step);
+    step = 2;
+    stepBefore();
   }
 }

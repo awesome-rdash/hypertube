@@ -15,6 +15,14 @@ function throwError(type)
     $(".form-group").addClass("has-warning");
     $("#i1 small").html($("#wPwdLen").html());
   }
+  else if (type == "wUserName")
+  {
+    $(".form-group").addClass("has-warning");
+    if (!$("#i1 small").val())
+      $("#i1 small").html($("#needToBeFilled").html());
+    if (!$("#i2 small").val())
+      $("#i2 small").html($("#needToBeFilled").html());
+  }
 }
 function stopError()
 {

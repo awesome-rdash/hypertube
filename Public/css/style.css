@@ -24,6 +24,10 @@ html, body, .container-table {
     vertical-align: middle;
 }
 
+.btn-styler:hover {
+	border-color: black;
+}
+
 #step1 {
 	height: 500px;
 }
@@ -51,7 +55,7 @@ form {
   line-height: 34px;
   white-space: nowrap;
   border-radius: 0.2em;
-  font-size: 16px;
+  font-size: 13px;
   color: #FFF;
 	width: 100%;
 }

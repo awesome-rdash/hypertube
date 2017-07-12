@@ -16,7 +16,7 @@ router.post('/register/local',
 	userController.registerUser,
 	authController.loginNoRedirect
 );
-router.post('/login/local', authController.loginLocal);
+router.post('/login/local', authController.loginNoRedirect);
 
 // Google Auth and Registration
 router.get('/login/google', authController.loginGoogle);

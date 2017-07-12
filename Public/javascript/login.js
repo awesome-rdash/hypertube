@@ -1,5 +1,5 @@
 var step = 1;
-var stepInput = [["", ""], ["", ""], ["", ""], ["", ""], ["", ""]];
+var stepInput = [["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""], ["", ""]];
 include('javascript/includes/_nextStep.js');
 include('javascript/includes/_stepBefore.js');
 $( document ).ready(function() {
