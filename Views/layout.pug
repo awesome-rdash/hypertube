@@ -2,14 +2,16 @@ doctype html
 html
 	head
 		title= `${title} | ${h.siteName}`
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous")
 		link(rel='stylesheet', href='/css/style.css')
 		//- link(rel="shortcut icon" type="image/png" href="/assets/hypertube.png")
 		meta(name="viewport" content="width=device-width, initial-scale=1")
-
+		
 	body
 		
 		block header
-
+			img(src="/assets/logo.png" width=300 alt="")
+					
 		block content
-
+			
 		block footer
