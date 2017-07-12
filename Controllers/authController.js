@@ -12,14 +12,10 @@ exports.loginGoogleCb = passport.authenticate('google', { failureRedirect: '/', 
 
 exports.login42 = passport.authenticate('42');
 exports.login42Cb = passport.authenticate('42', { failureRedirect: '/', successRedirect: '/' });
-// exports.login42Cb = (req, res, next) => {
-// 	passport.authenticate('42', { failureRedirect: '/error', successRedirect: '/' });
-// 	next();
-// };
 
 exports.hasAccount = async (req, res) => {
 	const user = await User.findOne(req.query);
-	res.json(user);
+	res.send((user && user.auth.type) || false);
 };
 
 exports.logout = (req, res) => {
