@@ -3,7 +3,7 @@ $( document ).ready(function() {
   	var Otext = cont1.text();
   	var Ocontent = Otext.split("");
   	var i = 0;
-    cont2.html("");
+    cont2.html(Ocontent[i++]);
   	function show(){
   		if(i<Ocontent.length)
   		{
@@ -15,6 +15,7 @@ $( document ).ready(function() {
   };
 
   var step = 0;
+  var mode = 0;
   var stepInput = [["", ""], ["", ""], ["", ""]];
   $("#i2 input").hide();
   $("#b1").hide();
@@ -96,6 +97,20 @@ $( document ).ready(function() {
     {
       step--;
       nextStep();
+    }
+  });
+
+  $("#swap").click(() => {
+    if (mode == 0)
+    {
+      mode = 1;
+      changeText($("#login"),$("h3"),50);
+      $("#swap div").html($("#1login").html());
+    }
+    else {
+      mode = 0;
+      changeText($("#signup"),$("h3"),50);
+      $("#swap div").html($("#1signup").html());
     }
   });
 });

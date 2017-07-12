@@ -1,11 +1,12 @@
 {
-  "signup": "Inscription :",
   "password": "Mot de passe",
   "repassword": "Confirmation du mot de passe",
   "next": "Suivant",
   "step": "Etape ",
   "username": "Pseudo",
-  "signin": "Se connecter",
-  "1signin": "Déjà un compte ? Se connecter",
+  "signup": "Inscription :",
+  "1signup": "Déjà un compte ? <br/>Se connecter",
+  "login": "Connexion :",
+  "1login": "Pas encore de compte ? <br/> Créez-en un",
   "signupwith": "Inscription avec "
 }

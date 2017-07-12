@@ -3,7 +3,7 @@ mixin login()
     #step1.bg-box.col-xl-4.offset-xl-4
       .jumbotron(style="height: 100%;")
         .innerJumbotron
-          h2.display-3(tkey="signup")
+          h3.display-4(tkey="signup")
           .progress
             .progress-bar(role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:25%" tkey="step") 1
           form
@@ -31,5 +31,5 @@ mixin login()
               button.loginBtn.loginBtn--google(tkey="signupwith") Google
             a(href="/login/42")
               button.loginBtn.loginBtn--42(tkey="signupwith") 42
-          a.text-center(href="#")
-            div(tkey="1signin")
+          a#swap.text-center(href="#")
+            div(tkey="1signup")
