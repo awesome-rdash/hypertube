@@ -5,18 +5,18 @@ mixin login()
         .innerJumbotron
           h3.display-4(tkey="signup")
           .progress
-            .progress-bar(role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:25%" tkey="step") 1
+            .progress-bar(role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:25%") Email
           form
             .form-group
               #i1
-                label(for="i1")
-                  span(tkey="email")
-                input.form-control(id="i1" type='text' placeholder="Email")
+                label.form-control-label(for="in1") Email
+                input.form-control.form-control-warning(id="in1" type='email' placeholder="Email")
+                small.form-text.text-muted
               br
               #i2
-                label(for="i2")
-                  span 
-                input.form-control(id="i2" type='password' placeholder="********")
+                label.form-control-label(for="in2")
+                input.form-control.form-control-warning(id="in2" type='password' placeholder="********")
+                small.form-text.text-muted
               br
           button#b2.btn-styler.btn.btn-danger(style="width: 25%;")
             span.glyphicon.glyphicon-chevron-left
