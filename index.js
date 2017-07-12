@@ -10,6 +10,11 @@ router.get('/', (req, res) => {
 });
 
 // Local Auth and Registration
+router.post('/register/local',
+	userController.validateData,
+	userController.registerUser,
+	authController.loginLocal
+);
 router.post('/login/local', authController.loginLocal);
 
 // Google Auth and Registration
