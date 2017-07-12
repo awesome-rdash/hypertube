@@ -3,9 +3,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 
-exports.loginLocal = passport.authenticate('local', {
-  failureRedirect: '/', successRedirect: '/'
-});
+exports.loginLocal = passport.authenticate('local', { failureRedirect: '/', successRedirect: '/' });
 
 exports.loginGoogle = passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.profile.emails.read'] });
 exports.loginGoogleCb = passport.authenticate('google', { failureRedirect: '/', successRedirect: '/' });
