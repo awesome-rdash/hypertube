@@ -4,17 +4,16 @@ const FortyTwoStrategy = require('passport-42').Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
-passport.use(User.createStrategy());
+// passport.use(User.createStrategy());
 passport.use(new GoogleStrategy({
 		clientID: process.env.G_ID,
 		clientSecret: process.env.G_SECRET,
-		callbackURL: '/login/google/cb',
-		passReqToCallback: false
+		callbackURL: '/login/google/cb'
 	},
 	async function(token, refreshToken, profile, done) {
 		let user = await User.findOne({ email: profile.emails[0].value });
 		if (!user) {
-			let user = new User({
+			user = new User({
 				username: `${profile.name.givenName} ${profile.name.familyName[0]}`,
 				email: profile.emails[0].value,
 				google: {
@@ -22,7 +21,7 @@ passport.use(new GoogleStrategy({
 					token
 				}
 			});
-			user.save();
+			await user.save();
 		}
 		return done(null, user);
 	}
@@ -35,9 +34,8 @@ passport.use(new FortyTwoStrategy({
 	},
 	async function(token, refreshToken, profile, done) {
 		let user = await User.findOne({ email: profile.emails[0].value });
-		console.log(profile);
 		if (!user) {
-			let user = new User({
+			user = new User({
 				username: `${profile.name.givenName} ${profile.name.familyName[0]}`,
 				email: profile.emails[0].value,
 				google: {
@@ -45,7 +43,7 @@ passport.use(new FortyTwoStrategy({
 					token
 				}
 			});
-			user.save();
+			await user.save();
 		}
 		return done(null, user);
 	}
