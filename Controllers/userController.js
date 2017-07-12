@@ -9,7 +9,7 @@ exports.validateData = (req, res, next) => {
 	req.sanitizeBody('prenom');
   req.checkBody('email', 'That Email is not valid!').isEmail();
 	req.checkBody('password', 'Password Cannot be Blank!').notEmpty();
-	req.checkBody('password', 'Password Cannot be Blank!').matches(((?=.*\d)(?=.*[a-z]).{6, 20})); // a tester lol
+	// req.checkBody('password', 'Password Cannot be Blank!').matches(((?=.*\d)(?=.*[a-z]).{6, 20})); // a tester lol
   req.checkBody('password-confirm', 'Confirmed Password cannot be blank!').notEmpty();
   req.checkBody('password-confirm', 'Oops! Your passwords do not match').equals(req.body.password);
 
@@ -26,13 +26,13 @@ exports.validateData = (req, res, next) => {
 exports.registerUser = (req, res, next) => {
 	User.register(new User({
 			email: req.body.email,
-			username: `${req.body.firstName req.body.lastName[0]}`,
+			username: `${req.body.firstName} ${req.body.lastName[0]}`,
 			'auth.type': 'local'
 		}), req.body.password, (err) => {
 		if (err)
 			return res.send(err);
 		next();
-	}
+	});
 };
 
 // email

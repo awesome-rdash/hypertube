@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const authController = require('./Controllers/authController');
+const userController = require('./Controllers/userController');
 const { catchErrors } = require('./Handlers/errorHandlers');
 
 router.get('/', (req, res) => {
@@ -13,7 +14,7 @@ router.get('/', (req, res) => {
 router.post('/register/local',
 	userController.validateData,
 	userController.registerUser,
-	authController.loginLocal
+	authController.loginNoRedirect
 );
 router.post('/login/local', authController.loginLocal);
 
