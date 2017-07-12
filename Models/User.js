@@ -15,7 +15,8 @@ const userSchema = new mongoose.Schema({
 		required: 'Please Supply a Username',
 		trim: true
 	},
-	google: {
+	extAuth: {
+		type: { type: String },
 		id: { type: String },
 		token: { type: String }
 	}

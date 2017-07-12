@@ -6,7 +6,6 @@ const { catchErrors } = require('./Handlers/errorHandlers');
 
 router.get('/', (req, res) => {
 	var user = req.user || null;
-	console.log("coucou : " + req.user);
 	res.render('home', { title: "Home", user });
 });
 
@@ -20,8 +19,9 @@ router.get('/login/google/cb', authController.loginGoogleCb);
 // 42 Auth and Registration
 router.get('/login/42', authController.login42);
 router.get('/login/42/cb', authController.login42Cb);
-
 router.get('/logout', authController.logout);
+
+router.get('login/hasAccount', authController.hasAccount);
 
 // Export Routes
 module.exports = router;

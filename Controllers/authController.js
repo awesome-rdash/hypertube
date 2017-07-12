@@ -4,22 +4,23 @@ const User = mongoose.model('User');
 
 
 exports.loginLocal = passport.authenticate('local', {
-  failureRedirect: '/yo', successRedirect: '/'
+  failureRedirect: '/', successRedirect: '/'
 });
 
-exports.loginGoogle = passport.authenticate('google', {
-	scope: ['https://www.googleapis.com/auth/plus.profile.emails.read']
-});
-
-exports.loginGoogleCb = passport.authenticate('google', {
-	failureRedirect: '/yo', successRedirect: '/'
-});
+exports.loginGoogle = passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.profile.emails.read'] });
+exports.loginGoogleCb = passport.authenticate('google', { failureRedirect: '/', successRedirect: '/' });
 
 exports.login42 = passport.authenticate('42');
+exports.login42Cb = passport.authenticate('42', { failureRedirect: '/', successRedirect: '/' });
+// exports.login42Cb = (req, res, next) => {
+// 	passport.authenticate('42', { failureRedirect: '/error', successRedirect: '/' });
+// 	next();
+// };
 
-exports.login42Cb = passport.authenticate('42', {
-	failureRedirect: '/yo', successRedirect: '/'
-});
+exports.hasAccount = async (req, res) => {
+	const user = await User.findOne(req.query);
+	res.json(user);
+};
 
 exports.logout = (req, res) => {
 	req.logout();
