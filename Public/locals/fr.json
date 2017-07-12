@@ -5,8 +5,7 @@
   "step": "Etape ",
   "username": "Pseudo",
   "signup": "Inscription :",
-  "1signup": "Déjà un compte ? <br/>Se connecter",
+  "email": "Email <i>Déjà un compte ? Nous le détecterons.</i>",
   "login": "Connexion :",
-  "1login": "Pas encore de compte ? <br/> Créez-en un",
   "signupwith": "Inscription avec "
 }

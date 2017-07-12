@@ -31,7 +31,7 @@ $( document ).ready(function() {
         width: "25%"
       }, 250, function() {
         $(".progress-bar").html($(".progress-bar").html().split(" ")[0] + " " + (step + 1));
-        changeText($("#mail"),$("#i1 span"),50);
+        changeText($("#mail"),$("#i1 span"),2);
         $("#i1 input").attr("placeholder", "Email");
         $("#i1 input").attr("type", "text");
         $("#i2 span").html("");
@@ -50,11 +50,11 @@ $( document ).ready(function() {
         width: "50%"
       }, 250, function() {
         $(".progress-bar").html($(".progress-bar").html().split(" ")[0] + " " + (step + 1));
-        changeText($("#password"),$("#i1 span"),50);
+        changeText($("#password"),$("#i1 span"),2);
         $("#i1 input").attr("placeholder", "********");
         $("#i1 input").attr("type", "password");
-        changeText($("#repassword"),$("#i2 span"),25);
-        $("#i2 input").fadeIn("slow");
+        changeText($("#repassword"),$("#i2 span"),2);
+        $("#i2 input").fadeIn("fast");
         $('.btn-styler').blur();
         $("#i1 input").val(stepInput[step][0]);
         $("#i2 input").val(stepInput[step][1]);
@@ -66,11 +66,11 @@ $( document ).ready(function() {
         width: "75%"
       }, 250, function() {
         $(".progress-bar").html($(".progress-bar").html().split(" ")[0] + " " + (step + 1));
-        changeText($("#username"),$("#i1 span"),50);
+        changeText($("#username"),$("#i1 span"),2);
         $("#i1 input").attr("placeholder", $("#username").html());
         $("#i1 input").attr("type", "text");
         $("#i2 span").html("");
-        $("#i2 input").fadeOut("slow");
+        $("#i2 input").fadeOut("fast");
         $('.btn-styler').blur();
         $("#i1 input").val(stepInput[step][0]);
         $("#i2 input").val(stepInput[step][1]);
@@ -104,12 +104,12 @@ $( document ).ready(function() {
     if (mode == 0)
     {
       mode = 1;
-      changeText($("#login"),$("h3"),50);
+      changeText($("#login"),$("h3"),2);
       $("#swap div").html($("#1login").html());
     }
     else {
       mode = 0;
-      changeText($("#signup"),$("h3"),50);
+      changeText($("#signup"),$("h3"),2);
       $("#swap div").html($("#1signup").html());
     }
   });

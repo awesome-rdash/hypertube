@@ -28,6 +28,10 @@ html, body, .container-table {
 	height: 500px;
 }
 
+i {
+	font-size: 9px;
+}
+
 .innerJumbotron {
 	margin-top: -40px;
 }
