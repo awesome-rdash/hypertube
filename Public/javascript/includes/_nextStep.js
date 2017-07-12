@@ -100,6 +100,17 @@ function nextStep()
     $(".progress-bar").animate({
       width: "86%"
     }, 250, function() {
+
+      $.post("/register/local", {
+        email: stepInput[1][0],
+        password: stepInput[2][0],
+        password-confirm: stepInput[2][1],
+        firstName: stepInput[3][0],
+        lastName: stepInput[3][1]
+      }, (data) => {
+
+      });
+
       $(".progress-bar").animate({
         width: "100%"
       }, 250, function() {
