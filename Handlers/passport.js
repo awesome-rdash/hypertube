@@ -4,7 +4,7 @@ const FortyTwoStrategy = require('passport-42').Strategy;
 const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
-// passport.use(User.createStrategy());
+passport.use(User.createStrategy());
 passport.use(new GoogleStrategy({
 		clientID: process.env.G_ID,
 		clientSecret: process.env.G_SECRET,
@@ -16,7 +16,7 @@ passport.use(new GoogleStrategy({
 			user = new User({
 				username: `${profile.name.givenName} ${profile.name.familyName[0]}`,
 				email: profile.emails[0].value,
-				extAuth: {
+				auth: {
 					type: profile.provider,
 					id: profile.id,
 					token
@@ -40,7 +40,7 @@ passport.use(new FortyTwoStrategy({
 			user = new User({
 				username: `${profile.name.givenName} ${profile.name.familyName[0]}`,
 				email: profile.emails[0].value,
-				extAuth: {
+				auth: {
 					type: profile.provider,
 					id: profile.id,
 					token
