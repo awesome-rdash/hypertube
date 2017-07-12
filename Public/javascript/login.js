@@ -20,16 +20,16 @@ $( document ).ready(function() {
       step = nextStep(step);
     });
   });
-  $.getScript('/javascript/includes/_stepBefore.js', function()
-  {
-    $("#b2").click(() => {
-      stepInput[step][0] = $("#i1 input").val();
-      stepInput[step][1] = $("#i2 input").val();
-      if (step >= 1)
-      {
-        step--;
-        step = stepBefore(step);
-      }
-    });
-  });
+  // $.getScript('/javascript/includes/_stepBefore.js', function()
+  // {
+  //   $("#b2").click(() => {
+  //     stepInput[step][0] = $("#i1 input").val();
+  //     stepInput[step][1] = $("#i2 input").val();
+  //     if (step >= 1)
+  //     {
+  //       step--;
+  //       step = stepBefore(step);
+  //     }
+  //   });
+  // });
 });

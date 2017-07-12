@@ -28,7 +28,11 @@ function nextStep(step)
       width: "33%"
     }, 250, function() {
       $.get("/login/hasAccount", { email: $("#i1 input").val() }, (data) => {
-        if (data == true) {
+        console.log(data);
+        if (data != false) {
+          window.location.replace("/login/" + data);
+        }
+        else {
           $(".progress-bar").animate({
             width: "50%"
           }, 250, function() {
@@ -41,13 +45,6 @@ function nextStep(step)
             $('.btn-styler').blur();
             $("#i1 input").val(stepInput[step][0]);
             $("#i2 input").val(stepInput[step][1]);
-          });
-        }
-        else {
-          $(".progress-bar").animate({
-            width: "25%"
-          }, 250, function() {
-            step--;
           });
         }
       });
