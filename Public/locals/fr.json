@@ -3,10 +3,12 @@
   "repassword": "Confirmation du mot de passe",
   "next": "Suivant",
   "step": "Etape ",
-  "username": "Pseudo",
+  "userLastname": "Nom",
+  "userFirstname": "Prénom",
   "signup": "Inscription :",
-  "1signup": "Déjà un compte ? <br/>Se connecter",
+  "mailError": "Veuillez entrer une adresse email valide",
+  "pwdNoMatch": "Les mots de passe ne correspondent pas",
+  "wPwdLen": "Votre mot de passe doit contenir 6 caracteres minimum",
   "login": "Connexion :",
-  "1login": "Pas encore de compte ? <br/> Créez-en un",
   "signupwith": "Inscription avec "
 }

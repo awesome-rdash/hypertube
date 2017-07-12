@@ -108,12 +108,10 @@ function nextStep()
         firstName: stepInput[3][0],
         lastName: stepInput[3][1]
       }, (data) => {
-          console.log(data);
-
-          $(".progress-bar").animate({
-            width: "100%"
-          }, 250, function() {
-          });
+        $(".progress-bar").animate({
+          width: "100%"
+        }, 250, function() {
+        });
       });
     });
   }

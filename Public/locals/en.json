@@ -4,10 +4,12 @@
   "repassword": "Confirm your password",
   "next": "next",
   "step": "Step ",
-  "username": "Username",
+  "userLastname": "Lastname",
+  "userFirstname": "Firstname",
   "signin": "Log-in",
-  "1signin": "Already an account ? Log-in",
+  "mailError": "Please enter a valide email address",
+  "pwdNoMatch": "Password don't match",
+  "wPwdLen": "Password min lenght is 6",
   "login": "Connection",
-  "1login": "Not already an account ? Create on",
   "signupwith": "Sign-up with"
 }

@@ -27,7 +27,7 @@ router.get('/login/42', authController.login42);
 router.get('/login/42/cb', authController.login42Cb);
 router.get('/logout', authController.logout);
 
-router.get('login/hasAccount', authController.hasAccount);
+router.get('/login/hasAccount', authController.hasAccount);
 
 // Export Routes
 module.exports = router;
