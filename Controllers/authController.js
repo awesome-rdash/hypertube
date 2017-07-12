@@ -17,6 +17,11 @@ exports.login42Cb = passport.authenticate('42', { failureRedirect: '/', successR
 // 	next();
 // };
 
+exports.hasAccount = async (req, res) => {
+	const user = await User.findOne(req.query);
+	res.json(user);
+};
+
 exports.logout = (req, res) => {
 	req.logout();
 	res.redirect('/');

@@ -16,7 +16,8 @@ passport.use(new GoogleStrategy({
 			user = new User({
 				username: `${profile.name.givenName} ${profile.name.familyName[0]}`,
 				email: profile.emails[0].value,
-				google: {
+				extAuth: {
+					type: profile.provider,
 					id: profile.id,
 					token
 				}
@@ -33,12 +34,14 @@ passport.use(new FortyTwoStrategy({
 		callbackURL: '/login/42/cb'
 	},
 	async function(token, refreshToken, profile, done) {
+		console.log(profile);
 		let user = await User.findOne({ email: profile.emails[0].value });
 		if (!user) {
 			user = new User({
 				username: `${profile.name.givenName} ${profile.name.familyName[0]}`,
 				email: profile.emails[0].value,
-				google: {
+				extAuth: {
+					type: profile.provider,
 					id: profile.id,
 					token
 				}
