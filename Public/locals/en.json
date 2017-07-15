@@ -4,6 +4,7 @@
     "mailError": "Please enter a valid email address.",
     "pwdNoMatch": "Passwords do not match.",
     "wPwdLen": "Password minimum length is 6.",
+    "wPassWd": "Wrong password.",
   "__TEXT__" : "__TEXT__",
     "titleLogin": "Sign-in :",
     "password": "Password",

@@ -114,9 +114,17 @@ function nextStep()
           email: stepInput[1][0],
           password: stepInput[2][0],
           "password-confirm": stepInput[2][1],
-          firstName: stepInput[3][0],
-          lastName: stepInput[3][1]
+          firstName: stepInput[3][1],
+          lastName: stepInput[3][0]
         }, (data) => {
+          if (data.error == true)
+          {
+            $(".progress-bar").animate({
+              width: "75%"
+            }, 250, function() {
+              //TODO Gestion d'erreur de creation de compte
+            });
+          }
           console.log(data);
           $(".progress-bar").animate({
             width: "100%"
@@ -146,6 +154,7 @@ function nextStep()
     }, 250, function() {
         $("#b1, #b3, #b2").prop('disabled', false);
         step++;
+        $("#i1 input").prop('disabled', false);
         $(".progress-bar").html($("#password").html());
         changeText($("#password"),$("#i2 label"),2);
         $("#i2 input").fadeIn("fast");
@@ -174,7 +183,7 @@ function nextStep()
           $(".progress-bar").animate({
             width: "75%"
           }, 250, function() {
-            //TODO Gestion d'erreur avec ben
+            throwError("wPassWd");
           });
         }
       });

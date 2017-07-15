@@ -30,13 +30,8 @@ exports.registerUser = (req, res, next) => {
 		username: `${req.body.firstName} ${req.body.lastName[0]}`,
 		'auth.type': 'local',
 	}), req.body.password, (err) => {
-		if (err) {
+		if (err)
 			return res.send(err);
-<<<<<<< HEAD
-		console.log("nimporte quoi");
-=======
-		}
->>>>>>> auth-stategies
 		next();
 	});
 };

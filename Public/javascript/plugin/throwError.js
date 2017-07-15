@@ -23,6 +23,11 @@ function throwError(type)
     if (!$("#i2 small").val())
       $("#i2 small").html($("#needToBeFilled").html());
   }
+  else if (type == "wPassWd")
+  {
+    $(".form-group").addClass("has-warning");
+    $("#i1 small").html($("#wPassWd").html());
+  }
 }
 function stopError()
 {
