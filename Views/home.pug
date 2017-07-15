@@ -3,7 +3,7 @@ extends layout
 block content
 	+hiddenVar()
 	.container.container-table
-		if !user
-			+login()
+		if user
+			+homepage()
 		else
-			p #{user.username}
+			+login()

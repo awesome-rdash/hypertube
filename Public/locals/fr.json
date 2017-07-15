@@ -4,6 +4,7 @@
     "mailError": "Veuillez entrer une adresse email valide.",
     "pwdNoMatch": "Les mots de passe ne correspondent pas.",
     "wPwdLen": "Votre mot de passe doit contenir 6 caracteres minimum.",
+    "wPassWd": "Votre mot de passe est incorrect.",
   "__TEXT__" : "__TEXT__",
     "titleLogin": "Connexion :",
     "password": "Mot de passe",

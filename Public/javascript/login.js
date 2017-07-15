@@ -20,3 +20,13 @@ $( document ).ready(function() {
       stepBefore(step);
   });
 });
+
+$(document).on('keypress', function(e) {
+  if (e.keyCode == 13)
+  {
+    stepInput[step][0] = $("#i1 input").val();
+    stepInput[step][1] = $("#i2 input").val();
+    $("#b1, #b3").prop('disabled', true);
+    nextStep();
+  }
+});
