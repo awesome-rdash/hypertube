@@ -32,7 +32,6 @@ exports.registerUser = (req, res, next) => {
 	}), req.body.password, (err) => {
 		if (err)
 			return res.send(err);
-		}
 		next();
 	});
 };
