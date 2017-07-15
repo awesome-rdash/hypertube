@@ -10,7 +10,10 @@ exports.loginNoRedirect = (req, res, next) => {
 			if (error) { return res.send(error); }
 			return true;
 		});
-		return res.send(user);
+		return res.send({
+			username: user.username,
+			email: user.email,
+		});
 	})(req, res, next);
 };
 
