@@ -32,11 +32,7 @@ exports.registerUser = (req, res, next) => {
 	}), req.body.password, (err) => {
 		if (err) {
 			return res.send(err);
-<<<<<<< HEAD
-		console.log("nimporte quoi");
-=======
 		}
->>>>>>> auth-stategies
 		next();
 	});
 };

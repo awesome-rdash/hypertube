@@ -162,6 +162,7 @@ function nextStep()
       width: "85%"
     }, 250, function() {
       $.post("/login/local", { email: $("#i1 input").val(), password: $("#i2 input").val() }, (data) => {
+				console.log(data);
         if (data)
         {
           $(".progress-bar").animate({

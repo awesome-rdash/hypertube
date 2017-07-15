@@ -5,12 +5,13 @@ const User = mongoose.model('User');
 
 exports.loginNoRedirect = (req, res, next) => {
 	passport.authenticate('local', (err, user, info) => {
-		console.log(info);
+		if (!user) { return res.send(false); }
 		req.logIn(user, (error) => {
-			if (error) { console.log(error); }
+			if (error) { return res.send(error); }
+			return true;
 		});
+		return res.send(user);
 	})(req, res, next);
-	return res.send('ok');
 };
 
 exports.loginGoogle = passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.profile.emails.read'] });
