@@ -1,13 +1,15 @@
 const passport = require('passport');
 const mongoose = require('mongoose');
+
 const User = mongoose.model('User');
 
-
-// exports.loginLocal = passport.authenticate('local', { failureRedirect: '/', successRedirect: '/' });
 exports.loginNoRedirect = (req, res, next) => {
-  passport.authenticate('local', function(err, user, info) {
-    req.logIn(user, function(err) { console.log('lol') });
-  })(req, res, next);
+	passport.authenticate('local', (err, user, info) => {
+		console.log(info);
+		req.logIn(user, (error) => {
+			if (error) { console.log(error); }
+		});
+	})(req, res, next);
 	return res.send('ok');
 };
 
