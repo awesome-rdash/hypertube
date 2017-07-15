@@ -29,11 +29,11 @@ app.use(expressValidator());
 
 // Db sessions
 app.use(session({
-  secret: process.env.SECRET,
-  key: process.env.KEY,
-  resave: false,
-  saveUninitialized: false,
-  store: new MongoStore({ mongooseConnection: mongoose.connection })
+	secret: process.env.SECRET,
+	key: process.env.KEY,
+	resave: false,
+	saveUninitialized: false,
+	store: new MongoStore({ mongooseConnection: mongoose.connection }),
 }));
 
 // Passport Auth
