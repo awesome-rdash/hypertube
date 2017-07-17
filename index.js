@@ -14,8 +14,8 @@ router.get('/', (req, res) => {
 router.post('/register/local',
 	userController.validateData,
 	userController.registerUser,
-	authController.loginNoRedirect,
-);
+	authController.loginNoRedirect);
+
 router.post('/login/local', authController.loginNoRedirect);
 
 // Google Auth and Registration
