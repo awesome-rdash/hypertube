@@ -2,11 +2,18 @@ const express = require('express');
 const router = express.Router();
 
 const authController = require('./Controllers/authController');
+const torrentController = require('./Controllers/torrentController');
 const { catchErrors } = require('./Handlers/errorHandlers');
 
 router.get('/', (req, res) => {
 	res.render('home', { title: "Home" });
 });
+
+router.get('/torrent', (req, res) => {
+	res.render('torrent', { title: "torrent" });
+});
+
+router.post('/torrent', torrentController.startTorrentDl);
 
 // Local Auth and Registration
 router.post('/login/local', authController.loginLocal);
