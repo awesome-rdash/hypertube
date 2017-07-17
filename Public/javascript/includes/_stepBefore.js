@@ -48,7 +48,6 @@ function stepBefore()
   }
   if (step == 6)
   {
-    console.log(step);
     step = 2;
     stepBefore();
   }

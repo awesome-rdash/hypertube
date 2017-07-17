@@ -1,37 +1,22 @@
-function throwError(type)
+function throwError(type, mode)
 {
-  if (type == "wMail")
+  if (mode == 1)
   {
     $(".form-group").addClass("has-warning");
-    $("#i1 small").html($("#mailError").html());
+    $("#i1 small").html($(type).html());
   }
-  else if (type == "noMatch")
-  {
-    $(".form-group").addClass("has-warning");
-    $("#i1 small").html($("#pwdNoMatch").html());
-  }
-  else if (type == "wPwdLen")
-  {
-    $(".form-group").addClass("has-warning");
-    $("#i1 small").html($("#wPwdLen").html());
-  }
-  else if (type == "wUserName")
-  {
+  else if (mode == 2) {
     $(".form-group").addClass("has-warning");
     if (!$("#i1 small").val())
-      $("#i1 small").html($("#needToBeFilled").html());
+      $("#i1 small").html($(type).html());
     if (!$("#i2 small").val())
-      $("#i2 small").html($("#needToBeFilled").html());
+      $("#i2 small").html($(type).html());
   }
-  else if (type == "wPassWd")
-  {
-    $(".form-group").addClass("has-warning");
-    $("#i1 small").html($("#wPassWd").html());
-  }
+  $("#b1, #b3, #b2").prop('disabled', false);
 }
-function stopError()
-{
+function stopError() {
   $(".form-group").removeClass("has-warning");
+  $(".form-group").removeClass("has-success");
   $("#i1 small").html("");
   $("#i2 small").html("");
 }
