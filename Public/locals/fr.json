@@ -12,7 +12,6 @@
     "wPwdLen": "Votre mot de passe doit contenir 6 caracteres minimum.",
     "wPassWd": "Votre mot de passe est incorrect.",
   "__TEXT__" : "__TEXT__",
-    "titleLogin": "Connexion :",
     "connect": "Nous avons détecter un compte utilisant cette adresse mail, voulez-vous vous connecter ?",
     "password": "Mot de passe",
     "repassword": "Confirmation du mot de passe",
