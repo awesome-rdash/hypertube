@@ -6,7 +6,7 @@ exports.startTorrentDl = (req, res) => {
 	var torrent = client.addTorrent(req.body.magnet);
 
 	torrent.on('complete', function() {
-	    console.log('complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!complete!');
+	    console.log('complete!');
 	    torrent.files.forEach(function(file) {
 	        var newPath = 'new/path/' + file.path;
 	        fs.rename(file.path, newPath);
