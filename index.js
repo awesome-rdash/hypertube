@@ -5,7 +5,6 @@ const { catchErrors } = require('./Handlers/errorHandlers');
 
 const router = express.Router();
 
-
 router.get('/', (req, res) => {
 	const user = req.user || null;
 	res.render('home', { title: 'Home', user });
