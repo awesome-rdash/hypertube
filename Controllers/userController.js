@@ -3,15 +3,15 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 exports.validateData = async (req, res, next) => {
-	req.checkBody('lastName', 'You must supply a Last Name!').notEmpty();
-	req.checkBody('firstName', 'You must supply a First Name!').notEmpty();
+	req.checkBody('lastName', 'errLastName').notEmpty();
+	req.checkBody('firstName', 'errFirstName').notEmpty();
 	req.sanitizeBody('lastName');
 	req.sanitizeBody('firstName');
-	req.checkBody('email', 'That Email is not valid!').isEmail();
-	req.checkBody('password', 'Password Cannot be Blank!').notEmpty();
+	req.checkBody('email', 'errMail').isEmail();
+	req.checkBody('password', 'errPassword').notEmpty();
 // req.checkBody('password', 'Password Cannot be Blank!').matches(((?=.*\d)(?=.*[a-z]).{6, 20}));
-	req.checkBody('password-confirm', 'Confirmed Password cannot be blank!').notEmpty();
-	req.checkBody('password-confirm', 'Oops! Your passwords do not match').equals(req.body.password);
+	req.checkBody('password-confirm', 'errBlankConfirm').notEmpty();
+	req.checkBody('password-confirm', 'errNoMatch').equals(req.body.password);
 
 	const results = await req.getValidationResult();
 	console.log(results);
@@ -27,8 +27,9 @@ exports.registerUser = (req, res, next) => {
 		username: `${req.body.firstName} ${req.body.lastName[0]}`,
 		'auth.type': 'local',
 	}), req.body.password, (err) => {
-		if (err)
+		if (err) {
 			return res.send(err);
+		}
 		next();
 	});
 };

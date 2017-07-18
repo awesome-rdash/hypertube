@@ -60,7 +60,7 @@ function nextStep()
       width: "60%"
     }, 250, function() {
       if ($("#i1 input").val().length >= 6) {
-        if ($("#i1 input").val() == $("#i2 input").val()) {
+        if (/* $("#i1 input").val() == $("#i2 input").val()*/ true) {
           $(".progress-bar").animate({
             width: "75%"
           }, 250, function() {
@@ -108,29 +108,39 @@ function nextStep()
     $(".progress-bar").animate({
       width: "86%"
     }, 250, function() {
-      if ($("#i1 input").val() && $("#i2 input").val())
+      if (/* $("#i1 input").val() && $("#i2 input").val() */ true)
       {
         $.post("/register/local", {
           email: stepInput[1][0],
           password: stepInput[2][0],
           "password-confirm": stepInput[2][1],
-          firstName: stepInput[3][1],
-          lastName: stepInput[3][0]
+          firstName: stepInput[3][0],
+          lastName: stepInput[3][1]
         }, (data) => {
-          if (data.error == true)
-          {
+          console.log(data);
+          if (data.username) {
+            $(".progress-bar").animate({
+              width: "100%"
+            }, 250, function() {
+              //TODO Faire le compte utilisateur recuperer depuis le back
+            });
+          }
+          else {
             $(".progress-bar").animate({
               width: "75%"
             }, 250, function() {
-              //TODO Gestion d'erreur de creation de compte
+              if (data.name == "UserExistsError") {
+                step = 5;
+                nextStep();
+              }
+              else {
+                console.log(data);
+                for(const error of data.errors) {
+                  throwError(error.msg);
+                }
+              }
             });
           }
-          console.log(data);
-          $(".progress-bar").animate({
-            width: "100%"
-          }, 250, function() {
-            //TODO Faire le compte utilisateur recuperer depuis le back
-          });
         });
       }
       else {
@@ -146,6 +156,8 @@ function nextStep()
   /* Etape login */
   if (step == 5)
   {
+    $(".form-group").addClass("has-success");
+    $("#i1 small").html($("#connect").html());
     $("#b2").show();
     $("#b1").show().html($("#finish").html());
     $("#b3").hide();
@@ -153,8 +165,11 @@ function nextStep()
       width: "75%"
     }, 250, function() {
         $("#b1, #b3, #b2").prop('disabled', false);
+        $("#i1 small").html();
+        $(".progress-bar").html($("#mail").html());
+        $("#i1 input").val(stepInput[1][0]);
+        changeText($("#mail"),$("#i1 label"),2);
         step++;
-        $("#i1 input").prop('disabled', false);
         $(".progress-bar").html($("#password").html());
         changeText($("#password"),$("#i2 label"),2);
         $("#i2 input").fadeIn("fast");
@@ -184,7 +199,7 @@ function nextStep()
           $(".progress-bar").animate({
             width: "75%"
           }, 250, function() {
-            throwError("wPassWd");
+            //TODO Gestion d'erreur avec ben
           });
         }
       });
