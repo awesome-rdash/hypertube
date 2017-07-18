@@ -1,6 +1,7 @@
 const express = require('express');
 const authController = require('./Controllers/authController');
 const userController = require('./Controllers/userController');
+const fetchController = require('./Controllers/fetchController');
 const { catchErrors } = require('./Handlers/errorHandlers');
 
 const router = express.Router();
@@ -14,8 +15,7 @@ router.get('/', (req, res) => {
 router.post('/register/local',
 	userController.validateData,
 	userController.registerUser,
-	authController.loginNoRedirect,
-);
+	authController.loginNoRedirect);
 router.post('/login/local', authController.loginNoRedirect);
 
 // Google Auth and Registration
@@ -28,6 +28,9 @@ router.get('/login/42/cb', authController.login42Cb);
 router.get('/logout', authController.logout);
 
 router.get('/login/hasAccount', catchErrors(authController.hasAccount));
+
+// Fetchers
+router.get('/fetch', fetchController.fetchArchive);
 
 // Export Routes
 module.exports = router;
