@@ -19,8 +19,8 @@
     "userLastname": "Nom",
     "userFirstname": "Prénom",
     "next": "Suivant",
-    "step": "Etape ",
     "finish": "Finir",
     "login": "Connexion :",
+    "signup": "Inscription",
     "signupwith": "Connexion avec "
 }
