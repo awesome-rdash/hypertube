@@ -18,7 +18,7 @@ exports.validateData = async (req, res, next) => {
 	if (!results.isEmpty()) {
 		return res.json({ errors: results.array() });
 	}
-	next();
+	return next();
 };
 
 exports.registerUser = (req, res, next) => {

@@ -10,9 +10,12 @@ const expressValidator = require('express-validator');
 
 // Require Needed Files
 const helpers = require('./Handlers/helpers');
+const fetchController = require('./Controllers/fetchController');
 const errorHandlers = require('./Handlers/errorHandlers');
 const routes = require('./index.js');
 require('./handlers/passport');
+
+// setInterval(fetchController.fetchYts, 1000000);
 
 const app = express();
 

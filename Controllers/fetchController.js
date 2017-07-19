@@ -23,20 +23,6 @@ const getArchiveURI = elem => magnet.encode({
 	],
 });
 
-const getYtsURI = elem => magnet.encode({
-	xt: `urn:btih:${elem.btih}`,
-	dn: encodeURI(elem.title),
-	tr: [
-		'udp://open.demonii.com:1337/announce',
-		'udp://tracker.openbittorrent.com:80',
-		'udp://tracker.coppersurfer.tk:6969',
-		'udp://glotorrents.pw:6969/announce',
-		'udp://tracker.opentrackr.org:1337/announce',
-		'udp://torrent.gresille.org:80/announce',
-		'udp://p4p.arenabg.com:1337',
-		'udp://tracker.leechers-paradise.org:6969',
-	],
-});
 
 const getImdbId = (elem) => {
 	let tag;
@@ -78,6 +64,25 @@ exports.fetchArchive = async (req, res) => {
 	return res.send('Error');
 };
 
+const getYtsURI = (movie) => {
+	const hash = (movie.torrents && movie.torrents[0] && movie.torrents[0].hash) || undefined;
+	const mag = magnet.encode({
+		xt: `urn:btih:${hash}`,
+		dn: encodeURI(movie.title),
+		tr: [
+			'udp://open.demonii.com:1337/announce',
+			'udp://tracker.openbittorrent.com:80',
+			'udp://tracker.coppersurfer.tk:6969',
+			'udp://glotorrents.pw:6969/announce',
+			'udp://tracker.opentrackr.org:1337/announce',
+			'udp://torrent.gresille.org:80/announce',
+			'udp://p4p.arenabg.com:1337',
+			'udp://tracker.leechers-paradise.org:6969',
+		],
+	});
+	return hash !== undefined ? mag : null;
+};
+
 const dataFetcher = (url, pageNb) => {
 	const promises = [];
 	for (let page = 1; page <= pageNb; page += 1) {
@@ -102,20 +107,19 @@ exports.fetchYts = async (req, res) => {
 				length: movie.runtime,
 				description: movie.synopsis,
 				image: movie.large_cover_image,
-				hash: {
-					lowhd: `${(movie.torrents && movie.torrents[0] && movie.torrents[0].hash) || undefined}`,
-					fullhd: `${(movie.torrents && movie.torrents[1] && movie.torrents[1].hash) || undefined}`,
+				magnet: {
+					lowhd: getYtsURI(movie),
+					fullhd: getYtsURI(movie),
 				},
 			});
 		});
 	});
 	if (clean) {
-		// const bulk = Movie.collection.initializeUnorderedBulkOp();
-		// const promises = [];
-		// clean.forEach((movie) => {
-		// 	promises.push(Movie.findOneAndUpdate({ slug: movie.slug }, movie, { upsert: true }));
-		// });
-		// await Promise.all(promises);
+		const bulk = Movie.collection.initializeUnorderedBulkOp();
+		clean.forEach((movie) => {
+			bulk.find({ slug: movie.slug }).upsert().updateOne({ $set: movie });
+		});
+		await bulk.execute();
 		return res.json('ok');
 	}
 	return res.send('Error');

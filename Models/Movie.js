@@ -32,7 +32,7 @@ const movieSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	hash: {
+	magnet: {
 		lowhd: {
 			type: String,
 		},
@@ -46,10 +46,5 @@ const movieSchema = new mongoose.Schema({
 movieSchema.statics.findAndModify = function fAndM(query, callback) {
 	return this.collection.findAndModify(query, callback);
 };
-
-
-// movieSchema.statics.batchInsert = function bI(array) {
-// 	return this.collection.insert(array);
-// };
 
 module.exports = mongoose.model('Movie', movieSchema);
