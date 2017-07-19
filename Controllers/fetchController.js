@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const request = require('request');
 const magnet = require('magnet-uri');
 
+const Movie = mongoose.model('Movie');
+
 const doRequest = url => new Promise((resolve, reject) => {
 	request(url, (error, res, body) => {
 		if (!error && res.statusCode === 200) {
@@ -76,10 +78,45 @@ exports.fetchArchive = async (req, res) => {
 	return res.send('Error');
 };
 
+const dataFetcher = (url, pageNb) => {
+	const promises = [];
+	for (let page = 1; page <= pageNb; page += 1) {
+		promises.push(doRequest(`${url}&page=${page}`));
+	}
+	return promises;
+};
+
 exports.fetchYts = async (req, res) => {
-	const data = await doRequest('https://yts.ag/api/v2/list_movies.json');
-	if (data) {
-		return res.send(data);
+	const url = 'https://yts.ag/api/v2/list_movies.json?limit=50';
+	const firstPage = await doRequest(`${url}&page=1`);
+	const pageNb = Math.ceil(JSON.parse(firstPage).data.movie_count / 50);
+	const result = await Promise.all(dataFetcher(url, pageNb)); // Resolves all promises
+	const clean = [];
+	result.forEach((page) => {
+		JSON.parse(page).data.movies.forEach((movie) => {
+			clean.push({
+				title: movie.title,
+				slug: movie.slug,
+				year: movie.year,
+				rating: movie.rating,
+				length: movie.runtime,
+				description: movie.synopsis,
+				image: movie.large_cover_image,
+				hash: {
+					lowhd: `${(movie.torrents && movie.torrents[0] && movie.torrents[0].hash) || undefined}`,
+					fullhd: `${(movie.torrents && movie.torrents[1] && movie.torrents[1].hash) || undefined}`,
+				},
+			});
+		});
+	});
+	if (clean) {
+		// const bulk = Movie.collection.initializeUnorderedBulkOp();
+		// const promises = [];
+		// clean.forEach((movie) => {
+		// 	promises.push(Movie.findOneAndUpdate({ slug: movie.slug }, movie, { upsert: true }));
+		// });
+		// await Promise.all(promises);
+		return res.json('ok');
 	}
 	return res.send('Error');
 };

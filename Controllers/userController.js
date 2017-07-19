@@ -30,7 +30,7 @@ exports.registerUser = (req, res, next) => {
 		if (err) {
 			return res.send(err);
 		}
-		next();
+		return next();
 	});
 };
 
