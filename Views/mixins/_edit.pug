@@ -1,0 +1,21 @@
+mixin edit()
+	br
+	br
+	.row
+		#step1.bg-box.col-lg-4.offset-lg-4
+			.jumbotron
+				.innerJumbotron
+					h3.display-4.text-center(tkey="edit") :
+					form
+						.form-group
+							label.form-control-label(for="email") Email
+							input.form-control(id="email" type='email' value=`${user.email}` placeholder="Email")
+							br
+							label.form-control-label(for="firsname" tkey="userFirstname")
+							input.form-control(id="firsname" type='text' value=`${user.firstname}` placeholder="Jhon")
+							br
+							label.form-control-label(for="lastname" tkey="userLastname")
+							input.form-control(id="lastname" type='text' value=`${user.lastname}` placeholder="Doe")
+							br
+					button#b3.btn-styler.btn(style="width: 100%;")
+						span(tkey="finish")

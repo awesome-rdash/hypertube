@@ -29,3 +29,7 @@ $(document).ready(() => {
 		}
 	});
 });
+
+function getUser(data) {
+	user = data;
+}

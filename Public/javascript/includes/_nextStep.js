@@ -59,10 +59,10 @@ function nextStep() {
 						$('#b1, #b3, #b2').prop('disabled', false);
 						step += 1;
 						$('.progress-bar').html(`${$('#userLastname').html()} / ${$('#userFirstname').html()}`);
-						changeText($('#userLastname'), $('#i1 label'), 2);
-						changeText($('#userFirstname'), $('#i2 label'), 2);
-						$('#i1 input').attr('placeholder', $('#userLastname').html());
-						$('#i2 input').attr('placeholder', $('#userFirstname').html());
+						changeText($('#userFirstname'), $('#i1 label'), 2);
+						changeText($('#userLastname'), $('#i2 label'), 2);
+						$('#i1 input').attr('placeholder', $('#userFirstname').html());
+						$('#i2 input').attr('placeholder', $('#userLastname').html());
 						$('#i1 input').attr('type', 'text');
 						$('#i2 input').attr('type', 'text');
 						$('.btn-styler').blur();
