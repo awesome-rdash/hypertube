@@ -17,10 +17,13 @@
     "repassword": "Confirmation du mot de passe",
     "userLastname": "Nom",
     "userFirstname": "Prénom",
+	"username": "Pseudo",
     "next": "Suivant",
     "finish": "Finir",
     "login": "Connexion :",
     "signup": "Inscription",
+	"picture": "Photo",
+	"import": "Importer une image",
     "edit": "Edition de compte",
     "signupwith": "Connexion avec "
 }

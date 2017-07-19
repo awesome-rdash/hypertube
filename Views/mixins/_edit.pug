@@ -9,13 +9,15 @@ mixin edit()
 					form
 						.form-group
 							label.form-control-label(for="email") Email
-							input.form-control(id="email" type='email' value=`${user.email}` placeholder="Email")
+							input.form-control(name="email" id="email" type='email' value=`${user.email}` placeholder="Email")
 							br
-							label.form-control-label(for="firsname" tkey="userFirstname")
-							input.form-control(id="firsname" type='text' value=`${user.firstname}` placeholder="Jhon")
+							label.form-control-label(for="username" tkey="username")
+							input.form-control(name="username" id="username" type='text' value=`${user.username}` placeholder="Jhon D")
 							br
-							label.form-control-label(for="lastname" tkey="userLastname")
-							input.form-control(id="lastname" type='text' value=`${user.lastname}` placeholder="Doe")
+							label(style="width: 100%;" tkey='import')
+							input.form-control-file#pictures(name='img' type='file' aria-describedby="fileHelp")
+							br
+							img#picture
 							br
 					button#b3.btn-styler.btn(style="width: 100%;")
 						span(tkey="finish")
