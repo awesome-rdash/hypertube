@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const multer = require('multer');
+const uuid = require('uuid');
+const jimp = require('jimp');
 
 const User = mongoose.model('User');
 
@@ -9,7 +12,7 @@ exports.validateRegister = async (req, res, next) => {
 	req.sanitizeBody('firstName');
 	req.checkBody('email', 'errMail').isEmail();
 	req.checkBody('password', 'errPassword').notEmpty();
-// req.checkBody('password', 'Password Cannot be Blank!').matches(((?=.*\d)(?=.*[a-z]).{6, 20}));
+	req.checkBody('password', 'errStrength').matches(/((?=.*\d)(?=.*[a-z]).{6, 20})/);
 	req.checkBody('password-confirm', 'errBlankConfirm').notEmpty();
 	req.checkBody('password-confirm', 'errNoMatch').equals(req.body.password);
 
@@ -33,12 +36,34 @@ exports.registerUser = (req, res, next) => {
 	});
 };
 
+const multerOptions = {
+	storage: multer.memoryStorage(),
+	fileFilter(req, file, next) {
+		if (file.mimetype.startsWith('image/jpg')
+		|| file.mimetype.startsWith('image/png')) {
+			next(null, true);
+		} else {
+			next({ message: 'errFileType' }, false);
+		}
+	},
+};
+exports.uploadImage = multer(multerOptions).single('photo');
+
 exports.validateUpdate = async (req, res, next) => {
+	// Picture Management
+	if (req.file) {
+		const extension = req.file.mimetype.split('/')[1];
+		req.body.photo = `${uuid.v4()}.${extension}`;
+		const photo = await jimp.read(req.file.buffer);
+		await photo.write(`./Public/uploads/${req.body.photo}`);
+	}
+
+	// Input Validation
 	req.checkBody('username', 'errLastName').notEmpty();
 	req.sanitizeBody('username');
 	req.checkBody('email', 'errMail').isEmail();
 	req.checkBody('password', 'errPassword').notEmpty();
-// req.checkBody('password', 'Password Cannot be Blank!').matches(((?=.*\d)(?=.*[a-z]).{6, 20}));
+	req.checkBody('password', 'errStrength').matches(/((?=.*\d)(?=.*[a-z]).{6, 20})/);
 	req.checkBody('password-confirm', 'errBlankConfirm').notEmpty();
 	req.checkBody('password-confirm', 'errNoMatch').equals(req.body.password);
 
@@ -50,7 +75,6 @@ exports.validateUpdate = async (req, res, next) => {
 };
 
 exports.updateUser = async (req, res) => {
-	console.log(req.user);
 	const user = await User.findOneAndUpdate(
 		{ email: req.user.email },
 		req.body,
