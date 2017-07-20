@@ -106,6 +106,7 @@ exports.fetchYts = async (req, res) => {
 				rating: movie.rating,
 				length: movie.runtime,
 				description: movie.synopsis,
+				genres: movie.genres,
 				image: movie.large_cover_image,
 				magnet: {
 					lowhd: getYtsURI(movie),

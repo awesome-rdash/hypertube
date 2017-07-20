@@ -22,12 +22,14 @@ const movieSchema = new mongoose.Schema({
 	},
 	length: {
 		type: Number,
-		required: true,
 	},
 	description: {
 		type: String,
 		required: true,
 	},
+	genres: [{
+		type: String,
+	}],
 	image: {
 		type: String,
 		required: true,
