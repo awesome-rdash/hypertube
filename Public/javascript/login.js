@@ -20,7 +20,12 @@ $(document).ready(() => {
 		$('#b2').prop('disabled', true);
 		if (step >= 1) { stepBefore(step); }
 	});
-	$(document).on('keypress', (e) => {
+	$('#sendEdit').click(() => {
+		$.post('/update/user', { email: $('#email').val(), username: $('#username').val(), photo: $('#photo').val() }, (data) => {
+			console.log(data);
+		});
+	});
+	$('#step1').on('keypress', (e) => {
 		if (e.keyCode === 13) {
 			stepInput[step][0] = $('#i1 input').val();
 			stepInput[step][1] = $('#i2 input').val();
@@ -49,7 +54,7 @@ $(document).ready(() => {
 			};
 		}
 	}
-	document.getElementById('pictures').addEventListener('change', readfichier, false);
+	document.getElementById('photo').addEventListener('change', readfichier, false);
 });
 
 function getUser(data) {

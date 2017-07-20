@@ -2,7 +2,7 @@ mixin edit()
 	br
 	br
 	.row
-		#step1.bg-box.col-lg-4.offset-lg-4
+		.bg-box.col-lg-4.offset-lg-4
 			.jumbotron
 				.innerJumbotron
 					h3.display-4.text-center(tkey="edit") :
@@ -14,13 +14,13 @@ mixin edit()
 							label.form-control-label(for="username" tkey="username")
 							input.form-control(name="username" id="username" type='text' value=`${user.username}` placeholder="Jhon D")
 							br
-							label(style="width: 100%;" tkey='import')
-							input.form-control-file#pictures(name='img' type='file' aria-describedby="fileHelp")
+							label(for="photo" style="width: 100%;" tkey='import')
+							input.form-control-file#photo(name='photo' type='file' aria-describedby="fileHelp")
 							br
 							if user.photo
 								img#picture(src=`${user.photo}`)
 							else
 								img#picture
 							br
-					button#b3.btn-styler.btn(style="width: 100%;")
+					button#sendEdit.btn-styler.btn(style="width: 100%;")
 						span(tkey="finish")
