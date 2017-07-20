@@ -12,7 +12,6 @@ passport.use(new GoogleStrategy({
 	callbackURL: '/login/google/cb',
 }, async (token, refreshToken, profile, done) => {
 	let user = await User.findOne({ email: profile.emails[0].value });
-	console.log(profile);
 	if (!user) {
 		user = new User({
 			username: `${profile.name.givenName} ${profile.name.familyName[0]}`,

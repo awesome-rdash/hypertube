@@ -5,6 +5,7 @@ step = 1;
 include('javascript/includes/_nextStep.js');
 include('javascript/includes/_stepBefore.js');
 $(document).ready(() => {
+	let edited = false;
 	$('#i2 input').hide();
 	$('#b1').hide();
 	$('#b2').hide();
@@ -21,8 +22,9 @@ $(document).ready(() => {
 		if (step >= 1) { stepBefore(step); }
 	});
 	$('#sendEdit').click(() => {
-		$.post('/update/user', { email: $('#email').val(), username: $('#username').val(), photo: $('#photo').val() }, (data) => {
+		$.post('/update/user', { email: $('#email').val(), username: $('#usrname').val(), photo: edited ? $('#picture').prop('src') : undefined }, (data) => {
 			console.log(data);
+			edited = false;
 		});
 	});
 	$('#step1').on('keypress', (e) => {
@@ -33,8 +35,8 @@ $(document).ready(() => {
 			nextStep();
 		}
 	});
-
 	function readfichier(e) {
+		edited = true;
 		const img = $('#picture');
 		img.css('display', 'none');
 		img.css('margin', 'auto');
@@ -54,7 +56,7 @@ $(document).ready(() => {
 			};
 		}
 	}
-	document.getElementById('photo').addEventListener('change', readfichier, false);
+	document.getElementById('pictures').addEventListener('change', readfichier, false);
 });
 
 function getUser(data) {

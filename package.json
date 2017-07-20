@@ -28,6 +28,7 @@
     "express": "^4.15.3",
     "express-session": "^1.15.4",
     "express-validator": "^3.2.1",
+    "fs": "0.0.1-security",
     "javascript": "0.0.0",
     "jimp": "^0.2.28",
     "magnet-uri": "^5.1.7",
