@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
 // Local Auth and Registration
 router.post('/register/local',
-	userController.validateData,
+	userController.validateRegister,
 	userController.registerUser,
 	authController.loginNoRedirect);
 router.post('/login/local', authController.loginNoRedirect);
@@ -28,6 +28,10 @@ router.get('/login/42/cb', authController.login42Cb);
 router.get('/logout', authController.logout);
 
 router.get('/login/hasAccount', catchErrors(authController.hasAccount));
+
+router.post('/update/user',
+	userController.validateUpdate,
+	userController.updateUser);
 
 // Fetchers
 router.get('/fetch/archive', fetchController.fetchArchive);

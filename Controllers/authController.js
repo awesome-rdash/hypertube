@@ -28,7 +28,7 @@ exports.hasAccount = async (req, res) => {
 	res.send((user && user.auth.type) || false);
 };
 
-exports.logout = async (req, res) => {
-	await req.logout();
+exports.logout = (req, res) => {
+	req.logout();
 	res.redirect('/');
 };
