@@ -17,7 +17,10 @@ mixin edit()
 							label(style="width: 100%;" tkey='import')
 							input.form-control-file#pictures(name='img' type='file' aria-describedby="fileHelp")
 							br
-							img#picture
+							if user.photo
+								img#picture(src=`${user.photo}`)
+							else
+								img#picture
 							br
 					button#b3.btn-styler.btn(style="width: 100%;")
 						span(tkey="finish")

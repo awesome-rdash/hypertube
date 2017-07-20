@@ -49,7 +49,6 @@ $(document).ready(() => {
 			};
 		}
 	}
-
 	document.getElementById('pictures').addEventListener('change', readfichier, false);
 });
 
