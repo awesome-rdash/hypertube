@@ -6,16 +6,26 @@ mixin edit()
 			.jumbotron
 				.innerJumbotron
 					h3.display-4.text-center(tkey="edit") :
+					div.alert.alert-success.alert-dismissible.hidden(role="alert")
+						button(type="button" class="close" data-dismiss="alert" aria-label="Close")
+							span(aria-hidden="true") &times;
+						span(tkey="successEdit")
 					form
 						.form-group
-							label.form-control-label(for="email") Email
-							input.form-control#email(name="email" type='email' value=`${user.email}` placeholder="Email")
+							#input1
+								label.form-control-label(for="email") Email
+								input.form-control#email(name="email" type='email' value=`${user.email}` placeholder="Email")
+								small.form-text.text-muted
 							br
-							label.form-control-label(for="username" tkey="username")
-							input.form-control#usrname(name="username" type='text' value=`${user.username}` placeholder="Jhon D")
+							#input2
+								label.form-control-label(for="username" tkey="username")
+								input.form-control#usrname(name="username" type='text' value=`${user.username}` placeholder="Jhon D")
+								small.form-text.text-muted
 							br
-							label(for="photo" tkey='import')
-							input.form-control-file#pictures(name='photo' type='file' aria-describedby="fileHelp")
+							#input3
+								label.form-control-label(for="photo" tkey='import')
+								input.form-control-file#pictures(name='photo' type='file' aria-describedby="fileHelp")
+								small.form-text.text-muted
 							br
 							.text-center
 								if user.photo

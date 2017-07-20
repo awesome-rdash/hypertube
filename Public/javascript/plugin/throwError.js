@@ -15,10 +15,8 @@ function throwError(type, mode) {
 	$('#b1, #b3, #b2').prop('disabled', false);
 }
 function stopError() {
-	$('.form-group').removeClass('has-warning');
+	$('.form-group, #input1, #input2, #input3, #i2, #i1').removeClass('has-warning');
+	$('.form-group, #input1, #input2, #input3, #i2, #i1').removeClass('has-danger');
 	$('.form-group').removeClass('has-success');
-	$('#i1').removeClass('has-warning');
-	$('#i2').removeClass('has-warning');
-	$('#i1 small').html('');
-	$('#i2 small').html('');
+	$('#i1 small, #i2 small, #input1 small, #input2 small, #input3 small').html('');
 }

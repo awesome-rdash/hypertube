@@ -6,6 +6,7 @@ include('javascript/includes/_nextStep.js');
 include('javascript/includes/_stepBefore.js');
 $(document).ready(() => {
 	let edited = false;
+	$('.alert').alert();
 	$('#i2 input').hide();
 	$('#b1').hide();
 	$('#b2').hide();
@@ -22,9 +23,26 @@ $(document).ready(() => {
 		if (step >= 1) { stepBefore(step); }
 	});
 	$('#sendEdit').click(() => {
+		stopError();
 		$.post('/update/user', { email: $('#email').val(), username: $('#usrname').val(), photo: edited ? $('#picture').prop('src') : undefined }, (data) => {
 			console.log(data);
 			edited = false;
+			if (data.errors) {
+				data.errors.forEach((error) => {
+					if (error.msg === 'errPhoto') {
+						$('#input3').attr('class', 'has-danger');
+						$('#input3 small').html($(`#${error.msg}`));
+					} else if (error.msg === 'errUsername') {
+						$('#input2').attr('class', 'has-danger');
+						$('#input2 small').html($(`#${error.msg}`));
+					} else if (error.msg === 'errMail') {
+						$('#input1').attr('class', 'has-danger');
+						$('#input1 small').html($(`#${error.msg}`));
+					}
+				});
+			} else {
+				$('.alert').removeClass('hidden');
+			}
 		});
 	});
 	$('#step1').on('keypress', (e) => {
@@ -35,6 +53,7 @@ $(document).ready(() => {
 			nextStep();
 		}
 	});
+
 	function readfichier(e) {
 		edited = true;
 		const img = $('#picture');
