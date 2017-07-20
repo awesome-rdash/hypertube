@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const request = require('request');
 const magnet = require('magnet-uri');
+const imdb = require('imdb-api');
+const slugify = require('slugify');
 
 const Movie = mongoose.model('Movie');
 
@@ -32,33 +34,48 @@ const getImdbId = (elem) => {
 				tag = url.match('tt\\d{7}')[0];
 			}
 		});
-	} else if (elem.stripped_tags && typeof elem.stripped_tags === 'string') {
-		if (elem.stripped_tags.match('tt\\d{7}')) {
-			tag = elem.stripped_tags.match('tt\\d{7}')[0];
-		}
+	} else if (elem.stripped_tags && typeof elem.stripped_tags === 'string' && elem.stripped_tags.match('tt\\d{7}')) {
+		tag = elem.stripped_tags.match('tt\\d{7}')[0];
 	} else if (elem.description && elem.description.match('tt\\d{7}')) {
 		tag = elem.description.match('tt\\d{7}')[0];
 	}
 	return tag;
 };
 
+// 1. Fetches movies from Archive.org
+// 2. Movies which have an Imdb Id are kept
+// 3. Requests OmDb Api for movies
+// 4. Writes them to DB
 exports.fetchArchive = async (req, res) => {
 	let data = await doRequest('https://archive.org/advancedsearch.php?q=mediatype%3Amovies+collection%3AComedy_Films&fl%5B%5D=btih&fl%5B%5D=description&fl%5B%5D=format&fl%5B%5D=language&fl%5B%5D=stripped_tags&fl%5B%5D=title&sort%5B%5D=avg_rating+desc&sort%5B%5D=&sort%5B%5D=&rows=10&page=1&output=json&callback=callback&save=yes#raw');
 	if (data) {
 		const clean = [];
+		const promises = [];
 		data = JSON.parse(data.substr(9, data.length - 10));
 		const movies = data.response.docs;
 		movies.forEach((elem) => {
-			const uri = getArchiveURI(elem);
 			const imdbId = getImdbId(elem);
-
-			clean.push({
-				title: `${elem.title || elem.title[0]}`,
-				magnet: uri,
-				description: elem.description,
-				imdbId,
+			if (imdbId) {
+				clean.push({ magnet: getArchiveURI(elem), imdbId });
+				promises.push(imdb.getById(imdbId, { apiKey: process.env.OMDB_KEY }));
+			}
+		});
+		const imdbData = await Promise.all(promises);
+		imdbData.forEach((movie, i) => {
+			const slug = slugify(movie.title + movie.year);
+			console.log(slug);
+			Object.assign(clean[i], {
+				title: movie.title,
+				slug,
+				year: movie.year,
+				rating: parseFloat(movie.rating),
+				length: parseFloat(movie.runtime),
+				description: movie.plot,
+				genres: movie.genres.split(', '),
+				image: movie.poster,
 			});
 		});
+		// TODO push to db
 		return res.json(clean);
 	}
 	return res.send('Error');
