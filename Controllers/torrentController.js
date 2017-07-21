@@ -1,18 +1,23 @@
-var Client = require('node-torrent');
+var Transmission = require('transmission');
+
+var transmission = new Transmission({
+	port: "9091",			// DEFAULT : 9091
+	host: "127.0.0.1",			// DEFAULT : 127.0.0.1
+	username: '',	// DEFAULT : BLANK
+	password: ''	// DEFAULT : BLANK
+});
+
+function getTransmissionStats(){
+	transmission.sessionStats(function(err, result){
+		if(err){
+			console.log(err);
+		} else {
+			console.log(result);
+		}
+	});
+}
 
 exports.startTorrentDl = (req, res) => {
-	console.log("Starting torrent download: " + req.body.magnet);
-	var client = new Client({logLevel: 'TRACE'});
-	var torrent = client.addTorrent(req.body.magnet);
-
-	torrent.on('complete', function() {
-	    console.log('complete!');
-	    torrent.files.forEach(function(file) {
-	        var newPath = 'new/path/' + file.path;
-	        fs.rename(file.path, newPath);
-
-	        // while still seeding need to make sure file.path points to the right place
-	        file.path = newPath;
-	    });
-	});
+	transmission.addUrl(req.body.magnet, function(err, arg){});
+	getTransmissionStats();
 };

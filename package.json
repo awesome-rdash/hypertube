@@ -29,8 +29,8 @@
     "express-session": "^1.15.3",
     "express-validator": "^3.2.1",
     "javascript": "0.0.0",
-    "mongoose": "^4.11.3",
     "log4js": "^2.2.0",
+    "mongoose": "^4.11.3",
     "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-42": "^1.2.1",
@@ -38,7 +38,8 @@
     "passport-local-mongoose": "^4.0.0",
     "path": "^0.12.7",
     "pug": "^2.0.0-rc.2",
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "transmission": "^0.4.9"
   },
   "devDependencies": {
     "eslint": "^3.19.0",
