@@ -42,12 +42,26 @@ const getImdbId = (elem) => {
 	return tag;
 };
 
+const mergeResults = (movie, archive) => {
+	const slug = slugify(movie.title + movie.year);
+	Object.assign(archive, {
+		title: movie.title,
+		slug,
+		year: movie.year,
+		rating: parseFloat(movie.rating),
+		length: parseFloat(movie.runtime),
+		description: movie.plot,
+		genres: movie.genres.split(', '),
+		image: movie.poster,
+	});
+};
+
 // 1. Fetches movies from Archive.org
 // 2. Movies which have an Imdb Id are kept
 // 3. Requests OmDb Api for movies
 // 4. Writes them to DB
 exports.fetchArchive = async (req, res) => {
-	let data = await doRequest('https://archive.org/advancedsearch.php?q=mediatype%3Amovies+collection%3AComedy_Films&fl%5B%5D=btih&fl%5B%5D=description&fl%5B%5D=format&fl%5B%5D=language&fl%5B%5D=stripped_tags&fl%5B%5D=title&sort%5B%5D=avg_rating+desc&sort%5B%5D=&sort%5B%5D=&rows=10&page=1&output=json&callback=callback&save=yes#raw');
+	let data = await doRequest('https://archive.org/advancedsearch.php?q=mediatype%3Amovies+collection%3AComedy_Films&fl%5B%5D=btih&fl%5B%5D=description&fl%5B%5D=format&fl%5B%5D=language&fl%5B%5D=stripped_tags&fl%5B%5D=title&sort%5B%5D=avg_rating+desc&sort%5B%5D=&sort%5B%5D=&rows=300&page=1&output=json&callback=callback&save=yes#raw');
 	if (data) {
 		const clean = [];
 		const promises = [];
@@ -61,22 +75,13 @@ exports.fetchArchive = async (req, res) => {
 			}
 		});
 		const imdbData = await Promise.all(promises);
-		imdbData.forEach((movie, i) => {
-			const slug = slugify(movie.title + movie.year);
-			console.log(slug);
-			Object.assign(clean[i], {
-				title: movie.title,
-				slug,
-				year: movie.year,
-				rating: parseFloat(movie.rating),
-				length: parseFloat(movie.runtime),
-				description: movie.plot,
-				genres: movie.genres.split(', '),
-				image: movie.poster,
-			});
+		imdbData.forEach((movie, i) => { mergeResults(movie, clean[i]); });
+		const bulk = Movie.collection.initializeUnorderedBulkOp();
+		clean.forEach((movie) => {
+			bulk.find({ slug: movie.slug }).upsert().updateOne({ $set: movie });
 		});
-		// TODO push to db
-		return res.json(clean);
+		await bulk.execute();
+		return res.send('ok');
 	}
 	return res.send('Error');
 };
@@ -138,7 +143,7 @@ exports.fetchYts = async (req, res) => {
 			bulk.find({ slug: movie.slug }).upsert().updateOne({ $set: movie });
 		});
 		await bulk.execute();
-		return res.json('ok');
+		return res.send('ok');
 	}
 	return res.send('Error');
 };
