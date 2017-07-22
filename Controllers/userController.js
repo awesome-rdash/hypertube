@@ -56,15 +56,14 @@ exports.uploadImage = multer(multerOptions).single('photo');
 
 exports.validateUpdate = async (req, res, next) => {
 	// Picture Management
+	console.log(req.body.photo);
 	if (req.body.photo) {
 		const regex = /^data:.+\/(.+);base64,(.*)$/;
 		const picture = req.body.photo.match(regex);
 		if (picture) {
 			const name = `${req.user.email}.${picture[1]}`;
 			if (picture[1] === 'jpg' || picture[1] === 'png' || picture[1] === 'jpeg') {
-				fs.writeFileSync(`Public/uploads/${name}`, picture[2], { encoding: 'base64' }, (err) => {
-					console.log(err);
-				});
+				fs.writeFile(`Public/uploads/${name}`, picture[2]);
 				req.body.photo = `/uploads/${name}`;
 			} else {
 				return res.send({ errors: [{ msg: 'errPhoto' }] });

@@ -9,6 +9,7 @@
 	"errNoMatch": "Veuillez faire correspondre vos mots de passes.",
 	"errUsername": "Veuillez renseigner un pseudonyme valide.",
 	"errPhoto": "Veuillez renseigner une image valide.",
+	"errImageSize": "La taille maximale autorisée est de 400ko.",
     "wMail": "Veuillez entrer une adresse email valide.",
     "noMatch": "Les mots de passe ne correspondent pas.",
     "wPwdLen": "Votre mot de passe doit contenir 6 caracteres minimum.",

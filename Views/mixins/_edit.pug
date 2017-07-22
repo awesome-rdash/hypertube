@@ -1,6 +1,4 @@
 mixin edit()
-	br
-	br
 	.row
 		.bg-box.col-lg-4.offset-lg-4
 			.jumbotron
@@ -27,11 +25,11 @@ mixin edit()
 								input.form-control-file#pictures(name='photo' type='file' aria-describedby="fileHelp")
 								small.form-text.text-muted
 							br
-							.text-center
+							.text-center(style="width: 100%;")
 								if user.photo
-									img#picture(style="width: 100%;" src=`${user.photo}`)
+									img#picture(src=`${user.photo}` style="max-width: 100%;")
 								else
-									img#picture(style="width: 100%;")
+									img#picture(style="max-width: 100%;")
 							br
 					button#sendEdit.btn-styler.btn(style="width: 100%;")
 						span(tkey="finish")

@@ -23,27 +23,33 @@ $(document).ready(() => {
 		if (step >= 1) { stepBefore(step); }
 	});
 	$('#sendEdit').click(() => {
-		stopError();
-		$.post('/update/user', { email: $('#email').val(), username: $('#usrname').val(), photo: edited ? $('#picture').prop('src') : undefined }, (data) => {
-			console.log(data);
-			edited = false;
-			if (data.errors) {
-				data.errors.forEach((error) => {
-					if (error.msg === 'errPhoto') {
-						$('#input3').attr('class', 'has-danger');
-						$('#input3 small').html($(`#${error.msg}`));
-					} else if (error.msg === 'errUsername') {
-						$('#input2').attr('class', 'has-danger');
-						$('#input2 small').html($(`#${error.msg}`));
-					} else if (error.msg === 'errMail') {
-						$('#input1').attr('class', 'has-danger');
-						$('#input1 small').html($(`#${error.msg}`));
-					}
-				});
-			} else {
-				$('.alert').removeClass('hidden');
-			}
-		});
+		const imgFileSize = Math.round(($('#picture').prop('src').length - 22) * 3 / 4) / 1000;
+		if (edited === false || imgFileSize < 400) {
+			stopError();
+			$.post('/update/user', { email: $('#email').val(), username: $('#usrname').val(), photo: edited ? $('#picture').prop('src') : undefined }, (data) => {
+				console.log(data);
+				edited = false;
+				if (data.errors) {
+					data.errors.forEach((error) => {
+						if (error.msg === 'errPhoto') {
+							$('#input3').attr('class', 'has-danger');
+							$('#input3 small').html($(`#${error.msg}`));
+						} else if (error.msg === 'errUsername') {
+							$('#input2').attr('class', 'has-danger');
+							$('#input2 small').html($(`#${error.msg}`));
+						} else if (error.msg === 'errMail') {
+							$('#input1').attr('class', 'has-danger');
+							$('#input1 small').html($(`#${error.msg}`));
+						}
+					});
+				} else {
+					$('.alert').removeClass('hidden');
+				}
+			});
+		} else {
+				$('#input3').attr('class', 'has-danger');
+				$('#input3 small').html($('#errImageSize').html());
+		}
 	});
 	$('#step1').on('keypress', (e) => {
 		if (e.keyCode === 13) {

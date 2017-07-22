@@ -1,0 +1,20 @@
+mixin header()
+  br
+  .row
+    span.col-md-2.offset-md-1.center-xs(style="color: red;font-size: 25px;") HyperTube
+    if (user)
+      span.col-md-2.offset-md-6.center-xs(style="color: grey;font-size: 14px;")
+        .dropdown
+          button.btn.btn-default.dropdown-toggle#dropdownMenu1(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") #{user.username}
+          ul.dropdown-menu(aria-labelledby="dropdownMenu1")
+            li.dropdown-header
+              hr
+            li
+              a(href="#" onclick="test()" title="Lien 1") Mon compte
+            li
+              a(href="#" title="Lien 1") Mes films
+            li.dropdown-divider
+            li
+              a(href="/logout" title="Lien 1") Deconnexion
+  br
+  br
