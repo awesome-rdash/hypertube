@@ -102,6 +102,7 @@ Torrent.Fields.StatsExtra = [
     'haveUnchecked',
     'haveValid',
     'peers',
+    'sequential',
     'startDate',
     'trackerStats'
 ];
@@ -307,6 +308,7 @@ Torrent.prototype = {
     getSeedRatioMode: function () {
         return this.fields.seedRatioMode;
     },
+    getSequential: function() { return this.fields.sequential; },
     getSizeWhenDone: function () {
         return this.fields.sizeWhenDone;
     },
