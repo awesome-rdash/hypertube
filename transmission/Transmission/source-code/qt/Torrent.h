@@ -165,6 +165,7 @@ class Torrent: public QObject
       DOWN_LIMITED,
       UP_LIMIT,
       UP_LIMITED,
+      SEQUENTIAL_DOWNLOAD,
       HONORS_SESSION_LIMITS,
       PEER_LIMIT,
       HASH_STRING,
