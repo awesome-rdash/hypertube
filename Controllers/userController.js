@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const uuid = require('uuid');
 const jimp = require('jimp');
+const crypto = require('crypto');
+const mail = require('../Handlers/mail');
 
 const User = mongoose.model('User');
 
@@ -80,4 +82,27 @@ exports.updateUser = async (req, res) => {
 		req.body,
 		{ new: true, runValidators: true });
 	return res.json(user);
+};
+
+exports.forgotPass = async (req, res) => {
+	const user = await User.findOne({ email: req.query.email });
+	if (!user) {
+		res.send(false);
+	}
+	user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+	user.resetPasswordExpires = Date.now() + 3600000;
+	await user.save();
+	const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`;
+	await mail.send({
+		email: user.email,
+		subject: 'Password Reset | HyperTube',
+		text: `
+Hello !
+
+Please follow this link to reset your password:
+${resetURL}
+See you soon on HyperTube !
+		`,
+	});
+	res.send(true);
 };

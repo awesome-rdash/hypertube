@@ -25,7 +25,6 @@ const getArchiveURI = elem => magnet.encode({
 	],
 });
 
-
 const getImdbId = (elem) => {
 	let tag;
 	if (elem.stripped_tags && Array.isArray(elem.stripped_tags)) {
