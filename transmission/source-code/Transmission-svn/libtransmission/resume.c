@@ -221,7 +221,6 @@ saveSingleSpeedLimit (tr_variant * d, tr_torrent * tor, tr_direction dir)
   tr_variantDictAddInt (d, TR_KEY_speed_Bps, tr_torrentGetSpeedLimit_Bps (tor, dir));
   tr_variantDictAddBool (d, TR_KEY_use_global_speed_limit, tr_torrentUsesSessionLimits (tor));
   tr_variantDictAddBool (d, TR_KEY_use_speed_limit, tr_torrentUsesSpeedLimit (tor, dir));
-  tr_variantDictAddBool (&top, TR_KEY_sequentialDownload, tor->sequentialDownload);
 }
 
 static void
@@ -676,6 +675,7 @@ tr_torrentSaveResume (tr_torrent * tor)
   tr_variantDictAddInt (&top, TR_KEY_max_peers, tor->maxConnectedPeers);
   tr_variantDictAddInt (&top, TR_KEY_bandwidth_priority, tr_torrentGetPriority (tor));
   tr_variantDictAddBool (&top, TR_KEY_paused, !tor->isRunning && !tor->isQueued);
+  tr_variantDictAddBool (&top, TR_KEY_sequentialDownload, tor->sequentialDownload);
   savePeers (&top, tor);
   if (tr_torrentHasMetadata (tor))
     {
