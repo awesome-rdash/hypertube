@@ -12,6 +12,9 @@ const movieSchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 	},
+	imdbId: {
+		type: String,
+	},
 	year: {
 		type: Number,
 		required: true,
