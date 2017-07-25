@@ -40,19 +40,6 @@ exports.registerUser = (req, res, next) => {
 	});
 };
 
-const multerOptions = {
-	storage: multer.memoryStorage(),
-	fileFilter(req, file, next) {
-		if (file.mimetype.startsWith('image/jpg')
-		|| file.mimetype.startsWith('image/png')) {
-			next(null, true);
-		} else {
-			next({ message: 'errFileType' }, false);
-		}
-	},
-};
-exports.uploadImage = multer(multerOptions).single('photo');
-
 exports.validateUpdate = async (req, res, next) => {
 	// Picture Management
 	if (req.body.photo) {

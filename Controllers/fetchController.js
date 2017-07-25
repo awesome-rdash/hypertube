@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const request = require('request');
 const magnet = require('magnet-uri');
+const OS = require('opensubtitles-api');
 
 const Movie = mongoose.model('Movie');
 

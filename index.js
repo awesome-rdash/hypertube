@@ -36,6 +36,7 @@ router.post('/update/user',
 // Fetchers
 router.get('/fetch/archive', catchErrors(fetchController.fetchArchive));
 router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
+router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 
 // Export Routes
 module.exports = router;
