@@ -1,5 +1,5 @@
 /**
- * Copyright © Jordan Lee, Dave Perrett, Malcolm Jarvis and Bruno Bierbaumer
+ * Copyright © Jordan Lee, Dave Perrett, Malcolm Jarvis and Bruno Bierbaumer - Modified by jrouzier
  *
  * This file is licensed under the GPLv2.
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -192,7 +192,7 @@ Transmission.prototype = {
             sequential_download: function () {
                 tr.sequentialSelectedTorrents(true);
             },
-             random_download: function () {
+            random_download: function () {
                 tr.sequentialSelectedTorrents(false);
             },
             move: function () {
