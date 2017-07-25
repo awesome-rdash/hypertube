@@ -20,6 +20,7 @@ function stepBefore() {
 			$('#i1 input').val(stepInput[step][0]);
 			$('#i2 input').val(stepInput[step][1]);
 			changeText($('#signup'), $('h3'));
+			$('#i1 input').focus().select();
 		});
 	}
 	if (step === 3) {
@@ -41,6 +42,7 @@ function stepBefore() {
 			$('#i1 input').val(stepInput[step][0]);
 			$('#i2 input').val(stepInput[step][1]);
 			changeText($('#signup'), $('h3'));
+			$('#i1 input').focus().select();
 		});
 	}
 	if (step === 6) {

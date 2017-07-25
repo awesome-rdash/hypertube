@@ -16,6 +16,7 @@ exports.notFound = (req, res, next) => {
 
 exports.developmentErrors = (err, req, res, next) => {
 	err.stack = err.stack || '';
+	console.log(err);
 	const errorDetails = {
 		message: err.message,
 		status: err.status,

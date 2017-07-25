@@ -3,23 +3,28 @@ html
 	head
 		title= `${title} | ${h.siteName}`
 		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous")
+		link(rel="stylesheet" href="//vjs.zencdn.net/5.19/video-js.min.css")
 		link(rel='stylesheet' href='/css/style.css')
 		//- link(rel="shortcut icon" type="image/png" href="/assets/hypertube.png")
 		meta(name="viewport" content="width=device-width, initial-scale=1")
 		script(type="application/javascript", src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous")
 		script(type="application/javascript", src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.0/bootstrap.min.js")
 		script(type="application/javascript", src="javascript/plugin/mailValidation.js")
+		script(type="application/javascript", src="//vjs.zencdn.net/5.19/video.min.js")
 		script(type="application/javascript", src="javascript/plugin/throwError.js")
 		script(type="application/javascript", src="javascript/plugin/translate.js")
 		script(type="application/javascript", src="javascript/plugin/include.js")
 		script(type="application/javascript", src="javascript/plugin/typer.js")
+		if (user)
+			script(type="application/javascript", src="javascript/edit.js")
 		script(type="application/javascript", src="javascript/login.js")
 	body
 		
 		include mixins/_hiddenVar
-		include mixins/_login
 		include mixins/_homepage
 		include mixins/_header
+		include mixins/_videos
+		include mixins/_login
 		include mixins/_edit
 		block header
 			+header()

@@ -17,7 +17,6 @@ exports.validateRegister = async (req, res, next) => {
 	req.sanitizeBody('firstName');
 	req.checkBody('email', 'errMail').isEmail();
 	req.checkBody('password', 'errPassword').notEmpty();
-	req.checkBody('password', 'errStrength').matches(/((?=.*\d)(?=.*[a-z]).{6, 20})/);
 	req.checkBody('password-confirm', 'errBlankConfirm').notEmpty();
 	req.checkBody('password-confirm', 'errNoMatch').equals(req.body.password);
 
@@ -56,14 +55,13 @@ exports.uploadImage = multer(multerOptions).single('photo');
 
 exports.validateUpdate = async (req, res, next) => {
 	// Picture Management
-	console.log(req.body.photo);
 	if (req.body.photo) {
 		const regex = /^data:.+\/(.+);base64,(.*)$/;
 		const picture = req.body.photo.match(regex);
 		if (picture) {
 			const name = `${req.user.email}.${picture[1]}`;
 			if (picture[1] === 'jpg' || picture[1] === 'png' || picture[1] === 'jpeg') {
-				fs.writeFile(`Public/uploads/${name}`, picture[2]);
+				fs.writeFileSync(`Public/uploads/${name}`, picture[2], 'base64');
 				req.body.photo = `/uploads/${name}`;
 			} else {
 				return res.send({ errors: [{ msg: 'errPhoto' }] });

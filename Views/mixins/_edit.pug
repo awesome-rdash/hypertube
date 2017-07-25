@@ -1,12 +1,12 @@
 mixin edit()
-	.row
-		.bg-box.col-lg-4.offset-lg-4
+	#myAccount.row.valign
+		.col-lg-4.offset-lg-4
 			.jumbotron
 				.innerJumbotron
 					h3.display-4.text-center(tkey="edit") :
+					button#close(type="button" class="close" data-dismiss="modal" aria-label="Close")
+						span(aria-hidden="true") &times;
 					div.alert.alert-success.alert-dismissible.hidden(role="alert")
-						button(type="button" class="close" data-dismiss="alert" aria-label="Close")
-							span(aria-hidden="true") &times;
 						span(tkey="successEdit")
 					form
 						.form-group

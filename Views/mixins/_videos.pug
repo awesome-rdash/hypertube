@@ -1,0 +1,9 @@
+mixin videos()
+	#videos.row.valign
+		.offset-lg-4
+			video(id="my-player", class="video-js", controls, preload="auto", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}', width="640px", height="267px")
+				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4")
+				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/ogv")
+				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/webm")
+				p.vjs-no-js To view this video please enable JavaScript, and consider upgrading to a web browser that
+					a(href="http://videojs.com/html5-video-support/" target="_blank") supports HTML5 video
