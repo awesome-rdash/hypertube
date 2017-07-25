@@ -1,4 +1,5 @@
 *.a
+*.DS_Store
 *.lo
 *.o
 .svn
@@ -52,3 +53,5 @@
 /utils/transmission-show
 Makefile
 Makefile.in
+/build/*
+-/build/Debug/Contents/*
