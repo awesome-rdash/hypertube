@@ -8,7 +8,6 @@ exports.catchErrors = (fn) => {
 
 // Not Found Error
 exports.notFound = (req, res, next) => {
-	console.log('Not Found');
 	const err = new Error('Not Found');
 	err.status = 404;
 	next(err);
