@@ -221,6 +221,7 @@ saveSingleSpeedLimit (tr_variant * d, tr_torrent * tor, tr_direction dir)
   tr_variantDictAddInt (d, TR_KEY_speed_Bps, tr_torrentGetSpeedLimit_Bps (tor, dir));
   tr_variantDictAddBool (d, TR_KEY_use_global_speed_limit, tr_torrentUsesSessionLimits (tor));
   tr_variantDictAddBool (d, TR_KEY_use_speed_limit, tr_torrentUsesSpeedLimit (tor, dir));
+  tr_variantDictAddBool (&top, TR_KEY_sequentialDownload, tor->sequentialDownload);
 }
 
 static void
@@ -824,6 +825,13 @@ loadFromFile (tr_torrent * tor, uint64_t fieldsToLoad)
     {
       tr_torrentSetPriority (tor, i);
       fieldsLoaded |= TR_FR_BANDWIDTH_PRIORITY;
+    }
+
+  if ((fieldsToLoad & TR_FR_SEQUENTIAL)
+      && tr_variantDictFindBool (&top, TR_KEY_sequentialDownload, &boolVal))
+    {
+      tor->sequentialDownload = boolVal;
+      fieldsLoaded |= TR_FR_SEQUENTIAL;
     }
 
   if (fieldsToLoad & TR_FR_PEERS)
