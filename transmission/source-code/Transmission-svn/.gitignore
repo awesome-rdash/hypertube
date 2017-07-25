@@ -1,6 +1,8 @@
 *.a
 *.lo
 *.o
+.svn
+/build
 .deps/
 /INSTALL
 /aclocal.m4
