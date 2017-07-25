@@ -819,7 +819,7 @@ addField (tr_torrent       * const tor,
 
       case TR_KEY_sequentialDownload:
         tr_variantDictAddBool (d, key, tr_torrentGetSequentialDownload (tor));
-        break
+        break;
 
       case TR_KEY_sizeWhenDone:
         tr_variantDictAddInt (d, key, st->sizeWhenDone);

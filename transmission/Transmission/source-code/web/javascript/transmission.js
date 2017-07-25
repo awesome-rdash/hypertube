@@ -194,7 +194,7 @@ Transmission.prototype = {
             },
             random_download: function() {
                 tr.sequentialSelectedTorrents(false);
-            }
+            },
             move: function () {
                 tr.moveSelectedTorrents(false);
             },

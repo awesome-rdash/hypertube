@@ -2485,6 +2485,7 @@ tr_torrentSetSequentialDownload (tr_torrent * tor, bool sequential)
 
       tr_torrentSetDirty (tor);
     }
+}
 
 
 /***

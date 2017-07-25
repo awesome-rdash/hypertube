@@ -125,6 +125,8 @@ typedef enum {
 
 - (void) setMaxPeerConnect: (uint16_t) count;
 - (uint16_t) maxPeerConnect;
+- (BOOL) usesSequential;
+- (void) setSequential: (BOOL) sequential;
 
 @property (nonatomic) BOOL removeWhenFinishSeeding;
 
