@@ -157,11 +157,6 @@ exports.fetchSubs = async (req, res) => {
 		useragent: 'OSTestUserAgentTemp',
 		ssl: true,
 	});
-	OpenSubtitles.login().then((result) => {
-		console.log(result.token);
-	}).catch((err) => {
-		console.log(`err : ${err}`);
-	});
 	OpenSubtitles.search({
 		sublanguageid: 'all',
 		extensions: ['srt'],
