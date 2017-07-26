@@ -30,11 +30,13 @@ $(document).ready(() => {
 	});
 	$('#resetPassword').click(() => {
 		if (validateEmail($('#i1 input').val())) {
-			$.get('/logout', { email: $('#i1 input').val() }, (data) => {
+			$.get('/forgot', { email: $('#i1 input').val() }, (data) => {
 				if (data) {
-					console.log('yo');
+					$('.form-group').addClass('has-success');
+					$('#i1 small').html('Email sended');
 				} else {
-					console.log('oops');
+					$('.form-group').addClass('has-error');
+					$('#i1 small').html('Wrong E-mail');
 				}
 			});
 		}
