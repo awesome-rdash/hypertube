@@ -1,9 +1,14 @@
 const mongoose = require('mongoose');
+
 const multer = require('multer');
+
 const uuid = require('uuid');
+
 const jimp = require('jimp');
 const crypto = require('crypto');
 const mail = require('../Handlers/mail');
+
+const fs = require('fs');
 
 const User = mongoose.model('User');
 
@@ -14,7 +19,6 @@ exports.validateRegister = async (req, res, next) => {
 	req.sanitizeBody('firstName');
 	req.checkBody('email', 'errMail').isEmail();
 	req.checkBody('password', 'errPassword').notEmpty();
-	req.checkBody('password', 'errStrength').matches(/((?=.*\d)(?=.*[a-z]).{6, 20})/);
 	req.checkBody('password-confirm', 'errBlankConfirm').notEmpty();
 	req.checkBody('password-confirm', 'errNoMatch').equals(req.body.password);
 
@@ -38,36 +42,32 @@ exports.registerUser = (req, res, next) => {
 	});
 };
 
-const multerOptions = {
-	storage: multer.memoryStorage(),
-	fileFilter(req, file, next) {
-		if (file.mimetype.startsWith('image/jpg')
-		|| file.mimetype.startsWith('image/png')) {
-			next(null, true);
-		} else {
-			next({ message: 'errFileType' }, false);
-		}
-	},
-};
-exports.uploadImage = multer(multerOptions).single('photo');
-
 exports.validateUpdate = async (req, res, next) => {
 	// Picture Management
-	if (req.file) {
-		const extension = req.file.mimetype.split('/')[1];
-		req.body.photo = `${uuid.v4()}.${extension}`;
-		const photo = await jimp.read(req.file.buffer);
-		await photo.write(`./Public/uploads/${req.body.photo}`);
+	if (req.body.photo) {
+		const regex = /^data:.+\/(.+);base64,(.*)$/;
+		const picture = req.body.photo.match(regex);
+		if (picture) {
+			const name = `${req.user.email}.${picture[1]}`;
+			if (picture[1] === 'jpg' || picture[1] === 'png' || picture[1] === 'jpeg') {
+				fs.writeFileSync(`Public/uploads/${name}`, picture[2], 'base64');
+				req.body.photo = `/uploads/${name}`;
+			} else {
+				return res.send({ errors: [{ msg: 'errPhoto' }] });
+			}
+		} else {
+			return res.send({ errors: [{ msg: 'errPhoto' }] });
+		}
 	}
 
 	// Input Validation
-	req.checkBody('username', 'errLastName').notEmpty();
+	req.checkBody('username', 'errUsername').notEmpty();
 	req.sanitizeBody('username');
 	req.checkBody('email', 'errMail').isEmail();
-	req.checkBody('password', 'errPassword').notEmpty();
-	req.checkBody('password', 'errStrength').matches(/((?=.*\d)(?=.*[a-z]).{6, 20})/);
-	req.checkBody('password-confirm', 'errBlankConfirm').notEmpty();
-	req.checkBody('password-confirm', 'errNoMatch').equals(req.body.password);
+	// req.checkBody('password', 'errPassword').notEmpty();
+	// req.checkBody('password', 'errStrength').matches(/((?=.*\d)(?=.*[a-z]).{6, 20})/);
+	// req.checkBody('password-confirm', 'errBlankConfirm').notEmpty();
+	// req.checkBody('password-confirm', 'errNoMatch').equals(req.body.password);
 
 	const results = await req.getValidationResult();
 	if (!results.isEmpty()) {

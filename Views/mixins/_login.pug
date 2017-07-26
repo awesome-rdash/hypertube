@@ -1,7 +1,7 @@
 mixin login()
-	.row.vertical-center-row
-		#step1.bg-box.col-xl-4.offset-xl-4
-			.jumbotron(style="height: 100%;")
+	.row
+		#step1.col-xl-4.offset-xl-4.valign
+			.jumbotron
 				.innerJumbotron
 					h3.display-4(tkey="signup")
 					.progress
@@ -31,3 +31,4 @@ mixin login()
 							button.loginBtn.loginBtn--google(tkey="signupwith") Google
 						a(href="/login/42")
 							button.loginBtn.loginBtn--42(tkey="signupwith") 42
+						a.text-center(href="#" tkey="forgotPwd")

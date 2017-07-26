@@ -5,7 +5,22 @@ body {
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
+  	overflow-x: hidden;
 	background-size: cover;
+}
+
+#close {
+	position: absolute;
+	top: 2%;
+	left: 90%;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.valign {
+	margin-top: 7%;
 }
 
 .dropdown-menu {

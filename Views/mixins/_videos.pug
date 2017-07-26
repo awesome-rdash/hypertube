@@ -1,0 +1,8 @@
+mixin videos()
+	#videos.row.valign.hidden
+		.offset-lg-4
+			video(id="video", class="video-js", controls, preload="auto", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}')
+				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4")
+				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/ogv")
+				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/webm")
+				track(kind="subtitle" src-lang="US" label="English" src="/downloads/tt4295258.vtt" default)

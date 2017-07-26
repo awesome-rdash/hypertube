@@ -1,8 +1,12 @@
 const mongoose = require('mongoose');
 const request = require('request');
 const magnet = require('magnet-uri');
+const OS = require('opensubtitles-api');
+const http = require('https');
 const imdb = require('imdb-api');
 const slugify = require('slugify');
+const srt2vtt = require('srt-to-vtt')
+const fs = require('fs');
 
 const Movie = mongoose.model('Movie');
 
@@ -146,4 +150,26 @@ exports.fetchYts = async (req, res) => {
 		return res.send('yts updated');
 	}
 	return res.send('Error');
+};
+
+exports.fetchSubs = async (req, res) => {
+	const filmId = req.body.imbdId;
+	const OpenSubtitles = new OS({
+		useragent: 'OSTestUserAgentTemp',
+		ssl: true,
+	});
+	OpenSubtitles.search({
+		sublanguageid: 'all',
+		extensions: ['srt'],
+		imdbid: filmId,
+	}).then(async (subtitles) => {
+		console.log(subtitles.en.url);
+		const file = fs.createWriteStream(`Public/downloads/${filmId}.vtt`);
+		const tempFile = fs.createWriteStream(`${filmId}.srt`);
+		const r = http.get(subtitles.en.url, (response) => {
+			response.pipe(tempFile);
+			fs.createReadStream(`${filmId}.srt`).pipe(srt2vtt()).pipe(file);
+			fs.unlinkSync(`${filmId}.srt`);
+		});
+	});
 };

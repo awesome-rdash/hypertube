@@ -23,15 +23,16 @@ function nextStep() {
 							$('#b1, #b3, #b2').prop('disabled', false);
 							step += 1;
 							$('.progress-bar').html($('#password').html());
+							$('#i1 input').focus();
 							changeText($('#password'), $('#i1 label'), 2);
 							$('#i1 input').attr('placeholder', '********');
 							$('#i1 input').attr('type', 'password');
 							changeText($('#repassword'), $('#i2 label'), 2);
 							$('#i2 input').attr('type', 'password');
 							$('#i2 input').fadeIn('fast');
-							$('.btn-styler').blur();
 							$('#i1 input').val(stepInput[step][0]);
 							$('#i2 input').val(stepInput[step][1]);
+							$('#i1 input').focus().select();
 						});
 					}
 				});
@@ -68,6 +69,7 @@ function nextStep() {
 						$('.btn-styler').blur();
 						$('#i1 input').val(stepInput[step][0]);
 						$('#i2 input').val(stepInput[step][1]);
+						$('#i1 input').focus().select();
 					});
 				} else {
 					$('.progress-bar').animate({
@@ -155,7 +157,7 @@ function nextStep() {
 			$('#i2 input').fadeIn('fast');
 			$('#i2 input').attr('placeholder', '********');
 			$('#i2 input').attr('type', 'password');
-			$('.btn-styler').blur();
+			$('#i2 input').focus().select();
 		});
 	} else if (step === 6) {
 		$('.progress-bar').animate({

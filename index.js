@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
 	const user = req.user || null;
-	res.render('home', { title: 'Home', user });
+	res.render('home', { title: 'Home', user: req.user });
 });
 
 // Local Auth and Registration
@@ -41,6 +41,7 @@ router.post('/update/user',
 // Fetchers
 router.get('/fetch/archive', catchErrors(fetchController.fetchArchive));
 router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
+router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 
 // Export Routes
 module.exports = router;
