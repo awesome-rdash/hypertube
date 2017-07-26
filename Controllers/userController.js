@@ -125,12 +125,18 @@ exports.changePassword = async (req, res) => {
 	if (!user) {
 		res.render('error', { title: 'Token Error', msg: 'There has been an error, Please try again.' });
 	} else if (req.body.password !== req.body.repassword) {
+		console.log('lol');
 		res.send('noMatch');
 	} else {
-		user.setPass(req.body.password);
-		user.resetPasswordToken = undefined;
-		user.resetPasswordExpires = undefined;
-		await user.save();
+		user.setPassword(req.body.password, (err) => {
+			if (err) {
+				console.log(err);
+			}
+			user.resetPasswordToken = undefined;
+			user.resetPasswordExpires = undefined;
+			const ret = user.save();
+			console.log(ret);
+		});
 		res.redirect('/');
 	}
 };

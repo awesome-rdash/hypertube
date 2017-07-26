@@ -33,14 +33,4 @@ userSchema.statics.findAndModify = function fAndM(query, callback) {
 	return this.collection.findAndModify(query, callback);
 };
 
-userSchema.statics.setPass = pass => new Promise((resolve, reject) => {
-	userSchema.setPassword(pass, (err) => {
-		if (!err) {
-			console.log(err);
-			reject(err);
-		}
-		resolve(pass);
-	});
-});
-
 module.exports = mongoose.model('User', userSchema);
