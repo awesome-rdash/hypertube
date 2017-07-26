@@ -1,7 +1,7 @@
 mixin videos()
-	#videos.row.valign
+	#videos.row.valign.hidden
 		.offset-lg-4
-			video(id="video", class="video-js", controls, preload="auto", poster="//vjs.zencdn.net/v/oceans.png", srt-track="Across.the.Line.2015.1080p.BluRay.x264-ROVERS.srt", data-setup='{}')
+			video(id="video", class="video-js", controls, preload="auto", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}')
 				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4")
 				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/ogv")
 				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/webm")

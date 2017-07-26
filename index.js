@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
 	const user = req.user || null;
-	res.render('home', { title: 'Home', user });
+	res.render('home', { title: 'Home', user: req.user });
 });
 
 // Local Auth and Registration

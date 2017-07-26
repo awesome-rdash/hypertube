@@ -154,6 +154,7 @@ exports.fetchYts = async (req, res) => {
 };
 
 exports.fetchSubs = async (req, res) => {
+	const filmId = req.body.imbdId;
 	const OpenSubtitles = new OS({
 		useragent: 'OSTestUserAgentTemp',
 		ssl: true,
@@ -161,15 +162,15 @@ exports.fetchSubs = async (req, res) => {
 	OpenSubtitles.search({
 		sublanguageid: 'all',
 		extensions: ['srt'],
-		imdbid: 'tt4295258',
+		imdbid: filmId,
 	}).then(async (subtitles) => {
 		console.log(subtitles.en.url);
-		const file = fs.createWriteStream('Public/downloads/tt4295258.vtt');
-		const tempFile = fs.createWriteStream('tt4295258.srt');
+		const file = fs.createWriteStream(`Public/downloads/${filmId}.vtt`);
+		const tempFile = fs.createWriteStream(`${filmId}.srt`);
 		const r = http.get(subtitles.en.url, (response) => {
 			response.pipe(tempFile);
-			fs.createReadStream('tt4295258.srt').pipe(srt2vtt()).pipe(file);
-			fs.unlinkSync('tt4295258.srt');
+			fs.createReadStream(`${filmId}.srt`).pipe(srt2vtt()).pipe(file);
+			fs.unlinkSync(`${filmId}.srt`);
 		});
 	});
 };
