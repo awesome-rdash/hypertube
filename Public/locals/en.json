@@ -32,5 +32,6 @@
 	"successEdit": "You successfully edited your account",
 	"forgotPwd": "Forgot my password",
 	"newPwd": "New Password : ",
+	"emailSended": "Reset email sended.",
 	"reNewPwd": "Confirm new Password : "
 }

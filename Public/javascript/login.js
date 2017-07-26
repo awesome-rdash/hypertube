@@ -33,14 +33,15 @@ $(document).ready(() => {
 			$.get('/forgot', { email: $('#i1 input').val() }, (data) => {
 				if (data) {
 					$('.form-group').addClass('has-success');
-					$('#i1 small').html('Email sended');
+					$('#i1 small').html($('#emailSended').html());
 				} else {
 					$('.form-group').addClass('has-error');
-					$('#i1 small').html('Wrong E-mail');
+					$('#i1 small').html($('#wMail').html());
 				}
 			});
 		}
 	});
+	$('#resetForm').prop('action', window.location.href);
 });
 
 function getUser(data) {
