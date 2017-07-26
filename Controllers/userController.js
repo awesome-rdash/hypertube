@@ -86,8 +86,8 @@ exports.updateUser = async (req, res) => {
 
 exports.forgotPass = async (req, res) => {
 	const user = await User.findOne({ email: req.query.email });
-	if (!user) {
-		res.send(false);
+	if (!user || user.auth.type !== 'local') {
+		return res.send(false);
 	}
 	user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
 	user.resetPasswordExpires = Date.now() + 3600000;
@@ -103,7 +103,7 @@ Please follow this link to reset your password:
 ${resetURL}
 See you soon on HyperTube !`,
 	});
-	res.send(true);
+	return res.send(true);
 };
 
 exports.resetPage = async (req, res) => {
@@ -112,9 +112,9 @@ exports.resetPage = async (req, res) => {
 		resetPasswordExpires: { $gt: Date.now() },
 	});
 	if (!isValid) {
-		res.render('error', { title: 'Token Error', msg: 'There has been an error, Please try again.' });
+		return res.render('error', { title: 'Token Error', msg: 'There has been an error, Please try again.' });
 	}
-	res.render('reset', { title: 'Change your password' });
+	return res.render('reset', { title: 'Change your password' });
 };
 
 exports.changePassword = async (req, res) => {
@@ -124,19 +124,17 @@ exports.changePassword = async (req, res) => {
 	});
 	if (!user) {
 		res.render('error', { title: 'Token Error', msg: 'There has been an error, Please try again.' });
-		console.log('lol22');
 	} else if (req.body.password !== req.body.repassword) {
-		console.log('lol');
-		res.send('noMatch');
+		res.render('error', { title: 'Match Error', msg: 'Passwords do not Match.' });
+	} else if (req.body.password.length < 6) {
+		res.render('error', { title: 'Error', msg: 'Password is too short' });
 	} else {
 		user.setPassword(req.body.password, (err) => {
-			if (err) {
-				console.log(err);
+			if (!err) {
+				user.resetPasswordToken = undefined;
+				user.resetPasswordExpires = undefined;
+				user.save();
 			}
-			user.resetPasswordToken = undefined;
-			user.resetPasswordExpires = undefined;
-			const ret = user.save();
-			console.log(ret);
 		});
 		res.redirect('/');
 	}
