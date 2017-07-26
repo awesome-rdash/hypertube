@@ -2,8 +2,8 @@ let step = 0;
 let stepInput = null;
 stepInput = [['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', '']];
 step = 1;
-include('javascript/includes/_nextStep.js');
-include('javascript/includes/_stepBefore.js');
+include('/javascript/includes/_nextStep.js');
+include('/javascript/includes/_stepBefore.js');
 $(document).ready(() => {
 	$('#i2 input').hide();
 	$('#b1').hide();
