@@ -5,19 +5,9 @@ const transport = nodemailer.createTransport({
 	secure: true,
 	port: 465,
 	auth: {
-		user: 'hypertubeteam@gmail.com',
-		pass: '',
+		user: process.env.MAIL_ADDR,
+		pass: process.env.MAIL_PASS,
 	},
-});
-
-// TODO change to process and do view
-
-transport.verify((err, succ) => {
-	if (err) {
-		console.log(err);
-	} else {
-		console.log('Success mail!');
-	}
 });
 
 const sendMail = mailOptions => new Promise((resolve, reject) => {

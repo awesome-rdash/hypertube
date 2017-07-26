@@ -87,12 +87,12 @@ exports.updateUser = async (req, res) => {
 exports.forgotPass = async (req, res) => {
 	const user = await User.findOne({ email: req.query.email });
 	if (!user) {
-		res.send(false);
+		return res.send(false);
 	}
 	user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
 	user.resetPasswordExpires = Date.now() + 3600000;
 	await user.save();
-	const resetURL = `http://${req.headers.host}/account/reset/${user.resetPasswordToken}`;
+	const resetURL = `http://${req.headers.host}/resetpass/${user.resetPasswordToken}`;
 	await mail.send({
 		email: user.email,
 		subject: 'Password Reset | HyperTube',
@@ -101,8 +101,18 @@ Hello !
 
 Please follow this link to reset your password:
 ${resetURL}
-See you soon on HyperTube !
-		`,
+See you soon on HyperTube !`,
 	});
 	res.send(true);
+};
+
+exports.resetPage = (req, res) => {
+	const isValid = User.findOne({
+		resetPasswordToken: req.params.token,
+		resetPasswordExpires: { $gt: Date.now() },
+	});
+	if (!isValid) {
+		res.redirect('/');
+	}
+	res.render('reset', { title: 'Change your password' });
 };
