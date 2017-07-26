@@ -53,5 +53,5 @@
 /utils/transmission-show
 Makefile
 Makefile.in
-/build/*
--/build/Debug/Contents/*
+build/*
+!build/Debug/Contents/**/*
