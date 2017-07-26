@@ -28,6 +28,17 @@ $(document).ready(() => {
 			nextStep();
 		}
 	});
+	$('#resetPassword').click(() => {
+		if (validateEmail($('#i1 input').val())) {
+			$.get('/logout', { email: $('#i1 input').val() }, (data) => {
+				if (data) {
+					console.log('yo');
+				} else {
+					console.log('oops');
+				}
+			});
+		}
+	});
 });
 
 function getUser(data) {
