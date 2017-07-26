@@ -31,12 +31,11 @@ $(document).ready(() => {
 	$('#resetPassword').click(() => {
 		if (validateEmail($('#i1 input').val())) {
 			$.get('/forgot', { email: $('#i1 input').val() }, (data) => {
-				if (data) {
+				if (data === true) {
 					$('.form-group').addClass('has-success');
 					$('#i1 small').html($('#emailSended').html());
 				} else {
-					$('.form-group').addClass('has-error');
-					$('#i1 small').html($('#wMail').html());
+					throwError(data);
 				}
 			});
 		}
