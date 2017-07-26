@@ -30,7 +30,7 @@ router.get('/logout', authController.logout);
 // Password Reset
 router.get('/forgot', userController.forgotPass);
 router.get('/resetpass/:token', userController.resetPage);
-// router.post('/resetpass/:token', userController.changePassword);
+router.post('/resetpass/:token', userController.changePassword);
 
 router.get('/login/hasAccount', catchErrors(authController.hasAccount));
 

@@ -87,7 +87,7 @@ exports.updateUser = async (req, res) => {
 exports.forgotPass = async (req, res) => {
 	const user = await User.findOne({ email: req.query.email });
 	if (!user) {
-		return res.send(false);
+		res.send(false);
 	}
 	user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
 	user.resetPasswordExpires = Date.now() + 3600000;
@@ -106,13 +106,31 @@ See you soon on HyperTube !`,
 	res.send(true);
 };
 
-exports.resetPage = (req, res) => {
-	const isValid = User.findOne({
+exports.resetPage = async (req, res) => {
+	const isValid = await User.findOne({
 		resetPasswordToken: req.params.token,
 		resetPasswordExpires: { $gt: Date.now() },
 	});
 	if (!isValid) {
-		res.redirect('/');
+		res.render('error', { title: 'Token Error', msg: 'There has been an error, Please try again.' });
 	}
 	res.render('reset', { title: 'Change your password' });
+};
+
+exports.changePassword = async (req, res) => {
+	const user = await User.findOne({
+		resetPasswordToken: req.params.token,
+		resetPasswordExpires: { $gt: Date.now() },
+	});
+	if (!user) {
+		res.render('error', { title: 'Token Error', msg: 'There has been an error, Please try again.' });
+	} else if (req.body.password !== req.body.repassword) {
+		res.send('noMatch');
+	} else {
+		user.setPass(req.body.password);
+		user.resetPasswordToken = undefined;
+		user.resetPasswordExpires = undefined;
+		await user.save();
+		res.redirect('/');
+	}
 };
