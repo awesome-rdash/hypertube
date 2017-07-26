@@ -85,7 +85,7 @@ exports.fetchArchive = async (req, res) => {
 			bulk.find({ slug: movie.slug }).upsert().updateOne({ $set: movie });
 		});
 		await bulk.execute();
-		return res.send('ok');
+		return res.send('archive updated');
 	}
 	return res.send('Error');
 };
@@ -128,6 +128,7 @@ exports.fetchYts = async (req, res) => {
 			clean.push({
 				title: movie.title,
 				slug: movie.slug,
+				imdbId: movie.imdb_code,
 				year: movie.year,
 				rating: movie.rating,
 				length: movie.runtime,
@@ -147,7 +148,7 @@ exports.fetchYts = async (req, res) => {
 			bulk.find({ slug: movie.slug }).upsert().updateOne({ $set: movie });
 		});
 		await bulk.execute();
-		return res.send('ok');
+		return res.send('yts updated');
 	}
 	return res.send('Error');
 };
