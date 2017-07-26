@@ -8,7 +8,7 @@ block content
 				.jumbotron
 					.innerJumbotron
 						h3.display-4(tkey="signup")
-						form
+						form#resetForm(method="POST")
 							.form-group
 								label.form-control-label(for="password" tkey="newPwd") New Password
 								input.form-control.form-control-warning(id="password" type='password' placeholder="********")
