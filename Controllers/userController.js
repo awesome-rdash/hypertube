@@ -124,6 +124,7 @@ exports.changePassword = async (req, res) => {
 	});
 	if (!user) {
 		res.render('error', { title: 'Token Error', msg: 'There has been an error, Please try again.' });
+		console.log('lol22');
 	} else if (req.body.password !== req.body.repassword) {
 		console.log('lol');
 		res.send('noMatch');
