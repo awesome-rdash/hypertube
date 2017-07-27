@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	p Hello download torrent
+	form(action='/torrent', method='POST')
+		input(type='text',id="magnet", name='magnet')
+
+		br
+		input(type='submit', value='Send !')

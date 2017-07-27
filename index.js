@@ -2,14 +2,25 @@ const express = require('express');
 const authController = require('./Controllers/authController');
 const userController = require('./Controllers/userController');
 const fetchController = require('./Controllers/fetchController');
+const torrentController = require('./Controllers/torrentController');
+const movieController = require('./Controllers/movieController');
 const { catchErrors } = require('./Handlers/errorHandlers');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-	const user = req.user || null;
-	res.render('home', { title: 'Home', user: req.user });
+router.get('/', async (req, res) => {
+	let movies = null;
+	if (req.user) {
+		movies = await movieController.getMoviesByCategory();
+	}
+	res.render('home', { title: 'Home', user: req.user, movies });
 });
+
+router.get('/torrent', (req, res) => {
+	res.render('torrent', { title: 'Torrents' });
+});
+
+router.post('/torrent', torrentController.startTorrentDl);
 
 // Local Auth and Registration
 router.post('/register/local',
@@ -42,6 +53,9 @@ router.post('/update/user',
 router.get('/fetch/archive', catchErrors(fetchController.fetchArchive));
 router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
 router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
+
+// REST Api
+router.get('/movies/home', catchErrors(movieController.sendMoviesByCategory));
 
 // Export Routes
 module.exports = router;
