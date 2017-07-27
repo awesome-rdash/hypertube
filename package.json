@@ -33,7 +33,6 @@
     "imdb-api": "^3.1.1",
     "javascript": "0.0.0",
     "mongoose": "^4.11.3",
-    "log4js": "^2.2.0",
     "jimp": "^0.2.28",
     "magnet-uri": "^5.1.7",
     "mongoose": "^4.11.4",
