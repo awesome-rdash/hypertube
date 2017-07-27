@@ -27,6 +27,11 @@ router.get('/login/42', authController.login42);
 router.get('/login/42/cb', authController.login42Cb);
 router.get('/logout', authController.logout);
 
+// Password Reset
+router.get('/forgot', userController.forgotPass);
+router.get('/resetpass/:token', userController.resetPage);
+router.post('/resetpass/:token', userController.changePassword);
+
 router.get('/login/hasAccount', catchErrors(authController.hasAccount));
 
 router.post('/update/user',

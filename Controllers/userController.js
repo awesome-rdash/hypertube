@@ -5,6 +5,8 @@ const multer = require('multer');
 const uuid = require('uuid');
 
 const jimp = require('jimp');
+const crypto = require('crypto');
+const mail = require('../Handlers/mail');
 
 const fs = require('fs');
 
@@ -80,4 +82,60 @@ exports.updateUser = async (req, res) => {
 		req.body,
 		{ new: true, runValidators: true });
 	return res.json(user);
+};
+
+exports.forgotPass = async (req, res) => {
+	const user = await User.findOne({ email: req.query.email });
+	if (!user || user.auth.type !== 'local') {
+		return res.send(false);
+	}
+	user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+	user.resetPasswordExpires = Date.now() + 3600000;
+	await user.save();
+	const resetURL = `http://${req.headers.host}/resetpass/${user.resetPasswordToken}`;
+	await mail.send({
+		email: user.email,
+		subject: 'Password Reset | HyperTube',
+		text: `
+Hello !
+
+Please follow this link to reset your password:
+${resetURL}
+See you soon on HyperTube !`,
+	});
+	return res.send(true);
+};
+
+exports.resetPage = async (req, res) => {
+	const isValid = await User.findOne({
+		resetPasswordToken: req.params.token,
+		resetPasswordExpires: { $gt: Date.now() },
+	});
+	if (!isValid) {
+		return res.render('error', { title: 'Token Error', msg: 'There has been an error, Please try again.' });
+	}
+	return res.render('reset', { title: 'Change your password' });
+};
+
+exports.changePassword = async (req, res) => {
+	const user = await User.findOne({
+		resetPasswordToken: req.params.token,
+		resetPasswordExpires: { $gt: Date.now() },
+	});
+	if (!user) {
+		res.render('error', { title: 'Token Error', msg: 'There has been an error, Please try again.' });
+	} else if (req.body.password !== req.body.repassword) {
+		res.render('error', { title: 'Match Error', msg: 'Passwords do not Match.' });
+	} else if (req.body.password.length < 6) {
+		res.render('error', { title: 'Error', msg: 'Password is too short' });
+	} else {
+		user.setPassword(req.body.password, (err) => {
+			if (!err) {
+				user.resetPasswordToken = undefined;
+				user.resetPasswordExpires = undefined;
+				user.save();
+			}
+		});
+		res.redirect('/');
+	}
 };

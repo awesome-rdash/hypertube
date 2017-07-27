@@ -1,18 +1,36 @@
 $(document).ready(() => {
 	let edited = false;
-
-	function hide1() {
-		$('#myAccount').fadeToggle('fast');
+	let state = 0;
+	function showMyAcc() {
+		$('#myAccount').fadeIn('fast');
 	}
-	function hide2() {
-		$('#videos').fadeToggle('fast');
+	function showList() {
+		$('#videoList').fadeIn('fast');
+	}
+	function showVideo() {
+		$('#videos').fadeIn('fast');
 	}
 	$('#myAccount').hide();
+	$('#videos').hide();
+	$('#myAccount').removeClass('hidden');
+	$('#videos').removeClass('hidden');
 	$('#myAccBtn').click(() => {
-		$('#videos').fadeToggle('fast', hide1);
+		if (state === 0) {
+			$('#videoList').fadeOut('fast', showMyAcc);
+		} else {
+			$('#videos').fadeOut('fast', showMyAcc);
+		}
 	});
 	$('#close').click(() => {
-		$('#myAccount').fadeToggle('fast', hide2);
+		if (state === 0) {
+			$('#myAccount').fadeOut('fast', showList);
+		} else {
+			$('#myAccount').fadeOut('fast', showVideo);
+		}
+	});
+	$('.thumbnail').click(() => {
+		state = 1;
+		$('#videoList').fadeOut('fast', showVideo);
 	});
 	$('#sendEdit').click(() => {
 		const imgFileSize = Math.round((($('#picture').prop('src').length - 22) * 3) / 4) / 1000;
