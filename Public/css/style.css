@@ -1,7 +1,77 @@
 @import url('http://getbootstrap.com/dist/css/bootstrap.css');
 
 body {
-	background-image: url('/assets/background.jpg');
+	background: url('/assets/background.jpg') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+  	overflow-x: hidden;
+	background-size: cover;
+}
+
+#close {
+	position: absolute;
+	top: 2%;
+	left: 90%;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.valign {
+	margin-top: 7%;
+}
+
+.dropdown-menu {
+	min-width: 100px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dropdown-menu > li > a {
+	text-align: center;
+	color: white;
+}
+
+@media (max-width: 768px) {
+	.center-xs {
+		text-align: center;
+	}
+	.dropdown-menu {
+		margin-left: 40%;
+	}
+}
+
+@media (max-width: 400px) {
+	.dropdown-menu {
+		margin-left: 30%;
+	}
+}
+
+#dropdownMenu1 {
+	background-color: rgba(0, 0, 0, 0);
+	border-color: rgba(0, 0, 0, 0);
+	color: grey;
+	-webkit-box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+}
+#dropdownMenu1:focus {
+	color: white;
+	border-color: rgba(0, 0, 0, 0);
+	-webkit-box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
+     outline: 0px auto -webkit-focus-ring-color;
+     outline-offset: -0px;
+}
+
+hr {
+    display: block;
+    border-top: 3px solid rgba(255, 255, 255, 1);
+    margin: 0em 0;
+    padding: 0;
 }
 
 .btn-styler {

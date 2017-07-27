@@ -20,8 +20,10 @@ mongoose.connection.on('error', (err) => {
 // Import Models
 
 require('./Models/User');
+require('./Models/Movie');
 
 // Launch Server
+
 const app = require('./app');
 
 app.set('port', process.env.PORT || 8888);

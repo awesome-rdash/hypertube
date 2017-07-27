@@ -5,14 +5,17 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const MongoStore = require('connect-mongo')(session);
 const path = require('path');
-const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
+const bodyParser = require('body-parser');
 
 // Require Needed Files
 const helpers = require('./Handlers/helpers');
+const fetchController = require('./Controllers/fetchController');
 const errorHandlers = require('./Handlers/errorHandlers');
 const routes = require('./index.js');
 require('./handlers/passport');
+
+// setInterval(fetchController.fetchYts, 1000000);
 
 const app = express();
 
@@ -23,8 +26,8 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Makes raw requests readable in req.body
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 app.use(expressValidator());
 
 // Db sessions

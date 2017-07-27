@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -8,23 +8,28 @@ const userSchema = new mongoose.Schema({
 		unique: true,
 		lowercase: true,
 		trim: true,
-		required: 'Please Supply an email address'
+		required: 'Please Supply an email address',
 	},
 	username: {
 		type: String,
 		required: 'Please Supply a Username',
-		trim: true
+		trim: true,
+	},
+	photo: {
+		type: String,
 	},
 	auth: {
 		type: { type: String },
 		id: { type: String },
-		token: { type: String }
-	}
+		token: { type: String },
+	},
+	resetPasswordToken: String,
+	resetPasswordExpires: Date,
 });
 
 userSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
 
-userSchema.statics.findAndModify = function (query, callback) {
+userSchema.statics.findAndModify = function fAndM(query, callback) {
 	return this.collection.findAndModify(query, callback);
 };
 
