@@ -11,7 +11,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
 	let movies = null;
 	if (req.user) {
-		movies = await movieController.getMoviesByCategory();
+		movies = await movieController.getTopMovies();
 	}
 	res.render('home', { title: 'Home', user: req.user, movies });
 });
@@ -55,7 +55,7 @@ router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
 router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 
 // REST Api
-router.get('/movies/home', catchErrors(movieController.sendMoviesByCategory));
+router.get('/movie/:slug', authController.isLoggedIn, catchErrors(movieController.getMovieBySlug));
 
 // Export Routes
 module.exports = router;
