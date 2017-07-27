@@ -5,7 +5,7 @@ const OS = require('opensubtitles-api');
 const http = require('https');
 const imdb = require('imdb-api');
 const slugify = require('slugify');
-const srt2vtt = require('srt-to-vtt')
+const srt2vtt = require('srt-to-vtt');
 const fs = require('fs');
 
 const Movie = mongoose.model('Movie');
