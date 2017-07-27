@@ -12,9 +12,7 @@ router.get('/', async (req, res) => {
 	let movies = null;
 	if (req.user) {
 		movies = await movieController.getMoviesByCategory();
-		// console.log(movies);
 	}
-	// res.json(movies);
 	res.render('home', { title: 'Home', user: req.user, movies });
 });
 

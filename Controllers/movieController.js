@@ -3,32 +3,40 @@ const mongoose = require('mongoose');
 const Movie = mongoose.model('Movie');
 
 exports.getMoviesByCategory = async () => {
-	const SciFi = Movie.aggregate([
+	const movies = [];
+	const SciFi = await Movie.aggregate([
 		{ $match: { genres: 'Sci-Fi' } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 5 },
 		{ $project: { _id: 0, slug: 1, title: 1, image: 1 } },
 	]);
-	const Action = Movie.aggregate([
+
+	const Action = await Movie.aggregate([
 		{ $match: { genres: 'Action' } },
+		{ $match: { slug: { $nin: SciFi.map(movie => movie.slug) } } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 5 },
 		{ $project: { _id: 0, slug: 1, title: 1, image: 1 } },
 	]);
-	const Comedy = Movie.aggregate([
+
+	const Comedy = await Movie.aggregate([
 		{ $match: { genres: 'Comedy' } },
+		{ $match: { slug: { $nin: SciFi.map(movie => movie.slug) } } },
+		{ $match: { slug: { $nin: Action.map(movie => movie.slug) } } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 5 },
 		{ $project: { _id: 0, slug: 1, title: 1, image: 1 } },
 	]);
-	const Drama = Movie.aggregate([
+	const Drama = await Movie.aggregate([
 		{ $match: { genres: 'Drama' } },
+		{ $match: { slug: { $nin: SciFi.map(movie => movie.slug) } } },
+		{ $match: { slug: { $nin: Action.map(movie => movie.slug) } } },
+		{ $match: { slug: { $nin: Comedy.map(movie => movie.slug) } } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 5 },
 		{ $project: { _id: 0, slug: 1, title: 1, image: 1 } },
 	]);
-	const movies = await Promise.all([SciFi, Action, Comedy, Drama]);
-	// console.log(movies);
+	movies.push(SciFi, Action, Comedy, Drama);
 	return movies;
 };
 
