@@ -50,7 +50,7 @@ exports.getMovieBySlug = async (req, res, next) => {
 };
 
 exports.searchMovie = async (req, res) => {
-	const movies = Movie.aggregate([
+	const movies = await Movie.aggregate([
 		{ $match: {} },
 		{ $sort: { year: -1 } },
 		{ $limit: 24 },
