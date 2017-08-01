@@ -49,9 +49,24 @@ exports.getMovieBySlug = async (req, res, next) => {
 	return next();
 };
 
+// exports.searchMovie = async (req, res) => {
+// 	const movies = await Movie.aggregate([
+// 		{ $match: {
+// 			$or: [
+// 				{ title: req.query.string },
+// 				{ year: req.query.string },
+// 				{ genres: req.query.string },
+// 			],
+// 		} },
+// 		{ $sort: { year: -1 } },
+// 		{ $limit: 24 },
+// 	]);
+// 	res.json(movies);
+// };
+
 exports.searchMovie = async (req, res) => {
 	const movies = await Movie.aggregate([
-		{ $match: {} },
+		{ $match: { $text: { $search: req.query.string } } },
 		{ $sort: { year: -1 } },
 		{ $limit: 24 },
 	]);
