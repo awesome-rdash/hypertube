@@ -48,3 +48,12 @@ exports.getMovieBySlug = async (req, res, next) => {
 	req.movie = movie;
 	return next();
 };
+
+exports.searchMovie = async (req, res) => {
+	const movies = Movie.aggregate([
+		{ $match: {} },
+		{ $sort: { year: -1 } },
+		{ $limit: 24 },
+	]);
+	res.json(movies);
+};

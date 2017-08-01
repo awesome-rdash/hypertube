@@ -59,6 +59,8 @@ router.get('/movie/:slug',
  authController.isLoggedIn,
  catchErrors(movieController.getMovieBySlug),
  catchErrors(fetchController.fetchSubs));
+router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
+
 
 // Export Routes
 module.exports = router;
