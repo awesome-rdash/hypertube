@@ -40,7 +40,20 @@ exports.getTopMovies = async () => {
 	return movies;
 };
 
-exports.getMovieBySlug = async (req, res) => {
+exports.getMovieBySlug = async (req, res, next) => {
 	const movie = await Movie.findOne({ slug: req.params.slug });
-	res.json(movie);
+	if (!movie) {
+		return res.send('This movie doesn\'t exist');
+	}
+	req.movie = movie;
+	return next();
+};
+
+exports.searchMovie = async (req, res) => {
+	const movies = Movie.aggregate([
+		{ $match: {} },
+		{ $sort: { year: -1 } },
+		{ $limit: 24 },
+	]);
+	res.json(movies);
 };
