@@ -9,10 +9,32 @@ body {
 	background-size: cover;
 }
 
+#searchValue {
+	color: white;
+	background-color: rgba(0, 0, 0, 0.3);
+	height: 50px;
+	border: 0;
+}
+
+#searchBtn {
+	color: white;
+	text-decoration: none;
+	background-color: rgba(0, 0, 0, 0.3);
+	border: 0;
+}
+
+#marginBigScreen {
+	margin-top: -10px;
+}
+
 #close {
 	position: absolute;
 	top: 2%;
 	left: 90%;
+}
+
+#videoList {
+	color: red;
 }
 
 .text-center {
@@ -39,6 +61,9 @@ body {
 	}
 	.dropdown-menu {
 		margin-left: 40%;
+	}
+	#marginBigScreen {
+		margin-top: 0px;
 	}
 }
 

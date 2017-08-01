@@ -5,9 +5,9 @@ mixin header()
 			span(style="color: red;font-size: 25px;") HyperTube
 		if (user)
 			.col-xs-4.col-md-2.offset-4.offset-md-5
-				.input-group
-					input.form-control#searchValue(name="search" placeholder="search" style="height: 30px;")
-					a.input-group-addon#searchBtn(href="#" style="text-decoration: none;")
+				#marginBigScreen.input-group
+					input.form-control#searchValue(name="search" placeholder="Search")
+					a.input-group-addon#searchBtn(href="#")
 						span.glyphicon.glyphicon-search
 			span.col-md-2.center-xs(style="color: grey;font-size: 14px;")
 				.dropdown
