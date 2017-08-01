@@ -1,60 +1,63 @@
 mixin search()
-	.row
-		.col-xs-8.col-md-10.col-lg-5.offset-lg-3
-			.input-group
-				label.form-control-label(for="search" style="color: red;") Search :
-				input.form-control#searchValue(name="search" placeholder="Search")
-		.col-xs-4.col-md-2.col-lg-1
-			button.btn.btn-style#searchBtn(style="width: 100%; margin-top: 25px; margin-right: auto; margin-left: auto;")
-				span.glyphicon.glyphicon-search
-	br
-	.row
-		.col-xs-4.col-lg-2.offset-lg-3
-			.input-group
-				label.form-control-label(for="catagory" style="color: red;") Category :
-				br
-				select.custom-select#categoryValue(name="category")
-					option(value="all") All
-					option(value="action") Action
-					option(value="adventure") Adventure
-					option(value="animation") Animation
-					option(value="biography") Biography
-					option(value="comedy") Comedy
-					option(value="crime") Crime
-					option(value="documentary") Documentary
-					option(value="drama") Drama
-					option(value="family") Family
-					option(value="fantasy") Fantasy
-					option(value="film-noir") Film-Noir
-					option(value="game-show") Game-Show
-					option(value="history") History
-					option(value="horror") Horror
-					option(value="music") Music
-					option(value="musical") Musical
-					option(value="mystery") Mystery
-					option(value="news") News
-					option(value="reality-tv") Reality-TV
-					option(value="romance") Romance
-					option(value="sci-fi") Sci-Fi
-					option(value="sport") Sport
-					option(value="talk-show") Talk-Show
-					option(value="thriller") Thriller
-					option(value="war") War
-					option(value="western") Western
-		.col-xs-4.col-lg-2
-			.input-group
-				label.form-control-label(for="orderBy" style="color: red;") Order by :
-				br
-				select.custom-select#orderByValue(name="orderBy")
-					option(value="title") Alphabetical
-					option(value="year") Realease year
-					option(value="rating") Rating
-					option(value="length") Duration
-		.col-xs-4.col-lg-2
-			.input-group
-				label.form-control-label(for="quality" style="color: red;") Quality :
-				br
-				select.custom-select#qualityValue(name="quality")
-					option(value="720p") 720p
-					option(value="1080p") 1080p
-					option(value="3D") 3D
+	#search
+		.row
+			.col-xs-8.col-md-10.col-lg-5.offset-lg-3
+				.input-group
+					label.form-control-label(for="search" style="color: red;") Search :
+					input.form-control#searchValue(name="search" placeholder="Search")
+			.col-xs-4.col-md-2.col-lg-1
+				button.btn.btn-style#searchBtn(style="width: 100%; margin-top: 25px; margin-right: auto; margin-left: auto;")
+					span.glyphicon.glyphicon-search
+		br
+		.row
+			.col-md-12.col-lg-6.offset-lg-3
+				.input-group
+					label.form-control-label(for="rating" style="color: red;") Rating :
+					br
+					span(style="color: red;")
+						b(style="float: left") 0
+						b(style="float: right") 10
+						input(style="width: 100%;" data-slider-id='ratings' type="text" id="rating" value="" data-slider-min="0" data-slider-max="10" data-slider-step="0.1" data-slider-value="3.3")
+		br
+		.row
+			.col-xs-4.col-lg-2.offset-lg-3
+				.input-group
+					label.form-control-label(for="catagory" style="color: red;") Category :
+					br
+					select.custom-select#categoryValue(name="category")
+						option(value="all") All
+						option(value="action") Action
+						option(value="adventure") Adventure
+						option(value="animation") Animation
+						option(value="biography") Biography
+						option(value="comedy") Comedy
+						option(value="crime") Crime
+						option(value="documentary") Documentary
+						option(value="drama") Drama
+						option(value="family") Family
+						option(value="fantasy") Fantasy
+						option(value="film-noir") Film-Noir
+						option(value="game-show") Game-Show
+						option(value="history") History
+						option(value="horror") Horror
+						option(value="music") Music
+						option(value="musical") Musical
+						option(value="mystery") Mystery
+						option(value="news") News
+						option(value="reality-tv") Reality-TV
+						option(value="romance") Romance
+						option(value="sci-fi") Sci-Fi
+						option(value="sport") Sport
+						option(value="talk-show") Talk-Show
+						option(value="thriller") Thriller
+						option(value="war") War
+						option(value="western") Western
+			.col-xs-4.col-lg-2
+				.input-group
+					label.form-control-label(for="orderBy" style="color: red;") Order by :
+					br
+					select.custom-select#orderByValue(name="orderBy")
+						option(value="title") Alphabetical
+						option(value="year") Realease year
+						option(value="rating") Rating
+						option(value="length") Duration

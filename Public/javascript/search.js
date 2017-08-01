@@ -1,10 +1,14 @@
 $(document).ready(() => {
+	$('#rating').slider({
+		tooltip: 'always',
+	});
 	$('#searchBtn').click(() => {
 		const string = $('#searchValue').val() || '*';
 		const category = $('#categoryValue').val() || '*';
 		const order = $('#orderByValue').val() || '*';
 		const quality = $('#qualityValue').val() || '*';
-		const options = { category, order, quality };
+		const rating = $('#ratings').val() || '*';
+		const options = { category, order, quality, rating };
 		$.get('/search', { string/*, options*/ }, (data) => {
 			console.log(data);
 		});

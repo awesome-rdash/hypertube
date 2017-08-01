@@ -28,8 +28,9 @@ $(document).ready(() => {
 			$('#myAccount').fadeOut('fast', showVideo);
 		}
 	});
-	$('.thumbnail').click(() => {
+	$('.listMovie').click(() => {
 		state = 1;
+		$('#search').fadeOut('fast');
 		$('#videoList').fadeOut('fast', showVideo);
 	});
 	$('#sendEdit').click(() => {
