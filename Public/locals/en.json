@@ -29,5 +29,9 @@
 	"import": "Import a picture",
     "edit": "Edit your account",
     "signupwith": "Sign-in with ",
-	"successEdit": "You successfully edited your account"
+	"successEdit": "You successfully edited your account",
+	"forgotPwd": "Forgot my password",
+	"newPwd": "New Password : ",
+	"emailSended": "Reset email sent.",
+	"reNewPwd": "Confirm new Password : "
 }

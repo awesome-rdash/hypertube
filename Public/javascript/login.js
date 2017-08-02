@@ -2,8 +2,8 @@ let step = 0;
 let stepInput = null;
 stepInput = [['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', '']];
 step = 1;
-include('javascript/includes/_nextStep.js');
-include('javascript/includes/_stepBefore.js');
+include('/javascript/includes/_nextStep.js');
+include('/javascript/includes/_stepBefore.js');
 $(document).ready(() => {
 	$('#i2 input').hide();
 	$('#b1').hide();
@@ -28,6 +28,19 @@ $(document).ready(() => {
 			nextStep();
 		}
 	});
+	$('#resetPassword').click(() => {
+		if (validateEmail($('#i1 input').val())) {
+			$.get('/forgot', { email: $('#i1 input').val() }, (data) => {
+				if (data === true) {
+					$('.form-group').addClass('has-success');
+					$('#i1 small').html($('#emailSended').html());
+				} else {
+					throwError(data);
+				}
+			});
+		}
+	});
+	$('#resetForm').prop('action', window.location.href);
 });
 
 function getUser(data) {

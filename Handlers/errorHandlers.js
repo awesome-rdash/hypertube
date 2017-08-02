@@ -23,7 +23,7 @@ exports.developmentErrors = (err, req, res, next) => {
 	res.format({
 		// Based on the `Accept` http header
 		'text/html': () => {
-			res.render('error', errorDetails);
+			res.render('error', { title: err.status, msg: err.message });
 		}, // Form Submit, Reload the page
 		'application/json': () => res.json(errorDetails), // Ajax call, send JSON back
 	});

@@ -5,7 +5,7 @@ const OS = require('opensubtitles-api');
 const http = require('https');
 const imdb = require('imdb-api');
 const slugify = require('slugify');
-const srt2vtt = require('srt-to-vtt')
+const srt2vtt = require('srt-to-vtt');
 const fs = require('fs');
 
 const Movie = mongoose.model('Movie');
@@ -28,7 +28,6 @@ const getArchiveURI = elem => magnet.encode({
 		'http://bt2.archive.org:6969/announce',
 	],
 });
-
 
 const getImdbId = (elem) => {
 	let tag;
@@ -85,7 +84,7 @@ exports.fetchArchive = async (req, res) => {
 			bulk.find({ slug: movie.slug }).upsert().updateOne({ $set: movie });
 		});
 		await bulk.execute();
-		return res.send('ok');
+		return res.send('archive updated');
 	}
 	return res.send('Error');
 };
@@ -128,6 +127,7 @@ exports.fetchYts = async (req, res) => {
 			clean.push({
 				title: movie.title,
 				slug: movie.slug,
+				imdbId: movie.imdb_code,
 				year: movie.year,
 				rating: movie.rating,
 				length: movie.runtime,
@@ -147,9 +147,31 @@ exports.fetchYts = async (req, res) => {
 			bulk.find({ slug: movie.slug }).upsert().updateOne({ $set: movie });
 		});
 		await bulk.execute();
-		return res.send('ok');
+		return res.send('yts updated');
 	}
 	return res.send('Error');
+};
+
+exports.fetchSubs = async (req, res) => {
+	const filmId = req.body.imbdId;
+	const OpenSubtitles = new OS({
+		useragent: 'OSTestUserAgentTemp',
+		ssl: true,
+	});
+	OpenSubtitles.search({
+		sublanguageid: 'all',
+		extensions: ['srt'],
+		imdbid: filmId,
+	}).then(async (subtitles) => {
+		console.log(subtitles.en.url);
+		const file = fs.createWriteStream(`Public/downloads/${filmId}.vtt`);
+		const tempFile = fs.createWriteStream(`${filmId}.srt`);
+		const r = http.get(subtitles.en.url, (response) => {
+			response.pipe(tempFile);
+			fs.createReadStream(`${filmId}.srt`).pipe(srt2vtt()).pipe(file);
+			fs.unlinkSync(`${filmId}.srt`);
+		});
+	});
 };
 
 exports.fetchSubs = async (req, res) => {
@@ -157,23 +179,41 @@ exports.fetchSubs = async (req, res) => {
 		useragent: 'OSTestUserAgentTemp',
 		ssl: true,
 	});
-	OpenSubtitles.login().then((result) => {
-		console.log(result.token);
-	}).catch((err) => {
-		console.log(`err : ${err}`);
-	});
-	OpenSubtitles.search({
+	const subtitles = await OpenSubtitles.search({
 		sublanguageid: 'all',
 		extensions: ['srt'],
-		imdbid: 'tt4295258',
-	}).then(async (subtitles) => {
-		console.log(subtitles.en.url);
-		const file = fs.createWriteStream('Public/downloads/tt4295258.vtt');
-		const tempFile = fs.createWriteStream('tt4295258.srt');
-		const r = http.get(subtitles.en.url, (response) => {
-			response.pipe(tempFile);
-			fs.createReadStream('tt4295258.srt').pipe(srt2vtt()).pipe(file);
-			fs.unlinkSync('tt4295258.srt');
-		});
+		imdbid: req.movie.imdbId,
 	});
+	if (subtitles) {
+		for (const sub in subtitles) {
+			if ({}.hasOwnProperty.call(subtitles, sub)) {
+				if (sub === 'en' || sub === 'es' || sub === 'fr' || sub === 'ru') {
+					// fs.unlinkSync(`Public/downloads/${req.movie.imdbId}_${sub}.vtt`);
+					const file = fs.createWriteStream(`Public/downloads/${req.movie.imdbId}_${sub}.vtt`);
+					const tempFile = fs.createWriteStream(`${req.movie.imdbId}_${sub}.srt`);
+					tempFile.on('open', (fd) => {
+						const r = http.get(subtitles[sub].url, (response) => {
+							response.pipe(tempFile);
+							fs.createReadStream(`${req.movie.imdbId}_${sub}.srt`).pipe(srt2vtt()).pipe(file);
+							fs.unlinkSync(`${req.movie.imdbId}_${sub}.srt`);
+						});
+					});
+				}
+			}
+		}
+	}
+	res.json(req.movie);
 };
+
+
+// for (const sub in subtitles) {
+// 	if ({}.hasOwnProperty.call(subtitles, sub)) {
+// 		const file = fs.createWriteStream(`Public/downloads/${filmId}.vtt`);
+// 		const tempFile = fs.createWriteStream(`${filmId}.srt`);
+// 		const r = http.get(subtitles.en.url, (response) => {
+// 			response.pipe(tempFile);
+// 			fs.createReadStream(`${filmId}.srt`).pipe(srt2vtt()).pipe(file);
+// 			fs.unlinkSync(`${filmId}.srt`);
+// 		});
+// 	}
+// }

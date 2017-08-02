@@ -12,6 +12,9 @@ const movieSchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 	},
+	imdbId: {
+		type: String,
+	},
 	year: {
 		type: Number,
 		required: true,
@@ -44,6 +47,7 @@ const movieSchema = new mongoose.Schema({
 	},
 });
 
+movieSchema.index({ title: 'text', genres: 'text' });
 
 movieSchema.statics.findAndModify = function fAndM(query, callback) {
 	return this.collection.findAndModify(query, callback);
