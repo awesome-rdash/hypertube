@@ -4,7 +4,7 @@ $(document).ready(() => {
 	});
 
 	let index = 0;
-
+	let filmListNumber = 0;
 	function showFilms(films, i) {
 		const w = i - 1;
 		const x = 23 - index;
@@ -18,26 +18,49 @@ $(document).ready(() => {
 				showFilms(films, w);
 			});
 		} else {
+			$('#searchBtn').prop('disabled', false);
 			index = 0;
 		}
 	}
 
+	$('.imgListFilms').hover((e) => {
+		const id = e.currentTarget.id;
+		$(`#${id} > a > div`).css('width', $(`#${id} > a > img`).prop('width'));
+		$(`#${id} > a > div`).animate({
+			height: '70%',
+			top: '30%',
+		}, 100, () => {});
+	});
+
+	$('.imgListFilms').mouseleave((e) => {
+		const id = e.currentTarget.id;
+		$(`#${id} > a > div`).animate({
+			height: '0%',
+			top: '100%',
+		}, 100, () => {});
+	});
+
 	$('#searchBtn').click(() => {
+		filmListNumber = 0;
+		$('#searchBtn').prop('disabled', true);
 		const string = $('#searchValue').val() || null;
 		const genre = $('#categoryValue').val() || null;
 		const sort = $('#orderByValue').val() || null;
 		const rating = $('#rating').val() || null;
-		const options = { string, genre, sort, rating };
+		const options = { string, genre, sort, rating, index: filmListNumber };
+		filmListNumber += 1;
 		$.get('/search', options, (data) => {
+			$('.imgListFilms').hide();
+			$('.imgListFilms > a > img').css('width', '0%');
 			if (data.length > 0) {
-				$('.imgListFilms').hide();
-				$('.imgListFilms > a > img').css('width', '0%');
 				$('#videoList').hide(250, showFilms(data, data.length));
+			} else {
+				$('#searchBtn').prop('disabled', false);
 			}
 		});
 	});
 	$('#searchValue').keypress((e) => {
-		if (e.which === 13) {
+		if (e.which === 13 && !$('#searchBtn').prop('disabled')) {
 			$('#searchBtn').click();
 		}
 	});
