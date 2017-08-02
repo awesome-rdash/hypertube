@@ -49,26 +49,36 @@ exports.getMovieBySlug = async (req, res, next) => {
 	return next();
 };
 
-// exports.searchMovie = async (req, res) => {
-// 	const movies = await Movie.aggregate([
-// 		{ $match: {
-// 			$or: [
-// 				{ title: req.query.string },
-// 				{ year: req.query.string },
-// 				{ genres: req.query.string },
-// 			],
-// 		} },
-// 		{ $sort: { year: -1 } },
-// 		{ $limit: 24 },
-// 	]);
-// 	res.json(movies);
-// };
-
 exports.searchMovie = async (req, res) => {
-	const movies = await Movie.aggregate([
-		{ $match: { $text: { $search: req.query.string } } },
-		{ $sort: { year: -1 } },
-		{ $limit: 24 },
-	]);
+	console.log(req.query);
+	const agg = [];
+	if (req.query.string && req.query.string.length) {
+		agg.push({ $match: { $text: { $search: req.query.string } } });
+	}
+	if (req.query.genre && req.query.genre.length) {
+		agg.push({ $match: { genres: req.query.genre } });
+	}
+	if (req.query.rating) {
+		agg.push({ $match: { rating: { $gte: Number(req.query.rating) } } });
+	}
+	if (req.query.sort && req.query.sort.length) {
+		const sort = {};
+		if (req.query.sort === 'title' || req.query.sort === 'length') {
+			sort[req.query.sort] = 1;
+		} else if (req.query.sort === 'year' || req.query.sort === 'rating') {
+			sort[req.query.sort] = -1;
+		}
+		agg.push({ $sort: sort });
+	} else {
+		agg.push({ $sort: { rating: -1 } });
+	}
+	agg.push({ $limit: 24 });
+	agg.push({ $project: { _id: 0, slug: 1, title: 1, image: 1, genres: 1, rating: 1, length: 1 } });
+	const movies = await Movie.aggregate(agg);
 	res.json(movies);
 };
+
+// Alphabetical
+// rating
+// year
+// duration
