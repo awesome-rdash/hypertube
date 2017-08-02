@@ -9,7 +9,7 @@
 	"errNoMatch": "Your passwords do not match.",
 	"errUsername": "Please supply a valid username.",
 	"errPhoto": "Please supply a valid picture.",
-	"errImageSize": "Picture max size is 400ko.",
+	"errImageSize": "Maximum picture size is 400ko.",
     "wMail": "Please enter a valid email address.",
     "noMatch": "Passwords do not match.",
     "wPwdLen": "Password minimum length is 6.",

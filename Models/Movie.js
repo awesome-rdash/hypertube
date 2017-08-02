@@ -50,8 +50,6 @@ const movieSchema = new mongoose.Schema({
 	},
 });
 
-movieSchema.index({ title: 'text', genres: 'text' });
-
 movieSchema.statics.findAndModify = function fAndM(query, callback) {
 	return this.collection.findAndModify(query, callback);
 };
