@@ -50,6 +50,7 @@ exports.getMovieBySlug = async (req, res, next) => {
 };
 
 exports.searchMovie = async (req, res) => {
+	console.log(req.query);
 	const agg = [];
 	if (req.query.string && req.query.string.length) {
 		agg.push({ $match: { $text: { $search: req.query.string } } });
@@ -71,6 +72,7 @@ exports.searchMovie = async (req, res) => {
 	} else {
 		agg.push({ $sort: { rating: -1 } });
 	}
+	agg.push({ $skip: 24 * Number(req.query.index) });
 	agg.push({ $limit: 24 });
 	agg.push({ $project: { _id: 0, slug: 1, title: 1, image: 1, genres: 1, rating: 1, length: 1 } });
 	const movies = await Movie.aggregate(agg);

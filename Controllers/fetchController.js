@@ -55,6 +55,7 @@ const mergeResults = (movie, archive) => {
 		length: parseFloat(movie.runtime),
 		description: movie.plot,
 		genres: movie.genres.split(', '),
+		actors: movie.actors,
 		image: movie.poster,
 	});
 };
