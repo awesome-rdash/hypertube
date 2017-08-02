@@ -10,6 +10,7 @@ $(document).ready(() => {
 		if (x > 0) {
 			$(`#img${x} > a > img`).attr('src', films[index].image);
 			index += 1;
+			$(`#img${x}`).show();
 			$(`#img${x} > a > img`).animate({
 				width: '100%',
 			}, 50, () => {
