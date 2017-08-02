@@ -8,8 +8,8 @@ $(document).ready(() => {
 		const order = $('#orderByValue').val() || '*';
 		const quality = $('#qualityValue').val() || '*';
 		const rating = $('#ratings').val() || '*';
-		const options = { category, order, quality, rating };
-		$.get('/search', { string/*, options*/ }, (data) => {
+		const options = { string, category, order, quality, rating };
+		$.get('/search', options, (data) => {
 			console.log(data);
 		});
 	});
