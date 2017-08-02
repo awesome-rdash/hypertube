@@ -16,9 +16,9 @@ mixin videoList()
 						- var x = 1 * n;
 					else
 						- var x = i * 6 + n;
-					.col-md-2.col-lg-1.col-xs-4.listMovies(id=`image${x}`)
+					.col-md-2.col-lg-1.col-xs-4.listMovies.movieLaunch(id=`image${x}`)
 						a(href="#" style="color: white")
-							img.listMovie(style="width: 100%;" src=`${movie.image}` alt=`Image not found..` title=`${movie.title}`)
+							img(style="width: 100%;" src=`${movie.image}` alt=`Image not found..` title=`${movie.title}`)
 							div(style="overflow: hidden;position: absolute; width: 0%; height: 70%; top: 30%; background-color: rgba(0, 0, 0, 0.7);")
 								p.text-center.filmTitle
 									b #{movie.title}
