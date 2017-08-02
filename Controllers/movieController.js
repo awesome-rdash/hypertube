@@ -60,10 +60,25 @@ exports.searchMovie = async (req, res) => {
 	if (req.query.rating) {
 		agg.push({ $match: { rating: { $gte: Number(req.query.rating) } } });
 	}
-	agg.push({ $sort: { year: -1 } });
+	if (req.query.sort && req.query.sort.length) {
+		const sort = {};
+		if (req.query.sort === 'title' || req.query.sort === 'length') {
+			sort[req.query.sort] = 1;
+		} else if (req.query.sort === 'year' || req.query.sort === 'rating') {
+			sort[req.query.sort] = -1;
+		}
+		agg.push(sort);
+	} else {
+		agg.push({ $sort: { rating: -1 } });
+	}
 	agg.push({ $limit: 24 });
 	agg.push({ $project: { _id: 0, slug: 1, title: 1, image: 1, genres: 1, rating: 1 } });
 	console.log(agg);
 	const movies = await Movie.aggregate(agg);
 	res.json(movies);
 };
+
+// Alphabetical
+// rating
+// year
+// duration
