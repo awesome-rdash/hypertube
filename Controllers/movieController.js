@@ -74,7 +74,16 @@ exports.searchMovie = async (req, res) => {
 	}
 	agg.push({ $skip: 24 * Number(req.query.index) });
 	agg.push({ $limit: 24 });
-	agg.push({ $project: { _id: 0, slug: 1, title: 1, image: 1, genres: 1, rating: 1, length: 1 } });
+	agg.push({ $project: {
+		_id: 0,
+		slug: 1,
+		title: 1,
+		image: 1,
+		genres: 1,
+		rating: 1,
+		year: 1,
+		length: 1,
+	} });
 	const movies = await Movie.aggregate(agg);
 	res.json(movies);
 };

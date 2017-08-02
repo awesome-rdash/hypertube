@@ -4,6 +4,7 @@ const userController = require('./Controllers/userController');
 const fetchController = require('./Controllers/fetchController');
 const torrentController = require('./Controllers/torrentController');
 const movieController = require('./Controllers/movieController');
+const streamController = require('./Controllers/streamController');
 const { catchErrors } = require('./Handlers/errorHandlers');
 
 const router = express.Router();
@@ -61,6 +62,8 @@ router.get('/movie/:slug',
  catchErrors(fetchController.fetchSubs));
 router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
 
+// Video Routes
+router.get('/video', authController.isLoggedIn, streamController.streamVideo);
 
 // Export Routes
 module.exports = router;
