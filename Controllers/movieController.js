@@ -50,10 +50,10 @@ exports.getMovieBySlug = async (req, res, next) => {
 };
 
 exports.searchMovie = async (req, res) => {
-	console.log(req.query);
 	const agg = [];
+	const regex = new RegExp(`${req.query.string}`);
 	if (req.query.string && req.query.string.length) {
-		agg.push({ $match: { $text: { $search: req.query.string } } });
+		agg.push({ $match: { $or: [{ title: { $regex: regex, $options: 'i' } }, { genres: { $regex: regex, $options: 'i' } }] } });
 	}
 	if (req.query.genre && req.query.genre.length) {
 		agg.push({ $match: { genres: req.query.genre } });
