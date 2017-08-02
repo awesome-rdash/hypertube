@@ -8,7 +8,7 @@ exports.getTopMovies = async () => {
 		{ $match: { genres: 'Sci-Fi' } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 6 },
-		{ $project: { _id: 0, slug: 1, title: 1, image: 1 } },
+		{ $project: { _id: 0, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
 	]);
 
 	const Action = await Movie.aggregate([
@@ -16,7 +16,7 @@ exports.getTopMovies = async () => {
 		{ $match: { slug: { $nin: SciFi.map(movie => movie.slug) } } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 6 },
-		{ $project: { _id: 0, slug: 1, title: 1, image: 1 } },
+		{ $project: { _id: 0, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
 	]);
 
 	const Comedy = await Movie.aggregate([
@@ -25,7 +25,7 @@ exports.getTopMovies = async () => {
 		{ $match: { slug: { $nin: Action.map(movie => movie.slug) } } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 6 },
-		{ $project: { _id: 0, slug: 1, title: 1, image: 1 } },
+		{ $project: { _id: 0, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
 	]);
 	const Drama = await Movie.aggregate([
 		{ $match: { genres: 'Drama' } },
@@ -34,7 +34,7 @@ exports.getTopMovies = async () => {
 		{ $match: { slug: { $nin: Comedy.map(movie => movie.slug) } } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 6 },
-		{ $project: { _id: 0, slug: 1, title: 1, image: 1 } },
+		{ $project: { _id: 0, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
 	]);
 	movies.push(SciFi, Action, Comedy, Drama);
 	return movies;
@@ -73,7 +73,7 @@ exports.searchMovie = async (req, res) => {
 		agg.push({ $sort: { rating: -1 } });
 	}
 	agg.push({ $limit: 24 });
-	agg.push({ $project: { _id: 0, slug: 1, title: 1, image: 1, genres: 1, rating: 1, length: 1 } });
+	agg.push({ $project: { _id: 0, slug: 1, title: 1, image: 1, genres: 1, rating: 1, year: 1, length: 1 } });
 	const movies = await Movie.aggregate(agg);
 	res.json(movies);
 };

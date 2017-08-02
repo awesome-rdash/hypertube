@@ -10,6 +10,10 @@ $(document).ready(() => {
 		const x = 23 - index;
 		if (i > 0) {
 			$(`#img${x} > a > img`).attr('src', films[index].image);
+			$(`#img${x} > a > div > .filmTitle > b`).html(films[index].title);
+			console.log(films[index]);
+			$(`#img${x} > a > div > .filmYear`).html(films[index].year);
+			$(`#img${x} > a > div > .filmRate`).html(`${films[index].rating} / 10`);
 			index += 1;
 			$(`#img${x}`).show();
 			$(`#img${x} > a > img`).animate({
@@ -23,7 +27,7 @@ $(document).ready(() => {
 		}
 	}
 
-	$('.imgListFilms').hover((e) => {
+	$('.imgListFilms, .listMovies').hover((e) => {
 		const id = e.currentTarget.id;
 		$(`#${id} > a > div`).css('width', $(`#${id} > a > img`).prop('width'));
 		$(`#${id} > a > div`).animate({
@@ -32,7 +36,7 @@ $(document).ready(() => {
 		}, 100, () => {});
 	});
 
-	$('.imgListFilms').mouseleave((e) => {
+	$('.imgListFilms, .listMovies').mouseleave((e) => {
 		const id = e.currentTarget.id;
 		$(`#${id} > a > div`).animate({
 			height: '0%',
