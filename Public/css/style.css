@@ -12,25 +12,17 @@ body {
 #searchValue {
 	color: white;
 	background-color: rgba(0, 0, 0, 0.3);
-	height: 50px;
 	border: 0;
-}
-
-#searchBtn {
-	color: white;
-	text-decoration: none;
-	background-color: rgba(0, 0, 0, 0.3);
-	border: 0;
-}
-
-#marginBigScreen {
-	margin-top: -10px;
 }
 
 #close {
 	position: absolute;
 	top: 2%;
 	left: 90%;
+}
+
+#ratings .slider-track-high {
+	background: gray;
 }
 
 #videoList {
@@ -61,9 +53,6 @@ body {
 	}
 	.dropdown-menu {
 		margin-left: 40%;
-	}
-	#marginBigScreen {
-		margin-top: 0px;
 	}
 }
 
@@ -105,6 +94,12 @@ hr {
 	border-color: white;
 	color: black;
 	width: 100%;
+}
+
+.btn-style {
+	background-color: white;
+	border-color: white;
+	color: black;
 }
 
 html, body, .container-table {

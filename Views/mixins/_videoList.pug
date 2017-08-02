@@ -13,6 +13,5 @@ mixin videoList()
 				.offset-lg-3
 				each movie in movieList
 					.col-md-2.col-lg-1.col-xs-4
-						a.thumbnail(href="#")
-							img(src=`${movie.image}` alt=`Image not found..` title=`${movie.title}`)
-								
+						a(href="#")
+							img.listMovie(style="width: 100%;" src=`${movie.image}` alt=`Image not found..` title=`${movie.title}`)
