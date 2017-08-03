@@ -1,21 +1,28 @@
 mixin videos()
 	#videos.row.hidden
 		.col-lg-9
-			video(id="video", class="video-js", controls, preload="auto", style="min-height: 500px; width: 100%;", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}')
-				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4")
-				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/ogv")
-				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/webm")
-				//- track(style="margin-top: 500px;" kind="subtitle" src-lang="US" label="English" src="/downloads/tt4295258.vtt" default)
-			br
+			.row
+				.col-lg-12
+					video(id="video", class="video-js", controls, preload="auto", style="min-height: 500px; width: 100%;", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}')
+						source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4")
+						source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/ogv")
+						source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/webm")
+						//- track(style="margin-top: 500px;" kind="subtitle" src-lang="US" label="English" src="/downloads/tt4295258.vtt" default)
+					br
+				.col-lg-12.hidden-md-down
+					h2(style="color: white;").text-center Infos
 		.col-md-12.hidden-lg-up
-			div(style="margin-top: -20px; background-color: rgba(255, 255, 255, 0.4);")
-				h2#toggle.text-center Infos 
-					span.glyphicon.glyphicon-chevron-up
-				div#stoggle
-					p salut
+			h2#toggle.text-center(style="color: white;") Infos 
+				span.glyphicon.glyphicon-chevron-up
+			div#stoggle
+				p salut
 		.col-lg-3
-			div(style="margin-top: -20px; height: 500px; background-color: rgba(255, 255, 255, 0.4);")
-				h2.text-center Commentary
-		.col-lg-12.hidden-md-down
-			div(style="margin-top: -20px; height: 500px; background-color: rgba(255, 255, 255, 0.4);")
-				h2.text-center Infos
+			h2.text-center(style="color: white;") Commentary 
+				span.badge.badge-default 27
+			.row(style="background-color: #171717;")
+				.col-xs-2
+					img(src="https://yts.ag/assets/images/users/thumb/default_avatar.jpg")
+				.col-xs-10
+					p(style="color: #919191;") Jeremy Misiti
+					p(style="color: white; font-size: 10px;") Salut
+				

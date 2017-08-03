@@ -2,7 +2,6 @@ $(document).ready(() => {
 	$('#rating').slider({
 		tooltip: 'always',
 	});
-
 	let index = 0;
 	let filmListNumber = 0;
 	function showFilms(films, i) {
@@ -57,6 +56,7 @@ $(document).ready(() => {
 			$('.imgListFilms').hide();
 			$('.imgListFilms > a > img').css('width', '0%');
 			if (data.length > 0) {
+				$('#filmsList').fadeIn(0);
 				$('#videoList').hide(250, showFilms(data, data.length));
 			} else {
 				$('#searchBtn').prop('disabled', false);

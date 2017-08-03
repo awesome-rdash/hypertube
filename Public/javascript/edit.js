@@ -17,6 +17,14 @@ $(document).ready(() => {
 		$('#videos').fadeIn('fast');
 	}
 
+	function ftTwo() {
+		$('#videoList').fadeOut(0, showMyAcc);
+	}
+
+	function ftOne() {
+		$('#filmsList').fadeOut(0, ftTwo);
+	}
+
 	$('#searchBtn').click(() => {
 		search = 1;
 	});
@@ -29,9 +37,7 @@ $(document).ready(() => {
 	$('#videos').removeClass('hidden');
 	$('#myAccBtn').click(() => {
 		if (state === 0) {
-			$('#search').fadeOut('fast');
-			$('#filmsList').fadeOut('fast');
-			$('#videoList').fadeOut('fast', showMyAcc);
+			$('#search').fadeOut(0, ftOne);
 		} else {
 			$('#videos').fadeOut('fast', showMyAcc);
 		}
