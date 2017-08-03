@@ -4,11 +4,14 @@ const userController = require('./Controllers/userController');
 const fetchController = require('./Controllers/fetchController');
 const torrentController = require('./Controllers/torrentController');
 const movieController = require('./Controllers/movieController');
+const streamController = require('./Controllers/streamController');
+const commentController = require('./Controllers/commentController');
 const { catchErrors } = require('./Handlers/errorHandlers');
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
+	console.log(req.user);
 	let movies = null;
 	if (req.user) {
 		movies = await movieController.getTopMovies();
@@ -49,6 +52,9 @@ router.post('/update/user',
 	userController.validateUpdate,
 	userController.updateUser);
 
+// Comments
+router.post('/comment', authController.isLoggedIn, catchErrors(commentController.writeCom));
+
 // Fetchers
 router.get('/fetch/archive', catchErrors(fetchController.fetchArchive));
 router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
@@ -61,6 +67,8 @@ router.get('/movie/:slug',
  catchErrors(fetchController.fetchSubs));
 router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
 
+// Video Routes
+router.get('/video', authController.isLoggedIn, streamController.streamVideo);
 
 // Export Routes
 module.exports = router;

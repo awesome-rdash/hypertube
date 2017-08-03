@@ -3,18 +3,18 @@ $(document).ready(() => {
 	let state = 0;
 	let search = 0;
 	function showMyAcc() {
-		$('#myAccount').fadeIn('fast');
+		$('#myAccount').fadeIn(50);
 	}
 	function showList() {
-		$('#search').fadeIn('fast');
+		$('#search').fadeIn(50);
 		if (search === 0) {
-			$('#videoList').fadeIn('fast');
+			$('#videoList').fadeIn(50);
 		} else {
-			$('#filmsList').fadeIn('fast');
+			$('#filmsList').fadeIn(50);
 		}
 	}
 	function showVideo() {
-		$('#videos').fadeIn('fast');
+		$('#videos').fadeIn(50);
 	}
 
 	function ftTwo() {
@@ -39,21 +39,21 @@ $(document).ready(() => {
 		if (state === 0) {
 			$('#search').fadeOut(0, ftOne);
 		} else {
-			$('#videos').fadeOut('fast', showMyAcc);
+			$('#videos').fadeOut(50, showMyAcc);
 		}
 	});
 	$('#close').click(() => {
 		if (state === 0) {
-			$('#myAccount').fadeOut('fast', showList);
+			$('#myAccount').fadeOut(50, showList);
 		} else {
-			$('#myAccount').fadeOut('fast', showVideo);
+			$('#myAccount').fadeOut(50, showVideo);
 		}
 	});
 	$('.movieLaunch').click(() => {
 		state = 1;
-		$('#search').fadeOut('fast');
-		$('#filmsList').fadeOut('fast');
-		$('#videoList').fadeOut('fast', showVideo);
+		$('#search').fadeOut(50);
+		$('#filmsList').fadeOut(50);
+		$('#videoList').fadeOut(50, showVideo);
 	});
 	$('#sendEdit').click(() => {
 		const imgFileSize = Math.round((($('#picture').prop('src').length - 22) * 3) / 4) / 1000;
