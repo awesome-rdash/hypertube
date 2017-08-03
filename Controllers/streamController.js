@@ -2,11 +2,12 @@ const fs = require('fs');
 const path = require('path');
 
 exports.streamVideo = (req, res) => {
-	const fpath = path.join(__dirname, '../Public/testFile.mp4');
+	const fpath = path.join(__dirname, '../MovieFiles/testFile.mp4');
 	const stat = fs.statSync(fpath);
 	const size = stat.size;
 	const range = req.headers.range;
 
+	console.log(range);
 	if (range) {
 		const parts = range.replace(/bytes=/, '').split('-');
 		const start = parseInt(parts[0], 10);
