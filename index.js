@@ -54,6 +54,7 @@ router.post('/update/user',
 
 // Comments
 router.post('/comment', authController.isLoggedIn, catchErrors(commentController.writeCom));
+router.get('/comments/:id', authController.isLoggedIn, catchErrors(commentController.getComs));
 
 // Fetchers
 router.get('/fetch/archive', catchErrors(fetchController.fetchArchive));
