@@ -14,3 +14,11 @@ exports.writeCom = async (req, res) => {
 	}
 	return res.send(false);
 };
+
+exports.getComs = async (req, res) => {
+	const coms = await Comment.find({ movie: req.params.id });
+	if (coms) {
+		return res.json(coms);
+	}
+	return res.send(null);
+};

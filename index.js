@@ -54,6 +54,7 @@ router.post('/update/user',
 
 // Comments
 router.post('/comment', authController.isLoggedIn, catchErrors(commentController.writeCom));
+router.get('/comments/:id', authController.isLoggedIn, catchErrors(commentController.getComs));
 
 // Fetchers
 router.get('/fetch/archive', catchErrors(fetchController.fetchArchive));
@@ -61,10 +62,10 @@ router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
 router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 
 // REST Api
-router.get('/movie/:slug',
+router.get('/movie/:id',
  authController.isLoggedIn,
- catchErrors(movieController.getMovieBySlug),
- catchErrors(fetchController.fetchSubs));
+ catchErrors(movieController.getMovieById),
+ /*catchErrors(fetchController.fetchSubs)*/);
 router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
 
 // Video Routes
