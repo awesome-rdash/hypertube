@@ -13,10 +13,18 @@ router.get('/', (req, res) => {
 });
 
 router.get('/torrent', (req, res) => {
-	res.render('torrent', { title: "torrent" });
+	res.render('torrent', { title: 'torrent' });
 });
 
-router.post('/torrent', torrentController.startTorrentDl);
+router.post('/torrent/AddMagnetLink', (req, res) => {
+	torrentController.addTorrentUrlToQueue(req.body.magnet);
+	res.render('torrent', { title: 'torrent' });
+});
+
+router.post('/torrent/getTorrentInfo', (req, res) => {
+	// torrentController.getTorrentInformations(req.body.id);
+	res.render('torrent', { title: 'torrent' });
+});
 
 // Local Auth and Registration
 router.post('/register/local',
