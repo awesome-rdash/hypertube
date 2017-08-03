@@ -53,7 +53,10 @@ exports.searchMovie = async (req, res) => {
 	const agg = [];
 	const regex = new RegExp(`${req.query.string}`);
 	if (req.query.string && req.query.string.length) {
-		agg.push({ $match: { $or: [{ title: { $regex: regex, $options: 'i' } }, { genres: { $regex: regex, $options: 'i' } }] } });
+		agg.push({ $match: { $or: [
+			{ title: { $regex: regex, $options: 'i' } },
+			{ genres: { $regex: regex, $options: 'i' } },
+		] } });
 	}
 	if (req.query.genre && req.query.genre.length) {
 		agg.push({ $match: { genres: req.query.genre } });
@@ -75,7 +78,7 @@ exports.searchMovie = async (req, res) => {
 	agg.push({ $skip: 24 * Number(req.query.index) });
 	agg.push({ $limit: 24 });
 	agg.push({ $project: {
-		_id: 0,
+		_id: 1,
 		slug: 1,
 		title: 1,
 		image: 1,
