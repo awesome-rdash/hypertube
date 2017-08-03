@@ -40,13 +40,12 @@ exports.getTopMovies = async () => {
 	return movies;
 };
 
-exports.getMovieBySlug = async (req, res, next) => {
-	const movie = await Movie.findOne({ slug: req.params.slug });
+exports.getMovieById = async (req, res) => {
+	const movie = await Movie.findOne({ _id: req.params.id });
 	if (!movie) {
 		return res.send('This movie doesn\'t exist');
 	}
-	req.movie = movie;
-	return next();
+	return res.json(movie);
 };
 
 exports.searchMovie = async (req, res) => {

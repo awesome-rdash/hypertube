@@ -61,10 +61,10 @@ router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
 router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 
 // REST Api
-router.get('/movie/:slug',
+router.get('/movie/:id',
  authController.isLoggedIn,
- catchErrors(movieController.getMovieBySlug),
- catchErrors(fetchController.fetchSubs));
+ catchErrors(movieController.getMovieById),
+ /*catchErrors(fetchController.fetchSubs)*/);
 router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
 
 // Video Routes
