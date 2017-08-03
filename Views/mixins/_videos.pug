@@ -19,10 +19,18 @@ mixin videos()
 		.col-lg-3
 			h2.text-center(style="color: white;") Commentary 
 				span.badge.badge-default 27
-			.row(style="background-color: #171717;")
-				.col-xs-2
-					img(src="https://yts.ag/assets/images/users/thumb/default_avatar.jpg")
-				.col-xs-10
-					p(style="color: #919191;") Jeremy Misiti
-					p(style="color: white; font-size: 10px;") Salut
-				
+			div#commentZone(style="padding-bottom: 15px;")
+				.row(style="background-color: #171717;")
+					.col-xs-3
+						img(src="https://yts.ag/assets/images/users/thumb/default_avatar.jpg")
+					.col-xs-9
+						p(style="color: #919191;") Jeremy Misiti -
+						input#comment(type="text" style="width: 90%;")
+			//- div(style="padding-bottom: 15px;")
+			//- 	.row(style="background-color: #171717;")
+			//- 		.col-xs-3
+			//- 			img(src="https://yts.ag/assets/images/users/thumb/default_avatar.jpg")
+			//- 		.col-xs-9
+			//- 			p(style="color: #919191;") Jeremy Misiti -
+			//- 				span(style="font-size: 12px;") 29/08/2017 - 20:37
+			//- 			p(style="color: white; font-size: 10px;") Salut gqerg qerng qejrgi jqenrg qelr;hnq ejrg nqe;rn gqejr gnqhbgf h jkl
