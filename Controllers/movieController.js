@@ -49,6 +49,9 @@ exports.getMovieById = async (req, res) => {
 };
 
 exports.searchMovie = async (req, res) => {
+	if (!req.query.string || !req.query.string.match(/^[a-z0-9]+$/i)) {
+		return res.send(null);
+	}
 	const agg = [];
 	const regex = new RegExp(`${req.query.string}`);
 	if (req.query.string && req.query.string.length) {
@@ -87,5 +90,5 @@ exports.searchMovie = async (req, res) => {
 		length: 1,
 	} });
 	const movies = await Movie.aggregate(agg);
-	res.json(movies);
+	return res.json(movies);
 };
