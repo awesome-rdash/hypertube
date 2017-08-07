@@ -10,16 +10,16 @@ mixin videoList()
 			else if i === 3
 				h3.text-center Drama
 			.row
-				.offset-lg-3
+				.offset-xl-3
 				each movie, n in movieList
 					if i === 0
 						- var x = 1 * n;
 					else
 						- var x = i * 6 + n;
-					.col-md-2.col-lg-1.col-xs-4.listMovies.movieLaunch(id=`image${x}` film-id=`${movie._id}`)
+					.col-md-2.col-xl-1.col-xs-4.movieLaunch(id=`image${x}` film-id=`${movie._id}`)
 						a(href="#" style="color: white")
 							img(style="width: 100%;" src=`${movie.image}` alt=`Image not found..` title=`${movie.title}`)
-							div(style="overflow: hidden;position: absolute; width: 0%; height: 70%; top: 30%; background-color: rgba(0, 0, 0, 0.7);")
+							div.filmMiniature
 								p.text-center.filmTitle
 									b #{movie.title}
 								p.text-center.filmYear #{movie.year}
