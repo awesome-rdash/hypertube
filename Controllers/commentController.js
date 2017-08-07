@@ -3,6 +3,12 @@ const mongoose = require('mongoose');
 const Comment = mongoose.model('Comment');
 
 exports.writeCom = async (req, res) => {
+	req.checkBody('com', 'errCom').notEmpty();
+	req.body.com = req.body.com.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	const results = await req.getValidationResult();
+	if (!results.isEmpty()) {
+		return res.json({ errors: results.array() });
+	}
 	const com = new Comment({
 		com: req.body.com,
 		author: req.user._id,
@@ -10,7 +16,7 @@ exports.writeCom = async (req, res) => {
 	});
 	await com.save();
 	if (com) {
-		return res.send(true);
+		return res.send(req.body.com);
 	}
 	return res.send(false);
 };
