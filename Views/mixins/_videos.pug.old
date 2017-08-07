@@ -1,0 +1,21 @@
+mixin videos()
+	#videos.row.hidden
+		.col-lg-9
+			video(id="video", class="video-js", controls, preload="auto", style="min-height: 500px; width: 100%;", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}')
+				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4")
+				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/ogv")
+				source(src="//vjs.zencdn.net/v/oceans.mp4" type="video/webm")
+				//- track(style="margin-top: 500px;" kind="subtitle" src-lang="US" label="English" src="/downloads/tt4295258.vtt" default)
+			br
+		.col-md-12.hidden-lg-up
+			div(style="margin-top: -20px; background-color: rgba(255, 255, 255, 0.4);")
+				h2#toggle.text-center Infos 
+					span.glyphicon.glyphicon-chevron-up
+				div#stoggle
+					p salut
+		.col-lg-3
+			div(style="margin-top: -20px; height: 500px; background-color: rgba(255, 255, 255, 0.4);")
+				h2.text-center Commentary
+		.col-lg-12.hidden-md-down
+			div(style="margin-top: -20px; height: 500px; background-color: rgba(255, 255, 255, 0.4);")
+				h2.text-center Infos

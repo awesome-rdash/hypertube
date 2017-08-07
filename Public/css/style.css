@@ -21,6 +21,16 @@ body {
 	left: 90%;
 }
 
+.filmMiniature {
+	overflow: hidden;
+	position: absolute;
+	width: 0%;
+	height: 70%;
+	top: 30%;
+	font-size: 9px;
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
 #ratings .slider-track-high {
 	background: gray;
 }

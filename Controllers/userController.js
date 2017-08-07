@@ -64,10 +64,6 @@ exports.validateUpdate = async (req, res, next) => {
 	req.checkBody('username', 'errUsername').notEmpty();
 	req.sanitizeBody('username');
 	req.checkBody('email', 'errMail').isEmail();
-	// req.checkBody('password', 'errPassword').notEmpty();
-	// req.checkBody('password', 'errStrength').matches(/((?=.*\d)(?=.*[a-z]).{6, 20})/);
-	// req.checkBody('password-confirm', 'errBlankConfirm').notEmpty();
-	// req.checkBody('password-confirm', 'errNoMatch').equals(req.body.password);
 
 	const results = await req.getValidationResult();
 	if (!results.isEmpty()) {

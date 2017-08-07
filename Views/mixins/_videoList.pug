@@ -2,18 +2,26 @@ mixin videoList()
 	#videoList
 		each movieList, i in movies
 			if i === 0
-				h1.text-center Sci-Fi
+				h3.text-center Sci-Fi
 			else if i === 1
-				h1.text-center Action
+				h3.text-center Action
 			else if i === 2
-				h1.text-center Comedy
+				h3.text-center Comedy
 			else if i === 3
-				h1.text-center Drama
+				h3.text-center Drama
 			.row
-				.offset-lg-3
-				each movie in movieList
-					.col-md-2.col-lg-1.col-xs-4
-						a(href="#")
-							img.listMovie(style="width: 100%;" src=`${movie.image}` alt=`Image not found..` title=`${movie.title}`)
+				.offset-xl-3
+				each movie, n in movieList
+					if i === 0
+						- var x = 1 * n;
+					else
+						- var x = i * 6 + n;
+					.col-md-2.col-xl-1.col-xs-4.movieLaunch(id=`image${x}` film-id=`${movie._id}`)
+						a(href="#" style="color: white")
+							img(style="width: 100%;" src=`${movie.image}` alt=`Image not found..` title=`${movie.title}`)
+							div.filmMiniature
+								p.text-center.filmTitle
+									b #{movie.title}
+								p.text-center.filmYear #{movie.year}
+								p.text-center.filmRate #{movie.rating} / 10
 	#filmsList
-		+filmsList()

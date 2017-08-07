@@ -1,37 +1,61 @@
 $(document).ready(() => {
 	let edited = false;
 	let state = 0;
+	let search = 0;
 	function showMyAcc() {
-		$('#myAccount').fadeIn('fast');
+		$('#myAccount').fadeIn(50);
 	}
 	function showList() {
-		$('#videoList').fadeIn('fast');
+		$('#search').fadeIn(50);
+		if (search === 0) {
+			$('#videoList').fadeIn(50);
+		} else {
+			$('#filmsList').fadeIn(50);
+		}
 	}
 	function showVideo() {
-		$('#videos').fadeIn('fast');
+		$('#videos').fadeIn(50);
 	}
+
+	function ftTwo() {
+		$('#videoList').fadeOut(0, showMyAcc);
+	}
+
+	function ftOne() {
+		$('#filmsList').fadeOut(0, ftTwo);
+	}
+
+	$('#searchBtn').click(() => {
+		search = 1;
+	});
+	$('#searchValue').keypress((e) => {
+		search = 1;
+	});
 	$('#myAccount').hide();
 	$('#videos').hide();
 	$('#myAccount').removeClass('hidden');
 	$('#videos').removeClass('hidden');
 	$('#myAccBtn').click(() => {
 		if (state === 0) {
-			$('#videoList').fadeOut('fast', showMyAcc);
+			$('#search').fadeOut(0, ftOne);
 		} else {
-			$('#videos').fadeOut('fast', showMyAcc);
+			$('#videos').fadeOut(50, showMyAcc);
 		}
 	});
 	$('#close').click(() => {
 		if (state === 0) {
-			$('#myAccount').fadeOut('fast', showList);
+			$('#myAccount').fadeOut(50, showList);
 		} else {
-			$('#myAccount').fadeOut('fast', showVideo);
+			$('#myAccount').fadeOut(50, showVideo);
 		}
 	});
-	$('.listMovie').click(() => {
+	$('.movieLaunch').click((e) => {
+		console.log(e);
 		state = 1;
-		$('#search').fadeOut('fast');
-		$('#videoList').fadeOut('fast', showVideo);
+		$('#search').fadeOut(50);
+		$('#filmsList').fadeOut(50);
+		$.get('/movie/')
+		$('#videoList').fadeOut(50, showVideo);
 	});
 	$('#sendEdit').click(() => {
 		const imgFileSize = Math.round((($('#picture').prop('src').length - 22) * 3) / 4) / 1000;

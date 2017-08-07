@@ -11,7 +11,6 @@ const { catchErrors } = require('./Handlers/errorHandlers');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-	console.log(req.user);
 	let movies = null;
 	if (req.user) {
 		movies = await movieController.getTopMovies();
@@ -64,7 +63,7 @@ router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 // REST Api
 router.get('/movie/:id',
  authController.isLoggedIn,
- catchErrors(movieController.getMovieById),
+ catchErrors(movieController.getMovieById)
  /*catchErrors(fetchController.fetchSubs)*/);
 router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
 
