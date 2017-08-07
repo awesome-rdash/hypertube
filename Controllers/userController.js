@@ -11,6 +11,7 @@ const mail = require('../Handlers/mail');
 const fs = require('fs');
 
 const User = mongoose.model('User');
+const Comment = mongoose.model('Comment');
 
 exports.validateRegister = async (req, res, next) => {
 	req.checkBody('lastName', 'errLastName').notEmpty();
@@ -146,6 +147,16 @@ exports.getUsersByUsername = async (req, res) => {
 };
 
 exports.userPage = async (req, res) => {
-	const user = await User.findOne({ _id: req.params.id }, { username: 1, photo: 1 });
-	res.render('user', { title: user.username, user });
+	const proms = [];
+	proms.push(User.findOne({ _id: req.params.id }, { username: 1, photo: 1 }));
+	proms.push(Comment.find({ author: req.params.id }).sort({ posted: -1 }).limit(10));
+	const [user, coms] = await Promise.all(proms);
+	user.com = 'lol';
+	const ret = {
+		id: user._id,
+		username: user.username,
+		photo: user.photo,
+		coms,
+	};
+	res.json(ret);
 };
