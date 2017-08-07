@@ -49,10 +49,12 @@ $(document).ready(() => {
 			$('#myAccount').fadeOut(50, showVideo);
 		}
 	});
-	$('.movieLaunch').click(() => {
+	$('.movieLaunch').click((e) => {
+		console.log(e);
 		state = 1;
 		$('#search').fadeOut(50);
 		$('#filmsList').fadeOut(50);
+		$.get('/movie/')
 		$('#videoList').fadeOut(50, showVideo);
 	});
 	$('#sendEdit').click(() => {
