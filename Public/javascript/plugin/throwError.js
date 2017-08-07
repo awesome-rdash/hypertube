@@ -12,13 +12,15 @@ function throwError(type, mode) {
 		$('#i2').addClass('has-warning');
 		$('#i2 small').html($(`#${type}`).html());
 	} else if (mode === 5) {
-		
+		console.log(`${type}`);
+		$('#commentary').addClass('has-danger');
+		$('#commentary small').html($(`#${type}`).html());
 	}
 	$('#b1, #b3, #b2').prop('disabled', false);
 }
 function stopError() {
 	$('.form-group, #input1, #input2, #input3, #i2, #i1').removeClass('has-warning');
-	$('.form-group, #input1, #input2, #input3, #i2, #i1').removeClass('has-danger');
+	$('.form-group, #input1, #input2, #input3, #i2, #i1, #commentary').removeClass('has-danger');
 	$('.form-group').removeClass('has-success');
-	$('#i1 small, #i2 small, #input1 small, #input2 small, #input3 small').html('');
+	$('#i1 small, #i2 small, #input1 small, #input2 small, #input3 small, #commentary small').html('');
 }

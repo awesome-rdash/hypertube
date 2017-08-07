@@ -23,4 +23,7 @@ mixin videos()
 						img(src="https://yts.ag/assets/images/users/thumb/default_avatar.jpg")
 					.col-xs-9
 						p(style="color: #919191;") Jeremy Misiti -
-						input#comment(type="text" style="width: 90%;")
+						.form-group
+							#commentary
+								input#comment.form-control-warning(type="text" style="width: 90%;")
+								small.form-text.text-muted
