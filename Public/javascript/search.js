@@ -1,6 +1,13 @@
 function createFilmElem(indx, id, src, title, year, rating) {
 	return (`<div class="col-md-2 col-xl-1 col-xs-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p>`);
 }
+
+const loadUserInfo = (uid) => {
+	$.get(`/user/${uid}`, null, (data) => {
+		console.log(data);
+	});
+};
+
 $(document).ready(() => {
 	$('#rating').slider({
 		tooltip: 'always',
@@ -104,12 +111,6 @@ $(document).ready(() => {
 		const userId = e.id;
 		console.log(userId);
 	});
-
-	const loadUserInfo = (uid) => {
-		$.get(`/user/${uid}`, null, (data) => {
-			console.log(data);
-		});
-	};
 
 	$('#searchUserValue').keyup((e) => {
 		if (isCharOrDelete(e.which)) {
