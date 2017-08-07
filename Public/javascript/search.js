@@ -90,4 +90,16 @@ $(document).ready(() => {
 			$('#searchBtn').click();
 		}
 	});
+	$('#searchUserBtn').click(() => {
+		$('#searchUserBtn').prop('disabled', true);
+		const username = $('#searchUserValue').val() || null;
+		$.get('/users', username, (data) => {
+			console.log(data);
+		});
+	});
+	$('#searchUserValue').keypress((e) => {
+		if (e.which === 13 && !$('#searchUserBtn').prop('disabled')) {
+			$('#searchUserBtn').click();
+		}
+	});
 });
