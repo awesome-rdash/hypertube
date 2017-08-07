@@ -11,6 +11,8 @@ function throwError(type, mode) {
 	} else if (mode === 4) {
 		$('#i2').addClass('has-warning');
 		$('#i2 small').html($(`#${type}`).html());
+	} else if (mode === 5) {
+		
 	}
 	$('#b1, #b3, #b2').prop('disabled', false);
 }
