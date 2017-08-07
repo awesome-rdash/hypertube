@@ -51,6 +51,10 @@ router.post('/update/user',
 	userController.validateUpdate,
 	userController.updateUser);
 
+// Browse Users
+router.get('/users', authController.isLoggedIn, catchErrors(userController.getUsersByUsername));
+router.get('/user/:id', authController.isLoggedIn, userController.userPage);
+
 // Comments
 router.post('/comment', authController.isLoggedIn, catchErrors(commentController.writeCom));
 router.get('/comments/:id', authController.isLoggedIn, catchErrors(commentController.getComs));

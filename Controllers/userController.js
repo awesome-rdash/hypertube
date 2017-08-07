@@ -135,3 +135,17 @@ exports.changePassword = async (req, res) => {
 		res.redirect('/');
 	}
 };
+
+exports.getUsersByUsername = async (req, res) => {
+	const regex = new RegExp(`${req.query.username}`, 'i');
+	const users = await User.find({ username: regex }, { username: 1, photo: 1 });
+	if (users) {
+		return res.json(users);
+	}
+	return res.send(null);
+};
+
+exports.userPage = async (req, res) => {
+	const user = await User.findOne({ _id: req.params.id }, { username: 1, photo: 1 });
+	res.render('user', { title: user.username, user });
+};
