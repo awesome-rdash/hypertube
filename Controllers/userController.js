@@ -138,6 +138,8 @@ exports.changePassword = async (req, res) => {
 };
 
 exports.getUsersByUsername = async (req, res) => {
+	console.log(req.body);
+	console.log(req.query);
 	const regex = new RegExp(`${req.query.username}`, 'i');
 	const users = await User.find({ username: regex }, { username: 1, photo: 1 });
 	if (users) {

@@ -14,6 +14,7 @@
     "noMatch": "Les mots de passe ne correspondent pas.",
     "wPwdLen": "Votre mot de passe doit contenir 6 caracteres minimum.",
     "wPassWd": "Votre mot de passe est incorrect.",
+	"errCom": "Tu ne peut pas envoyer un commentaie vide.",
   "__TEXT__" : "__TEXT__",
   	"search": "Recherche",
 	"rating": "Note",

@@ -1,6 +1,13 @@
 function createFilmElem(indx, id, src, title, year, rating) {
 	return (`<div class="col-md-2 col-xl-1 col-xs-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p>`);
 }
+
+const loadUserInfo = (uid) => {
+	$.get(`/user/${uid}`, null, (data) => {
+		console.log(data);
+	});
+};
+
 $(document).ready(() => {
 	$('#rating').slider({
 		tooltip: 'always',
@@ -88,6 +95,37 @@ $(document).ready(() => {
 	$('#searchValue').keypress((e) => {
 		if (e.which === 13 && !$('#searchBtn').prop('disabled')) {
 			$('#searchBtn').click();
+		}
+	});
+
+	const isCharOrDelete = (char) => {
+		if (char >= 65 && char <= 90) {
+			return (true);
+		} else if (char === 8) {
+			return (true);
+		}
+		return (false);
+	};
+
+	$('.userOfList').click((e) => {
+		const userId = e.id;
+		console.log(userId);
+	});
+
+	$('#searchUserValue').keyup((e) => {
+		if (isCharOrDelete(e.which)) {
+			if ($('#searchUserValue').val().length > 2) {
+				$('#searchUserBtn').prop('disabled', true);
+				const uName = $('#searchUserValue').val() || null;
+				$.get('/users', { username: uName }, (data) => {
+					$('.userOfList').remove();
+					data.forEach((user, i) => {
+						$('#userFound').append(`<a onclick="loadUserInfo(this.id);" class="userOfList" id="${user._id}" href="#" style="text-decoration: none;"><div style="position: absolute; top: ${i + 1}00%; z-index: 1000; width: 100%; right: 0%; background-color: red;"><p>${user.username}</p></div></a>`);
+					});
+				});
+			} else {
+				$('.userOfList').remove();
+			}
 		}
 	});
 });
