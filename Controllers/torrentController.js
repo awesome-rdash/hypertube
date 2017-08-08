@@ -72,16 +72,16 @@ exports.stopTorrent = (torrentId) => {
 };
 
 exports.getTorrentInformations = (torrentId) => {
-	console.log("Getting infos");
+	console.log('Getting infos');
 	transmission.get(torrentId, callback = (err, result) => {
-	console.log("Inside callback");
-	console.log(result);
+		console.log('Inside callback');
+		console.log(result);
 		if (err) {
-			console.log("CALLBACK ERROR");
+			console.log('CALLBACK ERROR');
 			throw err;
 		}
 		if (result.torrents.length > 0) {
-			console.log("CALLBACK OK");
+			console.log('CALLBACK OK');
 			console.log(result.torrents[0]);
 			/*
 			console.log('Name = ' + result.torrents[0].name);
@@ -92,6 +92,19 @@ exports.getTorrentInformations = (torrentId) => {
 			console.log('Status = ' + getStatusType(result.torrents[0].status));
 			*/
 		}
-		console.log("END OF CALLBACK")
+		console.log('END OF CALLBACK');
+	});
+};
+
+exports.getAllActiveTorrents = () => {
+	transmission.active(callback = (err, result) => {
+		if (err) {
+			console.log(err);
+		} else {
+			for (i = 0; i < result.torrents.length; i + 1) {
+				console.log(result.torrents[i].id);
+				console.log(result.torrents[i].name);
+			}
+		}
 	});
 };
