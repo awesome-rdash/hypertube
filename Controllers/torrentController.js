@@ -64,28 +64,34 @@ exports.stopAllActiveTorrents = () => {
 // Controlling torrents
 
 exports.startTorrent = (torrentId) => {
-	transmission.start(id, (err, result) => {});
+	transmission.start(torrentId, (err, result) => {});
 };
 
 exports.stopTorrent = (torrentId) => {
-	transmission.stop(id, (err, result) => {});
+	transmission.stop(torrentId, (err, result) => {});
 };
 
-/*
-exports.getTorrentInformations = (id) => {
-	transmission.get(id, (torrentController.callback, (err, result) => {})) {
+exports.getTorrentInformations = (torrentId) => {
+	console.log("Getting infos");
+	transmission.get(torrentId, callback = (err, result) => {
+	console.log("Inside callback");
+	console.log(result);
 		if (err) {
+			console.log("CALLBACK ERROR");
 			throw err;
 		}
 		if (result.torrents.length > 0) {
-
+			console.log("CALLBACK OK");
 			console.log(result.torrents[0]);
+			/*
 			console.log('Name = ' + result.torrents[0].name);
 			console.log('Download Rate = ' + result.torrents[0].rateDownload / 1000);
 			console.log('Upload Rate = ' + result.torrents[0].rateUpload / 1000);
 			console.log('Completed = ' + result.torrents[0].percentDone * 100);
 			console.log('ETA = ' + result.torrents[0].eta / 3600);
 			console.log('Status = ' + getStatusType(result.torrents[0].status));
+			*/
 		}
+		console.log("END OF CALLBACK")
 	});
-};*/
+};

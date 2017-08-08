@@ -22,7 +22,7 @@ router.post('/torrent/AddMagnetLink', (req, res) => {
 });
 
 router.post('/torrent/getTorrentInfo', (req, res) => {
-	// torrentController.getTorrentInformations(req.body.id);
+	torrentController.getTorrentInformations(req.body.id);
 	res.render('torrent', { title: 'torrent' });
 });
 
