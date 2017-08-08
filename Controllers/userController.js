@@ -151,7 +151,6 @@ exports.userPage = async (req, res) => {
 	proms.push(User.findOne({ _id: req.params.id }, { username: 1, photo: 1 }));
 	proms.push(Comment.find({ author: req.params.id }).sort({ posted: -1 }).limit(10));
 	const [user, coms] = await Promise.all(proms);
-	user.com = 'lol';
 	const ret = {
 		id: user._id,
 		username: user.username,
