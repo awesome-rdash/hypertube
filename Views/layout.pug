@@ -24,6 +24,7 @@ html
 		script(type="application/javascript", src="/javascript/login.js")
 	body
 		
+		include mixins/_videoList
 		include mixins/_hiddenVar
 		include mixins/_homepage
 		include mixins/_header
@@ -31,7 +32,7 @@ html
 		include mixins/_search
 		include mixins/_login
 		include mixins/_edit
-		include mixins/_videoList
+		include mixins/_user
 		block header
 			+header()
 					

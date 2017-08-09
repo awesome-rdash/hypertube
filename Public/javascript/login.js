@@ -1,5 +1,9 @@
 let step = 0;
 let stepInput = null;
+let search = null;
+let state = null;
+state = 0;
+search = 0;
 stepInput = [['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', '']];
 step = 1;
 include('/javascript/includes/_nextStep.js');
