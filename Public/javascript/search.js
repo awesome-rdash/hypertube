@@ -4,7 +4,8 @@ function createFilmElem(indx, id, src, title, year, rating) {
 
 const loadUserInfo = (uid) => {
 	$.get(`/user/${uid}`, null, (data) => {
-		console.log(data);
+		$('#userUsername').html(data.username);
+		$('#userPicture').prop('src', data.photo);
 	});
 	$('#myAccount').fadeOut(50);
 
@@ -19,7 +20,6 @@ const loadUserInfo = (uid) => {
 	function ftOne() {
 		$('#filmsList').fadeOut(0, ftTwo);
 	}
-
 	if (state === 0) {
 		$('#search').fadeOut(0, ftOne);
 	} else {
@@ -30,6 +30,25 @@ const loadUserInfo = (uid) => {
 $(document).ready(() => {
 	$('#rating').slider({
 		tooltip: 'always',
+	});
+
+	function showList() {
+		$('#search').fadeIn(50);
+		if (search === 0) {
+			$('#videoList').fadeIn(50);
+		} else {
+			$('#filmsList').fadeIn(50);
+		}
+	}
+	function showVideo() {
+		$('#videos').fadeIn(50);
+	}
+	$('#closeUserInfo').click(() => {
+		if (state === 0) {
+			$('#userInformations').fadeOut(50, showList);
+		} else {
+			$('#userInformations').fadeOut(50, showVideo);
+		}
 	});
 	let index = 0;
 	let searchMode = false;
@@ -135,6 +154,13 @@ $(document).ready(() => {
 		console.log(userId);
 	});
 
+	$('#searchUserValue').focusout(() => {
+		$('.userOfList').fadeOut(150);
+	});
+	$('#searchUserValue').focusin(() => {
+		$('.userOfList').fadeIn(150);
+	});
+
 	$('#searchUserValue').keyup((e) => {
 		if (isCharOrDelete(e.which)) {
 			if ($('#searchUserValue').val().length > 2) {
@@ -143,11 +169,7 @@ $(document).ready(() => {
 				$.get('/users', { username: uName }, (data) => {
 					$('.userOfList').remove();
 					data.forEach((user, i) => {
-						if (user.photo) {
-							$('#userFound').append(`<a onclick="loadUserInfo(this.id);" class="userOfList" id="${user._id}" href="#" style="text-decoration: none;"><div style="position: absolute; top: ${i + 1}00%; z-index: 1000; width: 100%; right: 0%; background-color: rgba(0, 0, 0, 1);"><img src="${user.photo}" style="width: 30px; height: 30px; float: left;" /><p style="color: gray; text-align: center;">&nbsp;${user.username}</p></div></a>`);
-						} else {
-							$('#userFound').append(`<a onclick="loadUserInfo(this.id);" class="userOfList" id="${user._id}" href="#" style="text-decoration: none;"><div style="position: absolute; top: ${i + 1}00%; z-index: 1000; width: 100%; right: 0%; background-color: rgba(0, 0, 0, 1);"><img src="/assets/empty_user.png" style="width: 30px; height: 30px; float: left;" /><p style="color: gray; text-align: center;">&nbsp;${user.username}</p></div></a>`);
-						}
+						$('#userFound').append(`<a class="userOfList" href="#" style="text-decoration: none;"><div onclick="loadUserInfo(this.id);" id="${user._id}" style="position: absolute; top: ${i + 1}00%; z-index: 1000; width: 100%; right: 0%; background-color: rgba(0, 0, 0, 1);"><img src="${user.photo}" style="width: 30px; height: 30px; float: left;" /><p style="color: gray; text-align: center;">&nbsp;${user.username}</p></div></a>`);
 					});
 				});
 			} else {

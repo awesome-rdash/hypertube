@@ -1,6 +1,5 @@
 $(document).ready(() => {
 	let edited = false;
-	let search = 0;
 	function showMyAcc() {
 		$('#myAccount').fadeIn(50);
 	}
@@ -32,6 +31,8 @@ $(document).ready(() => {
 	});
 	$('#myAccount').hide();
 	$('#videos').hide();
+	$('#userInformations').hide();
+	$('#userInformations').removeClass('hidden');
 	$('#myAccount').removeClass('hidden');
 	$('#videos').removeClass('hidden');
 	$('#myAccBtn').click(() => {
