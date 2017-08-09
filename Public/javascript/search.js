@@ -52,8 +52,10 @@ $(document).ready(() => {
 		}, 100, () => {});
 	});
 
-	$(window).scroll(() => {
-		if (searchMode === true) {
+	$(window).bind('mousewheel', (event) => {
+		if (event.originalEvent.wheelDelta >= 0) {
+			console.log('Scroll up');
+		} else if (searchMode === true) {
 			if ($(window).scrollTop() + $(window).height() >= ($(document).height() - 5)) {
 				filmListNumber += 1;
 				const string = $('#searchValue').val() || null;
@@ -103,6 +105,8 @@ $(document).ready(() => {
 			return (true);
 		} else if (char === 8) {
 			return (true);
+		} else if (char >= 48 && char <= 57) {
+			return (true);
 		}
 		return (false);
 	};
@@ -120,7 +124,7 @@ $(document).ready(() => {
 				$.get('/users', { username: uName }, (data) => {
 					$('.userOfList').remove();
 					data.forEach((user, i) => {
-						$('#userFound').append(`<a onclick="loadUserInfo(this.id);" class="userOfList" id="${user._id}" href="#" style="text-decoration: none;"><div style="position: absolute; top: ${i + 1}00%; z-index: 1000; width: 100%; right: 0%; background-color: red;"><p>${user.username}</p></div></a>`);
+						$('#userFound').append(`<a onclick="loadUserInfo(this.id);" class="userOfList" id="${user._id}" href="#" style="text-decoration: none;"><div style="position: absolute; top: ${i + 1}00%; z-index: 1000; width: 100%; right: 0%; background-color: red;"><img src="${user.photo}" style="width: 50px; float: left;" /><p style="text-decoration: none;">&nbsp;${user.username}</p></div></a>`);
 					});
 				});
 			} else {
