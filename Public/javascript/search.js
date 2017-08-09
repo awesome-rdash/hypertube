@@ -124,7 +124,11 @@ $(document).ready(() => {
 				$.get('/users', { username: uName }, (data) => {
 					$('.userOfList').remove();
 					data.forEach((user, i) => {
-						$('#userFound').append(`<a onclick="loadUserInfo(this.id);" class="userOfList" id="${user._id}" href="#" style="text-decoration: none;"><div style="position: absolute; top: ${i + 1}00%; z-index: 1000; width: 100%; right: 0%; background-color: red;"><img src="${user.photo}" style="width: 50px; float: left;" /><p style="text-decoration: none;">&nbsp;${user.username}</p></div></a>`);
+						if (user.photo) {
+							$('#userFound').append(`<a onclick="loadUserInfo(this.id);" class="userOfList" id="${user._id}" href="#" style="text-decoration: none;"><div style="position: absolute; top: ${i + 1}00%; z-index: 1000; width: 100%; right: 0%; background-color: rgba(0, 0, 0, 1);"><img src="${user.photo}" style="width: 30px; height: 30px; float: left;" /><p style="color: gray; text-align: center;">&nbsp;${user.username}</p></div></a>`);
+						} else {
+							$('#userFound').append(`<a onclick="loadUserInfo(this.id);" class="userOfList" id="${user._id}" href="#" style="text-decoration: none;"><div style="position: absolute; top: ${i + 1}00%; z-index: 1000; width: 100%; right: 0%; background-color: rgba(0, 0, 0, 1);"><img src="/assets/empty_user.png" style="width: 30px; height: 30px; float: left;" /><p style="color: gray; text-align: center;">&nbsp;${user.username}</p></div></a>`);
+						}
 					});
 				});
 			} else {
