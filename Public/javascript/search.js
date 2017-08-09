@@ -6,6 +6,25 @@ const loadUserInfo = (uid) => {
 	$.get(`/user/${uid}`, null, (data) => {
 		console.log(data);
 	});
+	$('#myAccount').fadeOut(50);
+
+	function showUser() {
+		$('#userInformations').fadeIn(50);
+	}
+
+	function ftTwo() {
+		$('#videoList').fadeOut(0, showUser);
+	}
+
+	function ftOne() {
+		$('#filmsList').fadeOut(0, ftTwo);
+	}
+
+	if (state === 0) {
+		$('#search').fadeOut(0, ftOne);
+	} else {
+		$('#videos').fadeOut(50, showUser);
+	}
 };
 
 $(document).ready(() => {
