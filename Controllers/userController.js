@@ -1,14 +1,11 @@
 const mongoose = require('mongoose');
-
+const fs = require('fs');
 const multer = require('multer');
-
 const uuid = require('uuid');
-
 const jimp = require('jimp');
 const crypto = require('crypto');
 const mail = require('../Handlers/mail');
-
-const fs = require('fs');
+const path = require('path');
 
 const User = mongoose.model('User');
 const Comment = mongoose.model('Comment');
@@ -138,12 +135,18 @@ exports.changePassword = async (req, res) => {
 };
 
 exports.getUsersByUsername = async (req, res) => {
-	console.log(req.body);
-	console.log(req.query);
 	const regex = new RegExp(`${req.query.username}`, 'i');
 	const users = await User.find({ username: regex }, { username: 1, photo: 1 });
 	if (users) {
-		return res.json(users);
+		const ret = [];
+		users.forEach((user, i) => {
+			ret.push(user);
+			console.log(user);
+			if (!fs.existsSync(path.join(__dirname, `../Public/${user.photo}`))) {
+				ret[i].photo = null;
+			}
+		});
+		return res.json(ret);
 	}
 	return res.send(null);
 };
