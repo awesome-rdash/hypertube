@@ -10,7 +10,7 @@ $(document).on('click', '.userOfList', (e) => {
 		$('#userUsername').html(data.username);
 		$('#userPicture').prop('src', data.photo);
 		data.coms.forEach((com, i) => {
-			comments = `${comments}<div class="row" style="background-color: #171717; padding-bottom: 5px;"><div class="col-xs-3"><img src="${com.jacket}" /></div><div class="col-xs-9"><p style="color: #919191;">${com.movie.title} - <span style="font-size: 12px;"> ${com.movie.photo}</span></p><p style="color: white; font-size: 10px;">${com.com}</p></div></div></div>`;
+			comments = `${comments}<div class="row" style="background-color: #171717; margin-bottom: 5px;"><div class="col-xs-3"><img style="width: 100%;" src="${com.movie.image}" /></div><div class="col-xs-9"><p style="color: #919191;">${com.movie.title} - <span style="font-size: 12px;"></span></p><p style="color: white; font-size: 10px;">${com.com}</p></div></div></div>`;
 		});
 		$('#userComments').html(comments);
 	});
