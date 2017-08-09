@@ -176,7 +176,7 @@ $(document).ready(() => {
 				$.get('/users', { username: uName }, (data) => {
 					$('.userOfList').remove();
 					data.forEach((user, i) => {
-						$('#userFoundList').html(`${$('#userFoundList').html()}<a class="userOfList col-xs-12" id="${user._id}" href="#" style="height: 30px; margin-bottom: 2px;text-decoration: none;"><div style="height: 100%; width: 100%; background-color: rgba(0, 0, 0, 1);"><img src="${user.photo}" style="width: 30px; height: 30px; float: left;" /><p style="color: gray; text-align: center;">&nbsp;${user.username}</p></div></a>`);
+						$('#userFoundList').html(`${$('#userFoundList').html()}<a class="userOfList col-xs-12" id="${user._id}" href="#" style="height: 30px; width: 100%; margin-bottom: 2px;text-decoration: none;"><div style="height: 100%; width: 100%; background-color: rgba(0, 0, 0, 1);"><img src="${user.photo}" style="width: 30px; height: 30px; float: left;" /><p style="color: gray; text-align: center;">&nbsp;${user.username}</p></div></a>`);
 					});
 				});
 			} else {
