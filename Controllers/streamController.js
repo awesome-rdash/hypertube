@@ -3,8 +3,7 @@ const path = require('path');
 
 exports.streamVideo = (req, res) => {
 	const fpath = path.join(__dirname, '../MovieFiles/testFile.mp4');
-	const stat = fs.statSync(fpath);
-	const size = stat.size;
+	const size = fs.statSync(fpath).size;
 	const range = req.headers.range;
 
 	if (range) {
