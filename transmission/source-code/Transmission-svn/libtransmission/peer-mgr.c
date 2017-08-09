@@ -1131,10 +1131,7 @@ pieceListRebuild (tr_swarm * s)
       s->pieces = pieces;
       s->pieceCount = pieceCount;
 
-      if(s->tor->sequentialDownload)
-        pieceListSort (s, PIECES_SORTED_BY_INDEX);
-      else
-        pieceListSort (s, PIECES_SORTED_BY_WEIGHT);
+      pieceListSort (s, PIECES_SORTED_BY_INDEX);
 
       pieceListSort (s, PIECES_SORTED_BY_WEIGHT);
 
@@ -1174,8 +1171,8 @@ pieceListResortPiece (tr_swarm * s, struct weighted_piece * p)
   if (p == NULL)
     return;
 
-  if(s->tor->sequentialDownload)
-    return;
+  /* Exit the function for sequential download */
+  return;
 
   /* is the torrent already sorted? */
   pos = p - s->pieces;
@@ -1355,17 +1352,8 @@ tr_peerMgrGetNextRequests (tr_torrent           * tor,
   /* prep the pieces list */
   if (s->pieces == NULL)
     pieceListRebuild (s);
-
-  if (tor->sequentialDownload)
-    {
-        if (s->pieceSortState != PIECES_SORTED_BY_INDEX)
-            pieceListSort (s, PIECES_SORTED_BY_INDEX);
-    }
-  else
-    {
-        if (s->pieceSortState != PIECES_SORTED_BY_WEIGHT)
-            pieceListSort (s, PIECES_SORTED_BY_WEIGHT);
-    }
+      if (s->pieceSortState != PIECES_SORTED_BY_INDEX)
+          pieceListSort (s, PIECES_SORTED_BY_INDEX);
 
   assertReplicationCountIsExact (s);
   assertWeightedPiecesAreSorted (s);
@@ -1448,39 +1436,10 @@ tr_peerMgrGetNextRequests (tr_torrent           * tor,
         }
     }
 
-  /* In most cases we've just changed the weights of a small number of pieces.
-   * So rather than qsort ()ing the entire array, it's faster to apply an
-   * adaptive insertion sort algorithm. */
-  if (got > 0 && !tor->sequentialDownload)
-    {
-      /* not enough requests || last piece modified */
-      if (i == s->pieceCount)
-        --i;
-
-      setComparePieceByWeightTorrent (s);
-      while (--i >= 0)
-        {
-          bool exact;
-
-          /* relative position! */
-          const int newpos = tr_lowerBound (&s->pieces[i], &s->pieces[i + 1],
-                                            s->pieceCount - (i + 1),
-                                            sizeof (struct weighted_piece),
-                                            comparePieceByWeight, &exact);
-          if (newpos > 0)
-            {
-              const struct weighted_piece piece = s->pieces[i];
-              memmove (&s->pieces[i],
-                       &s->pieces[i + 1],
-                       sizeof (struct weighted_piece) * (newpos));
-              s->pieces[i + newpos] = piece;
-            }
-        }
-    }
-
   assertWeightedPiecesAreSorted (t);
   *numgot = got;
 }
+
 
 bool
 tr_peerMgrDidPeerRequest (const tr_torrent  * tor,
