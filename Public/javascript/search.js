@@ -137,6 +137,23 @@ $(document).ready(() => {
 		}
 	});
 
+	$('.movieLaunch').click((e) => {
+		const filmid = e.currentTarget.getAttribute('filmid');
+		state = 1;
+		$.get(`/movie/${filmid}`, null, (data) => {
+			console.log(data);
+			$('video').html(`<source src="/video?id=${filmid}" type="video/mp4" />`);
+			$('#videoTitle').html(data.title);
+			$('.infos').html(`${data.title} - ${data.year}<br /><br />${data.rating} / 10<br /><br />${data.description}`);
+			$('.vjs-poster').remove();
+			$('video').attr('poster', data.image);
+			$('video').append(`<div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(${data.image});"></div>`);
+			$('#search').fadeOut(50);
+			$('#filmsList').fadeOut(50);
+			$('#videoList').fadeOut(50, showVideo);
+		});
+	});
+
 	$('#searchBtn').click(() => {
 		filmListNumber = 0;
 		$('#searchBtn').prop('disabled', true);
