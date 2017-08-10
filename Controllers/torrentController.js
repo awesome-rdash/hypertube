@@ -20,7 +20,12 @@ exports.getTransmissionStats = () => {
 };
 
 exports.freeSpace = (path) => {
-
+	transmission.freeSpace(path, callback = (err, result) => {
+		if (err) {
+			console.log(err);
+		}
+		return result;
+	});
 };
 
 // Controlling queue
