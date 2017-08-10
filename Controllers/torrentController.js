@@ -1,5 +1,5 @@
 Transmission = require('transmission');
-Path = require('path');
+Util = require('util');
 
 transmission = new Transmission({
 	port: '9091',
@@ -79,27 +79,15 @@ exports.stopAllActiveTorrents = () => {
 // Controlling torrents
 
 exports.getTorrentInformations = (torrentId) => {
-	console.log('Getting infos');
-	transmission.get(torrentId, callback = (err, result) => {
-		console.log('Inside callback');
-		console.log(result);
+	transmission.get(parseInt(torrentId, 10), callback = (err, result) => {
 		if (err) {
-			console.log('CALLBACK ERROR');
 			throw err;
 		}
 		if (result.torrents.length > 0) {
-			console.log('CALLBACK OK');
 			console.log(result.torrents[0]);
-			/*
-			console.log('Name = ' + result.torrents[0].name);
-			console.log('Download Rate = ' + result.torrents[0].rateDownload / 1000);
-			console.log('Upload Rate = ' + result.torrents[0].rateUpload / 1000);
-			console.log('Completed = ' + result.torrents[0].percentDone * 100);
-			console.log('ETA = ' + result.torrents[0].eta / 3600);
-			console.log('Status = ' + getStatusType(result.torrents[0].status));
-			*/
+			return result.torrents[0];
 		}
-		console.log('END OF CALLBACK');
+		return false;
 	});
 };
 
@@ -124,6 +112,16 @@ exports.getAllActiveTorrents = () => {
 	});
 };
 
-exports.verify = (torrentIds) => {
-	transmission.verify(ids, (err, arg) => {});
+exports.verify = (torrentId) => {
+	transmission.verify(torrentId, (err, arg) => {
+		console.log(arg);
+		return arg;
+	});
+};
+
+exports.files = (torrentId) => {
+	transmission.files(torrentId, (err, arg) => {
+		console.log(Util.inspect(arg, { showHidden: false, depth: null }));
+		return arg;
+	});
 };
