@@ -1,4 +1,5 @@
 Transmission = require('transmission');
+Path = require('path');
 
 transmission = new Transmission({
 	port: '9091',
@@ -17,7 +18,7 @@ function getTransmissionStats() {
 
 exports.addTorrentUrlToQueue = (url) => {
 	transmission.addUrl(url, {
-		'download-dir': '/goinfre/torrents',
+		'download-dir': Path.join(__dirname, '../Downloads'),
 	}, (err, result) => {
 		if (err) {
 			return console.log(err);

@@ -1,5 +1,7 @@
 node_modules/*
-!node_modules/node-torrent
 .DS_Store
 package-lock.json
 *.mp4
+Downloads/*
+transmission/build/*
+>>>>>>> transmission-sequential
