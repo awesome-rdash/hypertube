@@ -8,17 +8,26 @@ transmission = new Transmission({
 	password: '',
 });
 
-// Informations about deamon
+// Controlling global session
 
-function getTransmissionStats() {
-	transmission.sessionStats();
-}
+exports.getTransmissionStats = () => {
+	transmission.sessionStats(callback = (err, result) => {
+		if (err) {
+			console.log(err);
+		}
+		return result;
+	});
+};
+
+exports.freeSpace = (path) => {
+
+};
 
 // Controlling queue
 
 exports.addTorrentUrlToQueue = (url) => {
 	transmission.addUrl(url, {
-		'download-dir': Path.join(__dirname, '../Downloads'),
+		'download-dir': process.env.DOWNLOAD_DIR,
 	}, (err, result) => {
 		if (err) {
 			return console.log(err);
@@ -64,14 +73,6 @@ exports.stopAllActiveTorrents = () => {
 
 // Controlling torrents
 
-exports.startTorrent = (torrentId) => {
-	transmission.start(torrentId, (err, result) => {});
-};
-
-exports.stopTorrent = (torrentId) => {
-	transmission.stop(torrentId, (err, result) => {});
-};
-
 exports.getTorrentInformations = (torrentId) => {
 	console.log('Getting infos');
 	transmission.get(torrentId, callback = (err, result) => {
@@ -97,6 +98,14 @@ exports.getTorrentInformations = (torrentId) => {
 	});
 };
 
+exports.startTorrent = (torrentId) => {
+	transmission.start(torrentId, (err, result) => {});
+};
+
+exports.stopTorrent = (torrentId) => {
+	transmission.stop(torrentId, (err, result) => {});
+};
+
 exports.getAllActiveTorrents = () => {
 	transmission.active(callback = (err, result) => {
 		if (err) {
@@ -108,4 +117,8 @@ exports.getAllActiveTorrents = () => {
 			}
 		}
 	});
+};
+
+exports.verify = (torrentIds) => {
+	transmission.verify(ids, (err, arg) => {});
 };
