@@ -55,7 +55,7 @@ $(document).ready(() => {
 		state = 1;
 		$('#search').fadeOut(50);
 		$('#filmsList').fadeOut(50);
-		$.get('/movie/')
+		// $.get('/movie/')
 		$('#videoList').fadeOut(50, showVideo);
 	});
 	$('#sendEdit').click(() => {
