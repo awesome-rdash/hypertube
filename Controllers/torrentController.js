@@ -125,3 +125,10 @@ exports.files = (torrentId) => {
 		return arg;
 	});
 };
+
+exports.rename = (torrentId, path, name) => {
+	transmission.rename(torrentId, path, name, (err, arg) => {
+		console.log(Util.inspect(arg, { showHidden: false, depth: null }));
+		return arg;
+	});
+};
