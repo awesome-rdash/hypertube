@@ -1,0 +1,32 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "BEDD156E51D18878B5BB9E1C6D3532E20E03306F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "ab8ea496-f0af-44f0-b7cc-245ca27f44f2++1840" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "ab8ea496-f0af-44f0-b7cc-245ca27f44f2++1840" : 9223372036854775807,
+    "BEDD156E51D18878B5BB9E1C6D3532E20E03306F" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "E4FFC05F-AE52-4D9E-8906-E9619E9D689C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "ab8ea496-f0af-44f0-b7cc-245ca27f44f2++1840" : "hypertube\/transmission\/source-code\/third-party\/libevent\/",
+    "BEDD156E51D18878B5BB9E1C6D3532E20E03306F" : "hypertube\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Transmission",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "transmission\/source-code\/Transmission.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:j-rouzier\/hypertube.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "BEDD156E51D18878B5BB9E1C6D3532E20E03306F"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/svn.transmissionbt.com\/levent",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "ab8ea496-f0af-44f0-b7cc-245ca27f44f2++1840"
+    }
+  ]
+}

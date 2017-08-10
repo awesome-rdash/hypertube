@@ -1,0 +1,9 @@
+dependencies: \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/third-party/libevent/evutil_rand.c \
+  third-party/libevent/include/event2/event-config.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/third-party/libevent/util-internal.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/third-party/libevent/log-internal.h \
+  third-party/libevent/include/event2/util.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/third-party/libevent/ipv6-internal.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/third-party/libevent/evthread-internal.h \
+  third-party/libevent/include/event2/thread.h

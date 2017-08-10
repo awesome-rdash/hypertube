@@ -1,0 +1,35 @@
+dependencies: \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/rpc-server.c \
+  third-party/libevent/include/event2/buffer.h \
+  third-party/libevent/include/event2/event-config.h \
+  third-party/libevent/include/event2/util.h \
+  third-party/libevent/include/event2/event.h \
+  third-party/libevent/include/event2/http.h \
+  third-party/libevent/include/event2/http_struct.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/transmission.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/crypto.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/crypto-utils.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/utils.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/error.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/fdlimit.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/file.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/net.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/list.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/log.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/platform.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/ptrarray.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/rpcimpl.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/variant.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/quark.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/rpc-server.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/session.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/bandwidth.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/bitfield.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/trevent.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/libtransmission/web.h \
+  third-party/curl/include/curl/curl.h \
+  third-party/curl/include/curl/curlver.h \
+  third-party/curl/include/curl/curlbuild.h \
+  third-party/curl/include/curl/curlrules.h \
+  third-party/curl/include/curl/easy.h \
+  third-party/curl/include/curl/multi.h

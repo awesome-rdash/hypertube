@@ -1,0 +1,32 @@
+dependencies: \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/webseed.c \
+  third-party/libevent/include/event2/buffer.h \
+  third-party/libevent/include/event2/event-config.h \
+  third-party/libevent/include/event2/util.h \
+  third-party/libevent/include/event2/event.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/transmission.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/bandwidth.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/ptrarray.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/utils.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/cache.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/inout.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/list.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/peer-mgr.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/net.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/peer-common.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/bitfield.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/history.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/quark.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/torrent.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/completion.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/session.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/variant.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/trevent.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/web.h \
+  third-party/curl/include/curl/curl.h \
+  third-party/curl/include/curl/curlver.h \
+  third-party/curl/include/curl/curlbuild.h \
+  third-party/curl/include/curl/curlrules.h \
+  third-party/curl/include/curl/easy.h \
+  third-party/curl/include/curl/multi.h \
+  /Users/jrouzier/projects/hypertube/transmission/source-code/Transmission-svn/libtransmission/webseed.h
