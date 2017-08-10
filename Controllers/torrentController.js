@@ -50,7 +50,7 @@ exports.addTorrentUrlToQueue = (url) => {
 
 exports.addTorrent = async (req, res, next) => {
 	const mov = await Movie.findOne({ _id: req.params.id });
-	const magnet = mov.magnet.fullhd;
+	const magnet = mov.magnet.lowhd;
 	transmission.addUrl(magnet, {
 		'download-dir': process.env.DOWNLOAD_DIR,
 	}, (err, result) => {
@@ -58,10 +58,33 @@ exports.addTorrent = async (req, res, next) => {
 			console.log(err);
 			res.send('error while adding torrent');
 		}
-		id = result.id;
-		console.log(`Added Torrent. ID: ${id}`);
+		req.id = result.id;
+		console.log(`Added Torrent. ID: ${req.id}`);
+		return next();
 	});
-	return next();
+};
+
+exports.getTorrentInfos = async (req, res, next) => {
+	transmission.get(parseInt(req.id, 10), async (err, result) => {
+		if (err) {
+			res.send('Error while getting torrent infos');
+		}
+		if (result.torrents.length > 0) {
+			let filePath = null;
+			let mlen = 0;
+			await result.torrents[0].files.forEach(async (file) => {
+				if (file.length > mlen) {
+					mlen = file.length;
+					filePath = file.name;
+				}
+			});
+			const mov = await Movie.findOneAndUpdate(
+				{ _id: req.params.id },
+				{ path: filePath },
+				{ new: true });
+		}
+		return next();
+	});
 };
 
 exports.addTorrentFileToQueue = (file) => {
