@@ -50,14 +50,6 @@ $(document).ready(() => {
 			$('#myAccount').fadeOut(50, showVideo);
 		}
 	});
-	$('.movieLaunch').click((e) => {
-		console.log(e);
-		state = 1;
-		$('#search').fadeOut(50);
-		$('#filmsList').fadeOut(50);
-		// $.get('/movie/')
-		$('#videoList').fadeOut(50, showVideo);
-	});
 	$('#sendEdit').click(() => {
 		const imgFileSize = Math.round((($('#picture').prop('src').length - 22) * 3) / 4) / 1000;
 		if (edited === false || imgFileSize < 400) {
