@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 exports.streamVideo = (req, res) => {
-	const fpath = path.join(__dirname, '../MovieFiles/testFile.mp4');
+	const fpath = path.join(process.env.DOWNLOAD_DIR, '/The Matrix (1999)/The.Matrix.1999.720p.BrRip.264.YIFY.mp4');
 	const size = fs.statSync(fpath).size;
 	const range = req.headers.range;
 

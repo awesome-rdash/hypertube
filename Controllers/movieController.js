@@ -62,7 +62,6 @@ exports.getMovieById = async (req, res) => {
 		image: movie.image,
 		coms,
 	};
-	console.log(ret);
 	return res.json(ret);
 };
 
