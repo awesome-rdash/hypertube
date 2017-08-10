@@ -1,7 +1,10 @@
-Transmission = require('transmission');
-Path = require('path');
+const Transmission = require('transmission');
+const Path = require('path');
+const mongoose = require('mongoose');
 
-transmission = new Transmission({
+const Movie = mongoose.model('Movie');
+
+const transmission = new Transmission({
 	port: '9091',
 	host: '127.0.0.1',
 	username: '',
@@ -42,6 +45,22 @@ exports.addTorrentUrlToQueue = (url) => {
 		console.log(`Torrent ID: ${id}`);
 		return id;
 	});
+};
+
+exports.addTorrent = async (req, res, next) => {
+	const mov = await Movie.findOne({ _id: req.params.id });
+	const magnet = mov.magnet.fullhd;
+	transmission.addUrl(magnet, {
+		'download-dir': process.env.DOWNLOAD_DIR,
+	}, (err, result) => {
+		if (err) {
+			console.log(err);
+			res.send('error while adding torrent');
+		}
+		id = result.id;
+		console.log(`Added Torrent. ID: ${id}`);
+	});
+	return next();
 };
 
 exports.addTorrentFileToQueue = (file) => {

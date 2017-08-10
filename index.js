@@ -27,6 +27,8 @@ router.post('/torrent/AddMagnetLink', (req, res) => {
 	res.render('torrent', { title: 'torrent' });
 });
 
+// router.post('/torrent/addTorrent', authController.isLoggedIn, torrentController.addTorrent);
+
 router.post('/torrent/getTorrentInfo', (req, res) => {
 	torrentController.getTorrentInformations(req.body.id);
 	res.render('torrent', { title: 'torrent' });
@@ -72,11 +74,13 @@ router.get('/fetch/archive', catchErrors(fetchController.fetchArchive));
 router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
 router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 
-// REST Api
+// Torrent route
 router.get('/movie/:id',
  authController.isLoggedIn,
+ catchErrors(torrentController.addTorrent),
  catchErrors(movieController.getMovieById)
  /*catchErrors(fetchController.fetchSubs)*/);
+
 router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
 
 // Video Routes
