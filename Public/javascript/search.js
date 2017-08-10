@@ -2,6 +2,23 @@ function createFilmElem(indx, id, src, title, year, rating) {
 	return (`<div class="col-md-2 col-xl-1 col-xs-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p>`);
 }
 
+const getFormattedDate = (date) => {
+	const year = date.getFullYear();
+
+	let month = (1 + date.getMonth()).toString();
+	month = month.length > 1 ? month : `0${month}`;
+
+	let day = date.getDate().toString();
+	day = day.length > 1 ? day : `0${day}`;
+
+	let hours = date.getHours().toString();
+	hours = hours.length > 1 ? hours : `0${hours}`;
+
+	let minutes = date.getMinutes().toString();
+	minutes = minutes.length > 1 ? minutes : `0${minutes}`;
+	return (`${month}/${day}/${year} ${hours}:${minutes}`);
+};
+
 $(document).on('click', '.userOfList', (e) => {
 	const uid = e.currentTarget.id;
 	let comments = '';
@@ -10,7 +27,7 @@ $(document).on('click', '.userOfList', (e) => {
 		$('#userUsername').html(data.username);
 		$('#userPicture').prop('src', data.photo);
 		data.coms.forEach((com, i) => {
-			comments = `${comments}<div class="row" style="background-color: #171717; margin-bottom: 5px;"><div class="col-xs-3"><img style="width: 100%;" src="${com.movie.image}" /></div><div class="col-xs-9"><p style="color: #919191;">${com.movie.title} - <span style="font-size: 12px;"></span></p><p style="color: white; font-size: 10px;">${com.com}</p></div></div></div>`;
+			comments = `${comments}<div class="row" style="background-color: #171717; margin-bottom: 5px;"><div class="col-xs-3"><img style="width: 100%;" src="${com.movie.image}" /></div><div class="col-xs-9"><p style="color: #919191;">${com.movie.title}<br /><span style="font-size: 13px;">${getFormattedDate(new Date(com.posted))}</span></p><p style="color: white; font-size: 10px;">${com.com}</p></div></div></div>`;
 		});
 		$('#userComments').html(comments);
 	});
@@ -176,7 +193,7 @@ $(document).ready(() => {
 				$.get('/users', { username: uName }, (data) => {
 					$('.userOfList').remove();
 					data.forEach((user, i) => {
-						$('#userFoundList').html(`${$('#userFoundList').html()}<a class="userOfList col-xs-12" id="${user._id}" href="#" style="height: 30px; margin-bottom: 2px;text-decoration: none;"><div style="height: 100%; width: 100%; background-color: rgba(0, 0, 0, 1);"><img src="${user.photo}" style="width: 30px; height: 30px; float: left;" /><p style="color: gray; text-align: center;">&nbsp;${user.username}</p></div></a>`);
+						$('#userFoundList').html(`${$('#userFoundList').html()}<a class="userOfList col-xs-12" id="${user._id}" href="#" style="height: 30px; width: 100%; margin-bottom: 2px;text-decoration: none;"><div style="height: 100%; width: 100%; background-color: rgba(0, 0, 0, 1);"><img src="${user.photo}" style="width: 30px; height: 30px; float: left;" /><p style="color: gray; text-align: center;">&nbsp;${user.username}</p></div></a>`);
 					});
 				});
 			} else {

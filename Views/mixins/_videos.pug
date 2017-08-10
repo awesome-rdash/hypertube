@@ -1,10 +1,25 @@
 mixin videos()
 	#videos.row.hidden
+		.col-xs-12
+			.row(style="color: darkgray;")
+				.col-xs-2
+					span.glyphicon.glyphicon-chevron-left(style="font-size: 30px; top: 30%;")
+				.col-xs-2.hidden-lg-up
+				.col-xs-5.text-center
+					h2#videoTitle Salut
+				.col-xs-2.hidden-md-down
+				.col-xs-3.hidden-md-down
+					h2.text-center(style="color: white;") Commentary 
+						span.badge.badge-default 27
+		br
+		br
+		br
+		br
 		.col-lg-9
 			.row
 				.col-lg-12
 					video(id="video", class="video-js", controls, preload="auto", style="min-height: 500px; width: 100%;", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}')
-						source(src="http://localhost:8888/video" type="video/mp4")
+						//- source(src="http://localhost:8888/video" type="video/mp4")
 						//- track(style="margin-top: 500px;" kind="subtitle" src-lang="US" label="English" src="/downloads/tt4295258.vtt" default)
 					br
 				.col-lg-12.hidden-md-down
@@ -15,7 +30,7 @@ mixin videos()
 			div#stoggle
 				p salut
 		.col-lg-3#commentZone
-			h2.text-center(style="color: white;") Commentary 
+			h2.hidden-lg-up.text-center(style="color: white;") Commentary 
 				span.badge.badge-default 27
 			div(style="padding-bottom: 15px;")
 				.row(style="background-color: #171717;")
