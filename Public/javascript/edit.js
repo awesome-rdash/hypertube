@@ -29,6 +29,9 @@ $(document).ready(() => {
 	$('#searchValue').keypress((e) => {
 		search = 1;
 	});
+	$('#returnBtn').click(() => {
+		window.location.replace('/');
+	});
 	$('#myAccount').hide();
 	$('#videos').hide();
 	$('#userInformations').hide();
