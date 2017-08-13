@@ -135,10 +135,7 @@ exports.fetchYts = async (req, res) => {
 				description: movie.synopsis,
 				genres: movie.genres,
 				image: movie.large_cover_image,
-				magnet: {
-					lowhd: getYtsURI(movie),
-					fullhd: getYtsURI(movie),
-				},
+				magnet: getYtsURI(movie),
 			});
 		});
 	});

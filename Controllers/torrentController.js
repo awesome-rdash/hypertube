@@ -50,7 +50,7 @@ exports.addTorrentUrlToQueue = (url) => {
 
 exports.addTorrent = async (req, res, next) => {
 	const mov = await Movie.findOne({ _id: req.params.id });
-	const magnet = mov.magnet.lowhd;
+	const magnet = mov.magnet;
 	transmission.addUrl(magnet, {
 		'download-dir': process.env.DOWNLOAD_DIR,
 	}, (err, result) => {

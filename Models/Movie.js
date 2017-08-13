@@ -41,12 +41,7 @@ const movieSchema = new mongoose.Schema({
 		type: String,
 	},
 	magnet: {
-		lowhd: {
-			type: String,
-		},
-		fullhd: {
-			type: String,
-		},
+		type: String,
 	},
 	path: {
 		type: String,
