@@ -22,7 +22,6 @@ exports.streamVideo = (req, res) => {
 	} else {
 		fpath = part;
 	}
-	console.log('FPATH IN STREAM FUNCT:', fpath);
 	const size = fs.statSync(fpath).size;
 	const range = req.headers.range;
 

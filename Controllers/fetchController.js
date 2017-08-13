@@ -27,6 +27,7 @@ const getArchiveURI = elem => magnet.encode({
 		'http://bt1.archive.org:6969/announce',
 		'http://bt2.archive.org:6969/announce',
 	],
+	ws: 'https://archive.org/download/',
 });
 
 const getImdbId = (elem) => {
@@ -79,13 +80,15 @@ exports.fetchArchive = async (req, res) => {
 			}
 		});
 		const imdbData = await Promise.all(promises);
-		imdbData.forEach((movie, i) => { mergeResults(movie, clean[i]); });
-		const bulk = Movie.collection.initializeUnorderedBulkOp();
-		clean.forEach((movie) => {
-			bulk.find({ slug: movie.slug }).upsert().updateOne({ $set: movie });
-		});
-		await bulk.execute();
-		return res.send('archive updated');
+		if (imdbData) {
+			imdbData.forEach((movie, i) => { mergeResults(movie, clean[i]); });
+			const bulk = Movie.collection.initializeUnorderedBulkOp();
+			clean.forEach((movie) => {
+				bulk.find({ slug: movie.slug }).upsert().updateOne({ $set: movie });
+			});
+			await bulk.execute();
+			return res.send('archive updated');
+		}
 	}
 	return res.send('Error');
 };
@@ -202,16 +205,3 @@ exports.fetchSubs = async (req, res) => {
 	}
 	res.json(req.movie);
 };
-
-
-// for (const sub in subtitles) {
-// 	if ({}.hasOwnProperty.call(subtitles, sub)) {
-// 		const file = fs.createWriteStream(`Public/downloads/${filmId}.vtt`);
-// 		const tempFile = fs.createWriteStream(`${filmId}.srt`);
-// 		const r = http.get(subtitles.en.url, (response) => {
-// 			response.pipe(tempFile);
-// 			fs.createReadStream(`${filmId}.srt`).pipe(srt2vtt()).pipe(file);
-// 			fs.unlinkSync(`${filmId}.srt`);
-// 		});
-// 	}
-// }

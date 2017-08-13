@@ -23,7 +23,7 @@ exports.getTransmissionStats = () => {
 	});
 };
 
-exports.freeSpace = (path) => {
+exports.getFreeSpace = (path) => {
 	transmission.freeSpace(path, callback = (err, result) => {
 		if (err) {
 			console.log(err);
@@ -87,12 +87,12 @@ exports.getTorrentInfos = async (req, res, next) => {
 	});
 };
 
-exports.addTorrentFileToQueue = (file) => {
-	transmission.addUrl(file, callback(err, result));
+exports.addTorrentFileToQueue = (filePath) => {
+	transmission.addFile(filePath, callback(err, result));
 };
 
-exports.removeTorrentFromQueue = (torrentId) => {
-	transmission.remove(id, callback(err, result));
+exports.removeTorrentFromQueue = (torrentId, withFile) => {
+	transmission.remove(id, withFile, callback(err, result));
 };
 
 exports.startAllActiveTorrent = () => {
@@ -155,15 +155,22 @@ exports.getAllActiveTorrents = () => {
 	});
 };
 
-exports.verify = (torrentId) => {
+exports.verifyTorrent = (torrentId) => {
 	transmission.verify(torrentId, (err, arg) => {
 		console.log(arg);
 		return arg;
 	});
 };
 
-exports.files = (torrentId) => {
+exports.getFiles = (torrentId) => {
 	transmission.files(torrentId, (err, arg) => {
+		console.log(Util.inspect(arg, { showHidden: false, depth: null }));
+		return arg;
+	});
+};
+
+exports.renameTorrent = (torrentId, path, name) => {
+	transmission.rename(torrentId, path, name, (err, arg) => {
 		console.log(Util.inspect(arg, { showHidden: false, depth: null }));
 		return arg;
 	});
