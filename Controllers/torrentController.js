@@ -87,6 +87,19 @@ exports.getTorrentInfos = async (req, res, next) => {
 	});
 };
 
+exports.getTorrentStatus = async (req, res) => {
+	const movie = await Movie.findOne({ _id: req.params.id });
+	transmission.get(movie.hash, (err, result) => {
+		if (err) {
+			res.send(false);
+		}
+		if (result.torrents.length > 0) {
+			// console.log(result.torrent[0]);
+			res.json(result.torrents[0]);
+		}
+	});
+};
+
 exports.addTorrentFileToQueue = (filePath) => {
 	transmission.addFile(filePath, callback(err, result));
 };

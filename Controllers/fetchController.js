@@ -75,7 +75,7 @@ exports.fetchArchive = async (req, res) => {
 		movies.forEach((elem) => {
 			const imdbId = getImdbId(elem);
 			if (imdbId) {
-				clean.push({ magnet: getArchiveURI(elem), imdbId });
+				clean.push({ magnet: getArchiveURI(elem), hash: elem.btih, imdbId });
 				promises.push(imdb.getById(imdbId, { apiKey: process.env.OMDB_KEY }));
 			}
 		});
@@ -128,8 +128,10 @@ exports.fetchYts = async (req, res) => {
 	const clean = [];
 	result.forEach((page) => {
 		JSON.parse(page).data.movies.forEach((movie) => {
+			const hash = (movie.torrents && movie.torrents[0] && movie.torrents[0].hash) || undefined;
 			clean.push({
 				title: movie.title,
+				hash,
 				slug: movie.slug,
 				imdbId: movie.imdb_code,
 				year: movie.year,
