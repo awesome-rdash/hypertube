@@ -17,7 +17,8 @@ mixin videos()
 		br
 		.col-lg-9
 			.row
-				.col-lg-12
+				button(onclick="getMovieInfos(this.id);" class="playMovieBtn" id="unknow") Play Movie
+				.col-lg-12.hidden
 					video(id="video", class="video-js", controls, preload="auto", style="min-height: 500px; width: 100%;", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}')
 					br
 				.col-lg-12.hidden-md-down

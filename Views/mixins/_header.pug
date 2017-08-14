@@ -6,14 +6,14 @@ mixin header()
 		if (user)
 			.col-xs-3.hidden-md-up
 			.input-group.offset-md-5.col-md-2.col-xs-6#userFound
-				.row
+				.row(style="width: 100%;")
 					.col-xs-12
-						input.form-control#searchUserValue(name="search" placeholder="Search")
+						input.form-control#searchUserValue(style="width: 100%;" name="search" placeholder="Search")
 					.col-xs-12
 						#userFoundList.row(style="position: absolute; z-index: 1000; width: 100%;")
 			span.col-md-2.center-xs(style="color: grey;font-size: 14px;")
 				.dropdown
-					button.btn.btn-default.dropdown-toggle#dropdownMenu1(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true") #{user.username}
+					button.btn.btn-default.dropdown-toggle#dropdownMenu1(type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="font-size: 12px;") #{user.username}
 					ul.dropdown-menu(aria-labelledby="dropdownMenu1")
 						li.dropdown-header
 							hr

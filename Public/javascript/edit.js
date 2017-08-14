@@ -11,6 +11,7 @@ $(document).ready(() => {
 			$('#filmsList').fadeIn(50);
 		}
 	}
+
 	function showVideo() {
 		$('#videos').fadeIn(50);
 	}
