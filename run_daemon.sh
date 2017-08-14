@@ -6,26 +6,17 @@ BUILD_REMOTE=0
 BUILD_DAEMON=0
 LAUNCH_DAEMON=0
 
-while getopts vrdl option
+while getopts vrdlq option
 do
  case "${option}"
  in
  v) IF_TRANSMISSION_VERBOSE="-f";;
- r) BUILD_REMOTE=1;;
- d) BUILD_DAEMON=1;;
+ r) xcodebuild -project "transmission/source-code/Transmission.xcodeproj" -target transmission-remote -configuration Release build;;
+ d) xcodebuild -project "transmission/source-code/Transmission.xcodeproj" -target transmission-daemon -configuration Release build;;
  l) LAUNCH_DAEMON=1;;
+ q) pkill -15 "transmission-daemon";;
  esac
 done
-
-if [ "$BUILD_DAEMON" -eq "1" ] ;
-then
-  xcodebuild -project "transmission/source-code/Transmission.xcodeproj" -target transmission-daemon -configuration Release build
-fi
-
-if [ "$BUILD_REMOTE" -eq "1" ] ;
-then
-  xcodebuild -project "transmission/source-code/Transmission.xcodeproj" -target transmission-remote -configuration Release build
-fi
 
 if [ "$BUILD_REMOTE" -eq "1" ] || [ "$BUILD_DAEMON" -eq "1" ] ;
 then
