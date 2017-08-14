@@ -2,23 +2,6 @@ function createFilmElem(indx, id, src, title, year, rating) {
 	return (`<div class="col-md-2 col-xl-1 col-xs-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p>`);
 }
 
-const getFormattedDate = (date) => {
-	const year = date.getFullYear();
-
-	let month = (1 + date.getMonth()).toString();
-	month = month.length > 1 ? month : `0${month}`;
-
-	let day = date.getDate().toString();
-	day = day.length > 1 ? day : `0${day}`;
-
-	let hours = date.getHours().toString();
-	hours = hours.length > 1 ? hours : `0${hours}`;
-
-	let minutes = date.getMinutes().toString();
-	minutes = minutes.length > 1 ? minutes : `0${minutes}`;
-	return (`${month}/${day}/${year} ${hours}:${minutes}`);
-};
-
 $(document).on('click', '.userOfList', (e) => {
 	const uid = e.currentTarget.id;
 	let comments = '';
@@ -50,6 +33,15 @@ $(document).on('click', '.userOfList', (e) => {
 		$('#videos').fadeOut(50, showUser);
 	}
 });
+
+function getMovieInfos(id) {
+	$.get(`/movie/${id}/status`, null, (data) => {
+		if (data === true) {
+			$('video').html(`<source src="/video?id=${id}" type="video/mp4" />`);
+			$('video').removeClass('hidden');
+		}
+	});
+}
 
 $(document).ready(() => {
 	$('#rating').slider({
@@ -142,12 +134,12 @@ $(document).ready(() => {
 		state = 1;
 		$.get(`/movie/${filmid}`, null, (data) => {
 			console.log(data);
-			$('video').html(`<source src="/video?id=${filmid}" type="video/mp4" />`);
 			$('#videoTitle').html(data.title);
 			$('.infos').html(`${data.title} - ${data.year}<br /><br />${data.rating} / 10<br /><br />${data.description}`);
+			$('.playMovieBtn').attr('id', filmid);
 			$('.vjs-poster').remove();
-			$('video').attr('poster', data.image);
 			$('video').append(`<div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(${data.image});"></div>`);
+			$('video').attr('poster', data.image);
 			$('#search').fadeOut(50);
 			$('#filmsList').fadeOut(50);
 			$('#videoList').fadeOut(50, showVideo);

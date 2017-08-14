@@ -11,6 +11,7 @@ $(document).ready(() => {
 			$('#filmsList').fadeIn(50);
 		}
 	}
+
 	function showVideo() {
 		$('#videos').fadeIn(50);
 	}
@@ -28,6 +29,9 @@ $(document).ready(() => {
 	});
 	$('#searchValue').keypress((e) => {
 		search = 1;
+	});
+	$('#returnBtn').click(() => {
+		window.location.replace('/');
 	});
 	$('#myAccount').hide();
 	$('#videos').hide();

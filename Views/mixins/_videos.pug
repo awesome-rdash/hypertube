@@ -3,10 +3,10 @@ mixin videos()
 		.col-xs-12
 			.row(style="color: darkgray;")
 				.col-xs-2
-					span.glyphicon.glyphicon-chevron-left(style="font-size: 30px; top: 30%;")
+					span#returnBtn.glyphicon.glyphicon-chevron-left(style="cursor: pointer; cursor: hand;font-size: 30px; top: 30%;")
 				.col-xs-2.hidden-lg-up
 				.col-xs-5.text-center
-					h2#videoTitle Salut
+					h2#videoTitle
 				.col-xs-2.hidden-md-down
 				.col-xs-3.hidden-md-down
 					h2.text-center(style="color: white;") Commentary 
@@ -17,10 +17,9 @@ mixin videos()
 		br
 		.col-lg-9
 			.row
-				.col-lg-12
+				button(onclick="getMovieInfos(this.id);" class="playMovieBtn" id="unknow") Play Movie
+				.col-lg-12.hidden
 					video(id="video", class="video-js", controls, preload="auto", style="min-height: 500px; width: 100%;", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}')
-						//- source(src="http://localhost:8888/video" type="video/mp4")
-						//- track(style="margin-top: 500px;" kind="subtitle" src-lang="US" label="English" src="/downloads/tt4295258.vtt" default)
 					br
 				.col-lg-12.hidden-md-down
 					h2(style="color: white;").text-center Infos
@@ -36,9 +35,12 @@ mixin videos()
 			div(style="padding-bottom: 15px;")
 				.row(style="background-color: #171717;")
 					.col-xs-3
-						img(src="https://yts.ag/assets/images/users/thumb/default_avatar.jpg")
+						if user.photo
+							img(src=`${user.photo}`)
+						else
+							img(src="/assets/empty_user.png")
 					.col-xs-9
-						p(style="color: #919191;") Jeremy Misiti -
+						p(style="color: #919191;") #{user.username}
 						.form-group
 							#commentary
 								input#comment.form-control-warning(type="text" style="width: 90%;")
