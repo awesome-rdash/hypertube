@@ -35,12 +35,17 @@ $(document).on('click', '.userOfList', (e) => {
 });
 
 function getMovieInfos(id) {
-	$.get(`/movie/${id}/status`, null, (data) => {
-		if (data === true) {
-			$('video').html(`<source src="/video?id=${id}" type="video/mp4" />`);
-			$('video').removeClass('hidden');
-		}
-	});
+	function getFilm() {
+		$.get(`/movie/${id}/status`, null, (data) => {
+			if (data === true) {
+				$('video').html(`<source src="/video?id=${id}" type="video/mp4" />`);
+				$('video').removeClass('hidden');
+			} else {
+				setTimeout(getFilm(id), 2000);
+			}
+		});
+	}
+	getFilm();
 }
 
 $(document).ready(() => {
@@ -52,6 +57,28 @@ $(document).ready(() => {
 			$('#filmsList').fadeIn(50);
 		}
 	}
+
+	const slider = $('#rating');
+
+	slider.on('mouseenter', slider, (e) => {
+		$('.noUi-tooltip').show();
+	});
+
+	slider.on('mouseleave', slider, (e) => {
+		$('.noUi-tooltip').hide();
+	});
+
+	noUiSlider.create(slider[0], {
+		start: 3.3,
+		step: 0.1,
+		tooltips: [wNumb({ decimals: 1 })],
+		range: {
+			min: 0,
+			max: 10,
+		},
+	});
+	$('.noUi-tooltip').hide();
+
 	function showVideo() {
 		$('#videos').fadeIn(50);
 	}
@@ -148,7 +175,7 @@ $(document).ready(() => {
 		const string = $('#searchValue').val() || null;
 		const genre = $('#categoryValue').val() || null;
 		const sort = $('#orderByValue').val() || null;
-		const rating = $('#rating').val() || null;
+		const rating = slider[0].noUiSlider.get() || null;
 		const options = { string, genre, sort, rating, index: filmListNumber };
 		$.get('/search', options, (data) => {
 			if (data.length > 0) {
