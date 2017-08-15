@@ -93,10 +93,17 @@ exports.getTorrentStatus = async (req, res) => {
 		if (err) {
 			res.send(false);
 		}
-		if (result.torrents.length > 0) {
-			// console.log(result.torrent[0]);
-			res.json(result.torrents[0]);
+		if (result.torrents && result.torrents.length > 0) {
+			if ((result.torrents[0].eta > 0
+				&& result.torrents[0].eta < movie.length * 60
+				&& result.torrents[0].percentDone > 0.3)
+			|| result.torrents[0].percentDone === 1) {
+				// return res.json(result.torrents[0]);
+				return res.send(true);
+			}
 		}
+		// return res.json(result.torrents[0]);
+		return res.send(false);
 	});
 };
 
