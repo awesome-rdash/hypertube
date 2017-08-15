@@ -64,43 +64,35 @@ exports.addTorrent = async (req, res, next) => {
 	});
 };
 
-exports.getTorrentInfos = async (req, res, next) => {
-	transmission.get(parseInt(req.id, 10), async (err, result) => {
+const getMovieStatus = (infos, movie) => {
+	if (infos && infos.length > 0
+		&& ((infos[0].eta > 0
+			&& infos[0].eta < movie.length * 60
+			&& infos[0].percentDone > 0.05)
+		|| infos[0].percentDone === 1)) {
+		return true;
+	}
+	return false;
+};
+
+exports.getTorrentStatus = async (req, res) => {
+	const movie = await Movie.findOne({ _id: req.params.id });
+	transmission.get(movie.hash, async (err, result) => {
 		if (err) {
-			res.send('Error while getting torrent infos');
+			res.send(false);
 		}
-		if (result.torrents.length > 0) {
+		if (getMovieStatus(result.torrents, movie)) {
 			let filePath = null;
 			let mlen = 0;
-			await result.torrents[0].files.forEach(async (file) => {
+			result.torrents[0].files.forEach((file) => {
 				if (file.length > mlen) {
 					mlen = file.length;
 					filePath = file.name;
 				}
 			});
-			const mov = await Movie.findOneAndUpdate(
-				{ _id: req.params.id },
-				{ path: filePath },
-				{ new: true });
-		}
-		return next();
-	});
-};
-
-exports.getTorrentStatus = async (req, res) => {
-	const movie = await Movie.findOne({ _id: req.params.id });
-	transmission.get(movie.hash, (err, result) => {
-		if (err) {
-			res.send(false);
-		}
-		if (result.torrents && result.torrents.length > 0) {
-			if ((result.torrents[0].eta > 0
-				&& result.torrents[0].eta < movie.length * 60
-				&& result.torrents[0].percentDone > 0.3)
-			|| result.torrents[0].percentDone === 1) {
-				// return res.json(result.torrents[0]);
-				return res.send(true);
-			}
+			movie.path = filePath;
+			await movie.save();
+			return res.send(true);
 		}
 		// return res.json(result.torrents[0]);
 		return res.send(false);
