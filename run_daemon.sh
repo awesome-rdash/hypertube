@@ -2,7 +2,6 @@
 
 TRANSMISSION_NOT_FOUND_ERROR="Impossible de trouver le daemon, utilisez l'option -d pour le compiler."
 IF_TRANSMISSION_VERBOSE=""
-LAUNCH_DAEMON=0
 
 while getopts vrdlq option
 do
