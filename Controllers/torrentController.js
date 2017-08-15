@@ -1,7 +1,11 @@
-Transmission = require('transmission');
-Util = require('util');
+const Transmission = require('transmission');
+const Path = require('path');
+const mongoose = require('mongoose');
+const Util = require('util');
 
-transmission = new Transmission({
+const Movie = mongoose.model('Movie');
+
+const transmission = new Transmission({
 	port: '9091',
 	host: '127.0.0.1',
 	username: '',
@@ -19,7 +23,7 @@ exports.getTransmissionStats = () => {
 	});
 };
 
-exports.getFreeSpace = (path) => {
+exports.freeSpace = (path) => {
 	transmission.freeSpace(path, callback = (err, result) => {
 		if (err) {
 			console.log(err);
@@ -44,12 +48,51 @@ exports.addTorrentUrlToQueue = (url) => {
 	});
 };
 
-exports.addTorrentFileToQueue = (filePath) => {
-	transmission.addFile(filePath, callback(err, result));
+exports.addTorrent = async (req, res, next) => {
+	const mov = await Movie.findOne({ _id: req.params.id });
+	const magnet = mov.magnet.lowhd;
+	transmission.addUrl(magnet, {
+		'download-dir': process.env.DOWNLOAD_DIR,
+	}, (err, result) => {
+		if (err) {
+			console.log(err);
+			res.send('error while adding torrent');
+		}
+		req.id = result.id;
+		console.log(`Added Torrent. ID: ${req.id}`);
+		return next();
+	});
 };
 
-exports.removeTorrentFromQueue = (torrentId, withFile) => {
-	transmission.remove(id, withFile, callback(err, result));
+exports.getTorrentInfos = async (req, res, next) => {
+	transmission.get(parseInt(req.id, 10), async (err, result) => {
+		if (err) {
+			res.send('Error while getting torrent infos');
+		}
+		if (result.torrents.length > 0) {
+			let filePath = null;
+			let mlen = 0;
+			await result.torrents[0].files.forEach(async (file) => {
+				if (file.length > mlen) {
+					mlen = file.length;
+					filePath = file.name;
+				}
+			});
+			const mov = await Movie.findOneAndUpdate(
+				{ _id: req.params.id },
+				{ path: filePath },
+				{ new: true });
+		}
+		return next();
+	});
+};
+
+exports.addTorrentFileToQueue = (file) => {
+	transmission.addUrl(file, callback(err, result));
+};
+
+exports.removeTorrentFromQueue = (torrentId) => {
+	transmission.remove(id, callback(err, result));
 };
 
 exports.startAllActiveTorrent = () => {
@@ -112,22 +155,15 @@ exports.getAllActiveTorrents = () => {
 	});
 };
 
-exports.verifyTorrent = (torrentId) => {
+exports.verify = (torrentId) => {
 	transmission.verify(torrentId, (err, arg) => {
 		console.log(arg);
 		return arg;
 	});
 };
 
-exports.getFiles = (torrentId) => {
+exports.files = (torrentId) => {
 	transmission.files(torrentId, (err, arg) => {
-		console.log(Util.inspect(arg, { showHidden: false, depth: null }));
-		return arg;
-	});
-};
-
-exports.renameTorrent = (torrentId, path, name) => {
-	transmission.rename(torrentId, path, name, (err, arg) => {
 		console.log(Util.inspect(arg, { showHidden: false, depth: null }));
 		return arg;
 	});
