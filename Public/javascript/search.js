@@ -1,5 +1,5 @@
 function createFilmElem(indx, id, src, title, year, rating) {
-	return (`<div class="col-md-2 col-xl-1 col-xs-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p>`);
+	return (`<div class="col-md-2 col-xl-1 col-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p>`);
 }
 
 $(document).on('click', '.userOfList', (e) => {
@@ -10,7 +10,7 @@ $(document).on('click', '.userOfList', (e) => {
 		$('#userUsername').html(data.username);
 		$('#userPicture').prop('src', data.photo);
 		data.coms.forEach((com, i) => {
-			comments = `${comments}<div class="row" style="background-color: #171717; margin-bottom: 5px;"><div class="col-xs-3"><img style="width: 100%;" src="${com.movie.image}" /></div><div class="col-xs-9"><p style="color: #919191;">${com.movie.title}<br /><span style="font-size: 13px;">${getFormattedDate(new Date(com.posted))}</span></p><p style="color: white; font-size: 10px;">${com.com}</p></div></div></div>`;
+			comments = `${comments}<div class="row" style="background-color: #171717; margin-bottom: 5px;"><div class="col-3"><img style="width: 100%;" src="${com.movie.image}" /></div><div class="col-9"><p style="color: #919191;">${com.movie.title}<br /><span style="font-size: 13px;">${getFormattedDate(new Date(com.posted))}</span></p><p style="color: white; font-size: 10px;">${com.com}</p></div></div></div>`;
 		});
 		$('#userComments').html(comments);
 	});
@@ -44,10 +44,6 @@ function getMovieInfos(id) {
 }
 
 $(document).ready(() => {
-	$('#rating').slider({
-		tooltip: 'always',
-	});
-
 	function showList() {
 		$('#search').fadeIn(50);
 		if (search === 0) {
@@ -178,6 +174,8 @@ $(document).ready(() => {
 			return (true);
 		} else if (char >= 48 && char <= 57) {
 			return (true);
+		} else if (char === 32) {
+			return (true);
 		}
 		return (false);
 	};
@@ -202,7 +200,7 @@ $(document).ready(() => {
 				$.get('/users', { username: uName }, (data) => {
 					$('.userOfList').remove();
 					data.forEach((user, i) => {
-						$('#userFoundList').html(`${$('#userFoundList').html()}<a class="userOfList col-xs-12" id="${user._id}" href="#" style="height: 30px; width: 100%; margin-bottom: 2px;text-decoration: none;"><div style="height: 100%; width: 100%; background-color: rgba(0, 0, 0, 1);"><img src="${user.photo}" style="width: 30px; height: 30px; float: left;" /><p style="color: gray; text-align: center;">&nbsp;${user.username}</p></div></a>`);
+						$('#userFoundList').html(`${$('#userFoundList').html()}<a class="userOfList col-12" id="${user._id}" href="#" style="height: 30px; width: 100%; margin-bottom: 2px;text-decoration: none;"><div style="height: 100%; width: 100%; background-color: rgba(0, 0, 0, 1);"><img src="${user.photo}" style="width: 30px; height: 30px; float: left;" /><p style="color: gray; text-align: center;">&nbsp;${user.username}</p></div></a>`);
 					});
 				});
 			} else {
