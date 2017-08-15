@@ -30,9 +30,6 @@ $(document).ready(() => {
 	$('#searchValue').keypress((e) => {
 		search = 1;
 	});
-	$('#returnBtn').click(() => {
-		window.location.replace('/');
-	});
 	$('#myAccount').hide();
 	$('#videos').hide();
 	$('#userInformations').hide();
@@ -53,6 +50,9 @@ $(document).ready(() => {
 		} else {
 			$('#myAccount').fadeOut(50, showVideo);
 		}
+	});
+	$('#returnBtn').click(() => {
+		$('#videos').fadeOut(50, showList);
 	});
 	$('#sendEdit').click(() => {
 		const imgFileSize = Math.round((($('#picture').prop('src').length - 22) * 3) / 4) / 1000;
