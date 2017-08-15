@@ -20,9 +20,9 @@ do
 		cp -v -a "transmission/source-code/build/Release/transmission-daemon" "transmission/build/"
 		;;
   l)
-	  export TRANSMISSION_WEB_HOME="$(pwd)/transmission/build/web/"
-	  echo "Web folder is set to: $TRANSMISSION_WEB_HOME";
 	  cp -v -a "transmission/source-code/web/." "$TRANSMISSION_WEB_HOME"
+	  export TRANSMISSION_WEB_HOME="$(pwd)/transmission/build/web/"
+	  echo "Web folder is set to: $TRANSMISSION_WEB_HOME"
 	  transmission/build/transmission-daemon $IF_TRANSMISSION_VERBOSE || echo $TRANSMISSION_NOT_FOUND_ERROR
 	  ;;
   q)
