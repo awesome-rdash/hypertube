@@ -1165,52 +1165,7 @@ pieceListRemovePiece (tr_swarm * s, tr_piece_index_t piece)
 static void
 pieceListResortPiece (tr_swarm * s, struct weighted_piece * p)
 {
-  int pos;
-  bool isSorted = true;
-
-  if (p == NULL)
-    return;
-
-  /* Exit the function for sequential download */
   return;
-
-  /* is the torrent already sorted? */
-  pos = p - s->pieces;
-  setComparePieceByWeightTorrent (s);
-  if (isSorted && (pos > 0) && (comparePieceByWeight (p-1, p) > 0))
-    isSorted = false;
-  if (isSorted && (pos < s->pieceCount - 1) && (comparePieceByWeight (p, p+1) > 0))
-    isSorted = false;
-
-  if (s->pieceSortState != PIECES_SORTED_BY_WEIGHT)
-    {
-      pieceListSort (s, PIECES_SORTED_BY_WEIGHT);
-      isSorted = true;
-    }
-
-  /* if it's not sorted, move it around */
-  if (!isSorted)
-    {
-      bool exact;
-      const struct weighted_piece tmp = *p;
-
-      tr_removeElementFromArray (s->pieces,
-                                 pos,
-                                 sizeof (struct weighted_piece),
-                                 s->pieceCount--);
-
-      pos = tr_lowerBound (&tmp, s->pieces, s->pieceCount,
-                           sizeof (struct weighted_piece),
-                           comparePieceByWeight, &exact);
-
-      memmove (&s->pieces[pos + 1],
-               &s->pieces[pos],
-               sizeof (struct weighted_piece) * (s->pieceCount++ - pos));
-
-      s->pieces[pos] = tmp;
-    }
-
-  assertWeightedPiecesAreSorted (s);
 }
 
 static void

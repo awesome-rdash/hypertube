@@ -200,27 +200,6 @@ function Inspector(controller) {
             setTextContent(e.availability_lb, str);
 
             //
-            //  sequential_lb
-            //
-
-            if(torrents.length < 1)
-                str = none;
-            else {
-                str = torrents[0].getSequential();
-                for(i=0; t=torrents[i]; ++i) {
-                    if(str != t.getSequential()) {
-                        str = mixed;
-                        break;
-                    }
-                }
-            }
-            if(typeof str == "boolean")
-                setTextContent(e.sequential_lb, str ? "Yes" : "No");
-            else
-                setTextContent(e.sequential_lb, str || none);
-
-            
-            //
             //  downloaded_lb
             //
 
