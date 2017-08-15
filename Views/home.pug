@@ -2,8 +2,9 @@ extends layout
 
 block content
 	+hiddenVar()
-	.container.container-table
-		if user
+	if user
+		.container-fluid
 			+homepage()
-		else
+	else
+		.container-fluid
 			+login()

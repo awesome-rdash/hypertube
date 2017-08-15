@@ -10,7 +10,7 @@ do
 	v)
 		IF_TRANSMISSION_VERBOSE="-f"
 		;;
-	r) 
+	r)
 		xcodebuild -project "transmission/source-code/Transmission.xcodeproj" -target transmission-remote -configuration Release build
 		cp -v -a "transmission/source-code/build/Release/transmission-remote" "transmission/build/"
 		;;

@@ -23,15 +23,16 @@ function nextStep() {
 							$('#b1, #b3, #b2').prop('disabled', false);
 							step += 1;
 							$('.progress-bar').html($('#password').html());
+							$('#i1 input').focus();
 							changeText($('#password'), $('#i1 label'), 2);
 							$('#i1 input').attr('placeholder', '********');
 							$('#i1 input').attr('type', 'password');
 							changeText($('#repassword'), $('#i2 label'), 2);
 							$('#i2 input').attr('type', 'password');
 							$('#i2 input').fadeIn('fast');
-							$('.btn-styler').blur();
 							$('#i1 input').val(stepInput[step][0]);
 							$('#i2 input').val(stepInput[step][1]);
+							$('#i1 input').focus().select();
 						});
 					}
 				});
@@ -44,10 +45,7 @@ function nextStep() {
 				});
 			}
 		});
-	}
-
-  /* Etape mot de passe */
-	if (step === 2) {
+	} else if (step === 2) {
 		$('.progress-bar').animate({
 			width: '60%',
 		}, 0, () => {
@@ -62,15 +60,16 @@ function nextStep() {
 						$('#b1, #b3, #b2').prop('disabled', false);
 						step += 1;
 						$('.progress-bar').html(`${$('#userLastname').html()} / ${$('#userFirstname').html()}`);
-						changeText($('#userLastname'), $('#i1 label'), 2);
-						changeText($('#userFirstname'), $('#i2 label'), 2);
-						$('#i1 input').attr('placeholder', $('#userLastname').html());
-						$('#i2 input').attr('placeholder', $('#userFirstname').html());
+						changeText($('#userFirstname'), $('#i1 label'), 2);
+						changeText($('#userLastname'), $('#i2 label'), 2);
+						$('#i1 input').attr('placeholder', $('#userFirstname').html());
+						$('#i2 input').attr('placeholder', $('#userLastname').html());
 						$('#i1 input').attr('type', 'text');
 						$('#i2 input').attr('type', 'text');
 						$('.btn-styler').blur();
 						$('#i1 input').val(stepInput[step][0]);
 						$('#i2 input').val(stepInput[step][1]);
+						$('#i1 input').focus().select();
 					});
 				} else {
 					$('.progress-bar').animate({
@@ -89,10 +88,7 @@ function nextStep() {
 				});
 			}
 		});
-	}
-
-  /* Etape nom et prenom */
-	if (step === 3) {
+	} else if (step === 3) {
 		$('.progress-bar').animate({
 			width: '86%',
 		}, 0, () => {
@@ -109,7 +105,7 @@ function nextStep() {
 						$('.progress-bar').animate({
 							width: '100%',
 						}, 0, () => {
-              // TODO Faire le compte utilisateur recuperer depuis le back
+							getUser(data);
 						});
 					} else {
 						$('.progress-bar').animate({
@@ -120,7 +116,7 @@ function nextStep() {
 								nextStep();
 							} else {
 								data.errors.forEach((error) => {
-									throwError(error.msg, 1);
+									throwError(error.msg, 3);
 								});
 							}
 						});
@@ -130,14 +126,16 @@ function nextStep() {
 				$('.progress-bar').animate({
 					width: '75%',
 				}, 0, () => {
-					throwError('needToBeFilled', 2);
+					if (!$('#i1 input').val()) {
+						throwError('needToBeFilled', 1);
+					}
+					if (!$('#i2 input').val()) {
+						throwError('needToBeFilled', 4);
+					}
 				});
 			}
 		});
-	}
-
-  /* Etape login */
-	if (step === 5) {
+	} else if (step === 5) {
 		$('.form-group').addClass('has-success');
 		$('#i1 small').html($('#connect').html());
 		$('#b2').show();
@@ -147,6 +145,7 @@ function nextStep() {
 			width: '75%',
 		}, 0, () => {
 			$('#b1, #b3, #b2').prop('disabled', false);
+			$('#i1 input').prop('disabled', true);
 			$('#i1 small').html();
 			$('.progress-bar').html($('#mail').html());
 			$('#i1 input').val(stepInput[1][0]);
@@ -154,31 +153,28 @@ function nextStep() {
 			step += 1;
 			$('.progress-bar').html($('#password').html());
 			changeText($('#password'), $('#i2 label'), 2);
+			changeText($('#login'), $('h3'));
 			$('#i2 input').fadeIn('fast');
 			$('#i2 input').attr('placeholder', '********');
 			$('#i2 input').attr('type', 'password');
-			$('.btn-styler').blur();
+			$('#i2 input').focus().select();
 		});
-	}
-
-  /* Etape Validation de login */
-	if (step === 6) {
+	} else if (step === 6) {
 		$('.progress-bar').animate({
 			width: '85%',
 		}, 0, () => {
 			$.post('/login/local', { email: $('#i1 input').val(), password: $('#i2 input').val() }, (data) => {
-				console.log(data);
 				if (data) {
 					$('.progress-bar').animate({
 						width: '100%',
 					}, 0, () => {
-            // TODO Faire l'objet user
+						getUser(data);
 					});
 				} else {
 					$('.progress-bar').animate({
 						width: '75%',
 					}, 0, () => {
-            // TODO Gestion d'erreur avec ben
+						throwError('wPassWd', 4);
 					});
 				}
 			});

@@ -1,7 +1,129 @@
 @import url('http://getbootstrap.com/dist/css/bootstrap.css');
 
 body {
-	background-image: url('/assets/background.jpg');
+	background: url('/assets/background.png') no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+  	overflow-x: hidden;
+	background-size: cover;
+}
+
+#searchValue {
+	color: white;
+	background-color: rgba(0, 0, 0, 0.3);
+	border: 0;
+}
+
+output {
+  position: absolute;
+  background-image: linear-gradient(top, #444444, #999999);
+  width: 40px;
+  height: 30px;
+  text-align: center;
+  color: white;
+  border-radius: 10px;
+  display: inline-block;
+  font: bold 15px/30px Georgia;
+  bottom: 175%;
+  left: 0;
+  margin-left: -1%;
+}
+output:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 10px solid #999999;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  margin-top: -1px;
+}
+
+#close, #closeUserInfo {
+	position: absolute;
+	top: 2%;
+	left: 90%;
+}
+
+.filmMiniature {
+	overflow: hidden;
+	position: absolute;
+	width: 0%;
+	height: 70%;
+	top: 30%;
+	font-size: 9px;
+	background-color: rgba(0, 0, 0, 0.7);
+}
+
+#ratings .slider-selection {
+	background: gray;
+}
+
+#videoList {
+	color: red;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.valign {
+	margin-top: 7%;
+}
+
+.dropdown-menu {
+	min-width: 100px;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dropdown-menu > li > a {
+	text-align: center;
+	color: white;
+}
+
+@media (max-width: 768px) {
+	.center-xs {
+		text-align: center;
+	}
+	.dropdown-menu {
+		margin-left: 40%;
+	}
+}
+
+@media (max-width: 400px) {
+	.dropdown-menu {
+		margin-left: 30%;
+	}
+}
+
+#dropdownMenu1 {
+	background-color: rgba(0, 0, 0, 0);
+	border-color: rgba(0, 0, 0, 0);
+	color: grey;
+	-webkit-box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+}
+#dropdownMenu1:focus {
+	color: white;
+	border-color: rgba(0, 0, 0, 0);
+	-webkit-box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
+     outline: 0px auto -webkit-focus-ring-color;
+     outline-offset: -0px;
+}
+
+hr {
+    display: block;
+    border-top: 3px solid rgba(255, 255, 255, 1);
+    margin: 0em 0;
+    padding: 0;
 }
 
 .btn-styler {
@@ -10,6 +132,12 @@ body {
 	border-color: white;
 	color: black;
 	width: 100%;
+}
+
+.btn-style {
+	background-color: white;
+	border-color: white;
+	color: black;
 }
 
 html, body, .container-table {

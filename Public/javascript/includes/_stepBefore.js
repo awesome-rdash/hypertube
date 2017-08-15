@@ -8,7 +8,7 @@ function stepBefore() {
 			width: '25%',
 		}, 250, () => {
 			step -= 1;
-			$('#b1, #b3, #b2').prop('disabled', false);
+			$('#b1, #b3, #b2, #i1 input').prop('disabled', false);
 			$('#i1 small').html();
 			$('.progress-bar').html($('#mail').html());
 			changeText($('#mail'), $('#i1 label'), 2);
@@ -19,6 +19,8 @@ function stepBefore() {
 			$('.btn-styler').blur();
 			$('#i1 input').val(stepInput[step][0]);
 			$('#i2 input').val(stepInput[step][1]);
+			changeText($('#signup'), $('h3'));
+			$('#i1 input').focus().select();
 		});
 	}
 	if (step === 3) {
@@ -27,7 +29,7 @@ function stepBefore() {
 		$('#b2').show();
 		$('.progress-bar').animate({ width: '40%' }, 250, () => {
 			step -= 1;
-			$('#b1, #b3, #b2').prop('disabled', false);
+			$('#b1, #b3, #b2, #i1 input').prop('disabled', false);
 			$('.progress-bar').html($('#password').html());
 			changeText($('#password'), $('#i1 label'), 2);
 			$('#i1 input').attr('placeholder', '********');
@@ -39,6 +41,8 @@ function stepBefore() {
 			$('.btn-styler').blur();
 			$('#i1 input').val(stepInput[step][0]);
 			$('#i2 input').val(stepInput[step][1]);
+			changeText($('#signup'), $('h3'));
+			$('#i1 input').focus().select();
 		});
 	}
 	if (step === 6) {

@@ -17,6 +17,13 @@ exports.loginNoRedirect = (req, res, next) => {
 	})(req, res, next);
 };
 
+exports.isLoggedIn = (req, res, next) => {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	return res.send('errNotLogged');
+};
+
 exports.loginGoogle = passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.profile.emails.read'] });
 exports.loginGoogleCb = passport.authenticate('google', { failureRedirect: '/', successRedirect: '/' });
 
@@ -29,6 +36,6 @@ exports.hasAccount = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-	req.logout();
+	req.session.destroy();
 	res.redirect('/');
 };
