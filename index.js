@@ -68,9 +68,8 @@ router.get('/search', authController.isLoggedIn, catchErrors(movieController.sea
 // Torrent routes
 router.get('/movie/:id',
  authController.isLoggedIn,
- catchErrors(torrentController.addTorrent),
- catchErrors(movieController.getMovieById)
- /*catchErrors(fetchController.fetchSubs)*/);
+ catchErrors(movieController.downloadMovieIfNotExists),
+ catchErrors(movieController.getMovieById));
 
 router.get('/movie/:id/status', authController.isLoggedIn, torrentController.getTorrentStatus);
 

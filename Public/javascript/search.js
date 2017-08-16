@@ -39,11 +39,10 @@ function getMovieInfos(id) {
 		$.get(`/movie/${id}/status`, null, (data) => {
 			console.log(data);
 			if (data === true) {
-				$('video').show();
 				$('video')[0].load();
 				$('video')[0].play();
 			} else {
-				setTimeout(getFilm(id), 5000);
+				getFilm(id);
 			}
 		});
 	}

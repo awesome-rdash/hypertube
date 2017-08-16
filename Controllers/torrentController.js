@@ -2,6 +2,7 @@ const Transmission = require('transmission');
 const Path = require('path');
 const mongoose = require('mongoose');
 const Util = require('util');
+const exec = require('child_process').execSync;
 
 const Movie = mongoose.model('Movie');
 
@@ -34,19 +35,31 @@ exports.getFreeSpace = (path) => {
 
 // Controlling queue
 
-exports.addTorrentUrlToQueue = (url) => {
+exports.addTorrentUrlToQueue = url => new Promise((resolve, reject) => {
 	transmission.addUrl(url, {
 		'download-dir': process.env.DOWNLOAD_DIR,
 	}, (err, result) => {
 		if (err) {
-			return console.log(err);
+			reject(err);
 		}
-		id = result.id;
-		console.log('Just added a new torrent.');
-		console.log(`Torrent ID: ${id}`);
-		return id;
+		console.log(`Added Torrent with ID: ${result.id}`);
+		resolve(result.id);
 	});
-};
+});
+
+// exports.addTorrentUrlToQueue = (url) => {
+// 	transmission.addUrl(url, {
+// 		'download-dir': process.env.DOWNLOAD_DIR,
+// 	}, (err, result) => {
+// 		if (err) {
+// 			return err;
+// 		}
+// 		id = result.id;
+// 		console.log('Just added a new torrent.');
+// 		console.log(`Torrent ID: ${id}`);
+// 		return id;
+// 	});
+// };
 
 exports.addTorrent = async (req, res, next) => {
 	const mov = await Movie.findOne({ _id: req.params.id });
@@ -64,11 +77,29 @@ exports.addTorrent = async (req, res, next) => {
 	});
 };
 
+const isPlayable = (movieBytes) => {
+	if (!movieBytes) {
+		return false;
+	}
+	let index = 0;
+	for (let i = 2; i < 10; i += 1) {
+		if (movieBytes[i] === '0') {
+			index += 1;
+			if (index === 2) {
+				return false;
+			}
+		}
+	}
+	return true;
+};
+
 const getMovieStatus = (infos, movie) => {
+	const movieBytes = exec(`./transmission-remote -t ${movie.hash} -ic`,
+		{ cwd: './transmission/source-code/Transmission-svn/build/Debug/' }).toString('utf8');
 	if (infos && infos.length > 0
 		&& ((infos[0].eta > 0
 			&& infos[0].eta < movie.length * 60
-			&& infos[0].percentDone > 0.05)
+			&& isPlayable(movieBytes))
 		|| infos[0].percentDone === 1)) {
 		return true;
 	}
