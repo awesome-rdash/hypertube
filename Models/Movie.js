@@ -46,8 +46,14 @@ const movieSchema = new mongoose.Schema({
 	magnet: {
 		type: String,
 	},
-	path: {
-		type: String,
+	file: {
+		path: {
+			type: String,
+		},
+		expires: {
+			type: Date,
+			default: Date.now,
+		},
 	},
 });
 

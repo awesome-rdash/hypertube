@@ -79,7 +79,7 @@ exports.searchMovie = async (req, res) => {
 
 exports.downloadMovieIfNotExists = async (req, res, next) => {
 	const movie = await Movie.findOne({ _id: req.params.id });
-	if (movie.path === null || movie.path === undefined) {
+	if (!movie.file || !movie.file.path) {
 		torrentController.addTorrentUrlToQueue(movie.magnet);
 		fetchController.fetchSubs(movie);
 	}

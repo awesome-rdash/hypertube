@@ -155,55 +155,54 @@ exports.fetchYts = async (req, res) => {
 	return res.send('Error');
 };
 
-// exports.fetchSubs = async (movie) => {
-// 	const OpenSubtitles = new OS({
-// 		useragent: 'OSTestUserAgentTemp',
-// 		ssl: true,
-// 	});
-// 	OpenSubtitles.search({
-// 		sublanguageid: 'all',
-// 		extensions: ['srt'],
-// 		imdbid: movie.imdbId,
-// 	}).then((subtitles) => {
-// 		const file = fs.createWriteStream(`Public/downloads/${movie.slug}.vtt`);
-// 		const tempFile = fs.createWriteStream(`Public/downloads/${movie.slug}.srt`);
-// 		const r = http.get(subtitles.en.url, (response) => {
-// 			response.pipe(tempFile);
-// 			fs.createReadStream(`Public/downloads/${movie.slug}.srt`).pipe(srt2vtt()).pipe(file);
-// 			fs.unlinkSync(`Public/downloads/${movie.slug}.srt`);
-// 		});
-// 	}).catch((err) => { console.log('api error lol'); });
-// };
-
 exports.fetchSubs = async (movie) => {
 	const OpenSubtitles = new OS({
 		useragent: 'OSTestUserAgentTemp',
 		ssl: true,
 	});
-	const subtitles = await OpenSubtitles.search({
+	OpenSubtitles.search({
 		sublanguageid: 'all',
 		extensions: ['srt'],
 		imdbid: movie.imdbId,
-	});
-	console.log(subtitles);
-	if (subtitles) {
-		for (const sub in subtitles) {
-			if ({}.hasOwnProperty.call(subtitles, sub)) {
-				if (sub === 'en' || sub === 'es' || sub === 'fr' || sub === 'ru') {
-					const file = fs.createWriteStream(`Public/downloads/${movie.slug}_${sub}.vtt`);
-					const tempFile = fs.createWriteStream(`Public/downloads/${movie.slug}_${sub}.srt`);
-					tempFile.on('open', (fd) => {
-						const r = http.get(subtitles[sub].url, (response) => {
-							response.pipe(tempFile);
-							fs.createReadStream(`${movie.slug}_${sub}.srt`).pipe(srt2vtt()).pipe(file);
-							fs.unlinkSync(`Public/downloads/${movie.slug}_${sub}.srt`);
-						});
-					});
-				}
-			}
-		}
-	}
+	}).then((subtitles) => {
+		const file = fs.createWriteStream(`Public/downloads/${movie.slug}.vtt`);
+		const tempFile = fs.createWriteStream(`Public/downloads/${movie.slug}.srt`);
+		const r = http.get(subtitles.en.url, (response) => {
+			response.pipe(tempFile);
+			fs.createReadStream(`Public/downloads/${movie.slug}.srt`).pipe(srt2vtt()).pipe(file);
+			fs.unlinkSync(`Public/downloads/${movie.slug}.srt`);
+		});
+	}).catch((err) => { console.log('api error lol'); });
 };
+
+// exports.fetchSubs = async (movie) => {
+// 	const OpenSubtitles = new OS({
+// 		useragent: 'OSTestUserAgentTemp',
+// 		ssl: true,
+// 	});
+// 	const subtitles = await OpenSubtitles.search({
+// 		sublanguageid: 'all',
+// 		extensions: ['srt'],
+// 		imdbid: movie.imdbId,
+// 	});
+// 	if (subtitles) {
+// 		for (const sub in subtitles) {
+// 			if ({}.hasOwnProperty.call(subtitles, sub)) {
+// 				if (sub === 'en' || sub === 'es' || sub === 'fr' || sub === 'ru') {
+// 					const file = fs.createWriteStream(`Public/downloads/${movie.slug}_${sub}.vtt`);
+// 					const tempFile = fs.createWriteStream(`Public/downloads/${movie.slug}_${sub}.srt`);
+// 					tempFile.on('open', (fd) => {
+// 						const r = http.get(subtitles[sub].url, (response) => {
+// 							response.pipe(tempFile);
+// 							fs.createReadStream(`${movie.slug}_${sub}.srt`).pipe(srt2vtt()).pipe(file);
+// 							fs.unlinkSync(`Public/downloads/${movie.slug}_${sub}.srt`);
+// 						});
+// 					});
+// 				}
+// 			}
+// 		}
+// 	}
+// };
 
 
 // exports.fetchSubs = async (req, res) => {

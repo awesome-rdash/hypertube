@@ -121,12 +121,23 @@ exports.getTorrentStatus = async (req, res) => {
 					filePath = file.name;
 				}
 			});
-			movie.path = filePath;
+			movie.file = {
+				path: filePath,
+				expires: Date.now(),
+			};
 			await movie.save();
 			return res.send(true);
 		}
 		// return res.json(result.torrents[0]);
 		return res.send(false);
+	});
+};
+
+exports.deleteTorrent = (hash) => {
+	transmission.remove(hash, true, (err, arg) => {
+		if (err) {
+			console.log(err);
+		}
 	});
 };
 

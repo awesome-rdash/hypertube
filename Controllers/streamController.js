@@ -6,10 +6,10 @@ const Movie = mongoose.model('Movie');
 
 exports.getVideoPath = async (req, res, next) => {
 	const mov = await Movie.findOne({ _id: req.query.id });
-	if (!mov || !mov.path) {
+	if (!mov || !mov.file.path) {
 		return res.send('No Movie or no Path yet');
 	}
-	req.fpath = mov.path;
+	req.fpath = mov.file.path;
 	return next();
 };
 
