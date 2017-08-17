@@ -21,4 +21,9 @@ const comSchema = new mongoose.Schema({
 	},
 });
 
+comSchema.pre('save', function populateAuthor(next) {
+	this.populate('author');
+	next();
+});
+
 module.exports = mongoose.model('Comment', comSchema);
