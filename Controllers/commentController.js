@@ -16,7 +16,7 @@ exports.writeCom = async (req, res) => {
 		movie: req.body.movieId,
 	});
 	await com.save();
-	const user = await User.findOne({ _id: req.body._id });
+	const user = await User.findOne({ _id: req.user._id });
 	if (com) {
 		return res.send({ param: 'success', com, user });
 	}
