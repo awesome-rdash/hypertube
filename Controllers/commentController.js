@@ -14,10 +14,11 @@ exports.writeCom = async (req, res) => {
 		com: req.body.com,
 		author: req.user._id,
 		movie: req.body.movieId,
-	}).populate('author');
+	});
 	await com.save();
+	const user = await User.findOne({ _id: req.user._id });
 	if (com) {
-		return res.send({ param: 'success', com });
+		return res.send({ param: 'success', com, user });
 	}
 	return res.send(false);
 };
