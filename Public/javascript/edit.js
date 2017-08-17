@@ -52,6 +52,9 @@ $(document).ready(() => {
 		}
 	});
 	$('#returnBtn').click(() => {
+		isFilmLoading = false;
+		$('video source').remove();
+		$('video')[0].load();
 		$('#videos').fadeOut(50, showList);
 	});
 	$('#sendEdit').click(() => {
