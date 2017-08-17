@@ -39,8 +39,8 @@ function getMovieInfos(id) {
 		$.get(`/movie/${id}/status`, null, (data) => {
 			console.log(data);
 			if (data === true) {
+				$('video').html(`<source src="/video?id=${id}" type="video/mp4" />`);
 				$('video')[0].load();
-				$('video')[0].play();
 			} else {
 				getFilm(id);
 			}
@@ -153,7 +153,7 @@ $(document).ready(() => {
 		}
 	});
 
-	$('.movieLaunch').click((e) => {
+	$('#vListDiv').on('click', '.movieLaunch', (e) => {
 		const filmid = e.currentTarget.getAttribute('filmid');
 		state = 1;
 		$.get(`/movie/${filmid}`, null, (data) => {
