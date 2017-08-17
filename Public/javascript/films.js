@@ -27,7 +27,6 @@ $(document).ready(() => {
 					photo = 'assets/empty_user.png';
 				}
 				if (data.param === 'success') {
-					console.log(data);
 					$('#commentZone').last().append(`<div style="padding-bottom: 15px;"><div class="row" style="background-color: #171717;"><div class="col-xs-3"><img src="${photo}" style="width: 100%; height: 100%;" /></div><div class="col-xs-9"><p style="color: #919191;">${data.username}<span style="font-size: 12px;">${getFormattedDate(new Date(com.posted))}</span></p><p style="color: white; font-size: 10px;">${data.msg}</p></div></div></div>`);
 				} else {
 					throwError(data.errors.msg, 5);

@@ -1,5 +1,5 @@
 mixin videos()
-	#videos.row.hidden
+	#videos.row
 		.col-12
 			.row(style="color: darkgray;")
 				.col-2
@@ -17,10 +17,8 @@ mixin videos()
 		br
 		.col-lg-9
 			.row
-				button(onclick="getMovieInfos(this.id);" class="playMovieBtn" id="unknow") Play Movie
 				.col-lg-12
 					video(id="video", class="video-js", controls, preload="none", style="min-height: 500px; width: 100%;", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}')
-						//- track(kind="subtitles" srclang="en-US" src="/downloads/the-godfather-part-ii-1974_en.srt" label="English")
 					br
 				.col-lg-12.hidden-md-down
 					h2(style="color: white;").text-center Infos

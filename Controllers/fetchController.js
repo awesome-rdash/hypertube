@@ -185,6 +185,7 @@ exports.fetchSubs = async (movie) => {
 // 		extensions: ['srt'],
 // 		imdbid: movie.imdbId,
 // 	});
+// 	console.log(subtitles);
 // 	if (subtitles) {
 // 		for (const sub in subtitles) {
 // 			if ({}.hasOwnProperty.call(subtitles, sub)) {

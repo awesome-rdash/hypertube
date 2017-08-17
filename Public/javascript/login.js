@@ -1,7 +1,11 @@
 let step = 0;
 let stepInput = null;
 let search = null;
+let searchMode = null;
+let isFilmLoading = null;
 let state = null;
+isFilmLoading = false;
+searchMode = false;
 state = 0;
 search = 0;
 stepInput = [['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', ''], ['', '']];
