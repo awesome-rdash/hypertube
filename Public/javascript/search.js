@@ -12,7 +12,7 @@ const getCommentOfFilm = ((id) => {
 				photo = 'assets/empty_user.png';
 			}
 			$('#comment').val('');
-			$('#commentZone').last().prepend(`<div style="padding-bottom: 15px;"><div class="row" style="background-color: #171717;"><div class="col-xs-3"><img src="${photo}" style="width: 100%; height: 100%;" /></div><div class="col-xs-9"><p style="color: #919191;">${comment.author.username}<span style="font-size: 12px;"> - ${getFormattedDate(new Date(comment.posted))}</span></p><p style="color: white; font-size: 10px;">${comment.com}</p></div></div></div>`);
+			$('#commentZone').last().prepend(`<div class="oneOfTheComment" style="padding-bottom: 15px;"><div class="row" style="background-color: #171717;"><div class="col-xs-3"><img src="${photo}" style="width: 100%; height: 100%;" /></div><div class="col-xs-9"><p style="color: #919191;">${comment.author.username}<span style="font-size: 12px;"> - ${getFormattedDate(new Date(comment.posted))}</span></p><p style="color: white; font-size: 10px;">${comment.com}</p></div></div></div>`);
 		});
 		$('#commentZone').prepend($('#commentaryEntered'));
 	});
@@ -22,7 +22,6 @@ $(document).on('click', '.userOfList', (e) => {
 	const uid = e.currentTarget.id;
 	let comments = '';
 	$.get(`/user/${uid}`, null, (data) => {
-		console.log(data.username);
 		$('#userUsername').html(data.username);
 		$('#userPicture').prop('src', data.photo);
 		data.coms.forEach((com, i) => {
@@ -53,7 +52,6 @@ $(document).on('click', '.userOfList', (e) => {
 function getMovieInfos(id) {
 	function getFilm() {
 		$.get(`/movie/${id}/status`, null, (data) => {
-			console.log(data);
 			if (data === true) {
 				$('video')[0].load();
 				$('video')[0].play();
@@ -188,7 +186,6 @@ $(document).ready(() => {
 		const filmid = e.currentTarget.getAttribute('filmid');
 		state = 1;
 		$.get(`/movie/${filmid}`, null, (data) => {
-			console.log(data);
 			$('#videoTitle').html(data.title);
 			$('.infos').html(`${data.title} - ${data.year}<br /><br />${data.rating} / 10<br /><br />${data.description}`);
 			$('#video').attr('fid', filmid);
@@ -243,7 +240,6 @@ $(document).ready(() => {
 
 	$('.userOfList').click((e) => {
 		const userId = e.id;
-		console.log(userId);
 	});
 
 	$('#searchUserValue').focusout(() => {

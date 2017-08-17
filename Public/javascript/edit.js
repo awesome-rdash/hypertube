@@ -55,6 +55,7 @@ $(document).ready(() => {
 		isFilmLoading = false;
 		$('video source').remove();
 		$('video')[0].load();
+		$('.oneOfTheComment').remove();
 		$('#videos').fadeOut(50, showList);
 	});
 	$('#sendEdit').click(() => {
@@ -62,7 +63,6 @@ $(document).ready(() => {
 		if (edited === false || imgFileSize < 400) {
 			stopError();
 			$.post('/update/user', { email: $('#email').val(), username: $('#usrname').val(), photo: edited ? $('#picture').prop('src') : undefined }, (data) => {
-				console.log(data);
 				edited = false;
 				if (data.errors) {
 					data.errors.forEach((error) => {
