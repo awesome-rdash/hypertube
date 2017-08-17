@@ -14,9 +14,8 @@ exports.writeCom = async (req, res) => {
 		com: req.body.com,
 		author: req.user._id,
 		movie: req.body.movieId,
-	});
+	}).populate('author');
 	await com.save();
-	await com.populate('author');
 	if (com) {
 		return res.send({ param: 'success', com });
 	}

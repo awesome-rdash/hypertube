@@ -4,10 +4,16 @@ function createFilmElem(indx, id, src, title, year, rating) {
 
 const getCommentOfFilm = ((id) => {
 	$.get(`/comments/${id}`, null, (data) => {
-		// data.forEach((comment) => {
-		// 	$('#commentZone').last().append(`<div style="padding-bottom: 15px;"><div class="row" style="background-color: #171717;"><div class="col-xs-3"><img src="${photo}" style="width: 100%; height: 100%;" /></div><div class="col-xs-9"><p style="color: #919191;">${comment.user.username}<span style="font-size: 12px;"> - ${getFormattedDate(new Date(comment.com.posted))}</span></p><p style="color: white; font-size: 10px;">${comment.com.com}</p></div></div></div>`);
-		// });
-		console.log(data);
+		data.forEach((comment) => {
+			let photo;
+			if (comment.author.photo) {
+				photo = comment.author.photo;
+			} else {
+				photo = 'assets/empty_user.png';
+			}
+			$('#comment').val('');
+			$('#commentZone').last().append(`<div style="padding-bottom: 15px;"><div class="row" style="background-color: #171717;"><div class="col-xs-3"><img src="${photo}" style="width: 100%; height: 100%;" /></div><div class="col-xs-9"><p style="color: #919191;">${comment.author.username}<span style="font-size: 12px;"> - ${getFormattedDate(new Date(comment.posted))}</span></p><p style="color: white; font-size: 10px;">${comment.com}</p></div></div></div>`);
+		});
 	});
 });
 
