@@ -10,14 +10,16 @@ const bodyParser = require('body-parser');
 
 // Require Needed Files
 const helpers = require('./Handlers/helpers');
+const routines = require('./Handlers/routines');
 const fetchController = require('./Controllers/fetchController');
 const errorHandlers = require('./Handlers/errorHandlers');
 const routes = require('./index.js');
 require('./handlers/passport');
 
-// setInterval(fetchController.fetchYts, 1000000);
-
 const app = express();
+
+// setInterval(fetchController.fetchYts, 1000000);
+setInterval(routines.cleanMovies, 86400000);
 
 // View Engine
 app.set('views', path.join(__dirname, 'Views'));
@@ -46,7 +48,6 @@ app.use(passport.session());
 // Passing variables to templates + all requests
 app.use((req, res, next) => {
 	res.locals.h = helpers;
-	// res.locals.user = req.session.user || null;
 	next();
 });
 
