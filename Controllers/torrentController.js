@@ -1,40 +1,141 @@
-Transmission = require('transmission');
+const Transmission = require('transmission');
+const Path = require('path');
+const mongoose = require('mongoose');
+const Util = require('util');
+const exec = require('child_process').execSync;
 
-transmission = new Transmission({
+const Movie = mongoose.model('Movie');
+
+const transmission = new Transmission({
 	port: '9091',
 	host: '127.0.0.1',
 	username: '',
 	password: '',
 });
 
-// Informations about deamon
+// Controlling global session
 
-function getTransmissionStats() {
-	transmission.sessionStats();
-}
-
-// Controlling queue
-
-exports.addTorrentUrlToQueue = (url) => {
-	transmission.addUrl(url, {
-		'download-dir': '/goinfre/torrents',
-	}, (err, result) => {
+exports.getTransmissionStats = () => {
+	transmission.sessionStats(callback = (err, result) => {
 		if (err) {
-			return console.log(err);
+			console.log(err);
 		}
-		id = result.id;
-		console.log('Just added a new torrent.');
-		console.log(`Torrent ID: ${id}`);
-		return id;
+		return result;
 	});
 };
 
-exports.addTorrentFileToQueue = (file) => {
-	transmission.addUrl(file, callback(err, result));
+exports.getFreeSpace = (path) => {
+	transmission.freeSpace(path, callback = (err, result) => {
+		if (err) {
+			console.log(err);
+		}
+		return result;
+	});
 };
 
-exports.removeTorrentFromQueue = (torrentId) => {
-	transmission.remove(id, callback(err, result));
+// Controlling queue
+
+exports.addTorrentUrlToQueue = url => new Promise((resolve, reject) => {
+	transmission.addUrl(url, {
+		'download-dir': process.env.DOWNLOAD_DIR,
+	}, (err, result) => {
+		if (err) {
+			reject(err);
+		}
+		console.log(`Added Torrent with ID: ${result.id}`);
+		resolve(result.id);
+	});
+});
+
+// exports.addTorrentUrlToQueue = (url) => {
+// 	transmission.addUrl(url, {
+// 		'download-dir': process.env.DOWNLOAD_DIR,
+// 	}, (err, result) => {
+// 		if (err) {
+// 			return err;
+// 		}
+// 		id = result.id;
+// 		console.log('Just added a new torrent.');
+// 		console.log(`Torrent ID: ${id}`);
+// 		return id;
+// 	});
+// };
+
+exports.addTorrent = async (req, res, next) => {
+	const mov = await Movie.findOne({ _id: req.params.id });
+	const magnet = mov.magnet;
+	transmission.addUrl(magnet, {
+		'download-dir': process.env.DOWNLOAD_DIR,
+	}, (err, result) => {
+		if (err) {
+			console.log(err);
+			res.send('error while adding torrent');
+		}
+		req.id = result.id;
+		console.log(`Added Torrent. ID: ${req.id}`);
+		return next();
+	});
+};
+
+const isPlayable = (movieBytes) => {
+	if (!movieBytes) {
+		return false;
+	}
+	let index = 0;
+	for (let i = 2; i < 10; i += 1) {
+		if (movieBytes[i] === '0') {
+			index += 1;
+			if (index === 2) {
+				return false;
+			}
+		}
+	}
+	return true;
+};
+
+const getMovieStatus = (infos, movie) => {
+	const movieBytes = exec(`./transmission-remote -t ${movie.hash} -ic`,
+		{ cwd: './transmission/source-code/Transmission-svn/build/Debug/' }).toString('utf8');
+	if (infos && infos.length > 0
+		&& ((infos[0].eta > 0
+			&& infos[0].eta < movie.length * 60
+			&& isPlayable(movieBytes))
+		|| infos[0].percentDone === 1)) {
+		return true;
+	}
+	return false;
+};
+
+exports.getTorrentStatus = async (req, res) => {
+	const movie = await Movie.findOne({ _id: req.params.id });
+	transmission.get(movie.hash, async (err, result) => {
+		if (err) {
+			res.send(false);
+		}
+		if (getMovieStatus(result.torrents, movie)) {
+			let filePath = null;
+			let mlen = 0;
+			result.torrents[0].files.forEach((file) => {
+				if (file.length > mlen) {
+					mlen = file.length;
+					filePath = file.name;
+				}
+			});
+			movie.path = filePath;
+			await movie.save();
+			return res.send(true);
+		}
+		// return res.json(result.torrents[0]);
+		return res.send(false);
+	});
+};
+
+exports.addTorrentFileToQueue = (filePath) => {
+	transmission.addFile(filePath, callback(err, result));
+};
+
+exports.removeTorrentFromQueue = (torrentId, withFile) => {
+	transmission.remove(id, withFile, callback(err, result));
 };
 
 exports.startAllActiveTorrent = () => {
@@ -63,37 +164,25 @@ exports.stopAllActiveTorrents = () => {
 
 // Controlling torrents
 
+exports.getTorrentInformations = (torrentId) => {
+	transmission.get(parseInt(torrentId, 10), callback = (err, result) => {
+		if (err) {
+			throw err;
+		}
+		if (result.torrents.length > 0) {
+			console.log(result.torrents[0]);
+			return result.torrents[0];
+		}
+		return false;
+	});
+};
+
 exports.startTorrent = (torrentId) => {
 	transmission.start(torrentId, (err, result) => {});
 };
 
 exports.stopTorrent = (torrentId) => {
 	transmission.stop(torrentId, (err, result) => {});
-};
-
-exports.getTorrentInformations = (torrentId) => {
-	console.log('Getting infos');
-	transmission.get(torrentId, callback = (err, result) => {
-		console.log('Inside callback');
-		console.log(result);
-		if (err) {
-			console.log('CALLBACK ERROR');
-			throw err;
-		}
-		if (result.torrents.length > 0) {
-			console.log('CALLBACK OK');
-			console.log(result.torrents[0]);
-			/*
-			console.log('Name = ' + result.torrents[0].name);
-			console.log('Download Rate = ' + result.torrents[0].rateDownload / 1000);
-			console.log('Upload Rate = ' + result.torrents[0].rateUpload / 1000);
-			console.log('Completed = ' + result.torrents[0].percentDone * 100);
-			console.log('ETA = ' + result.torrents[0].eta / 3600);
-			console.log('Status = ' + getStatusType(result.torrents[0].status));
-			*/
-		}
-		console.log('END OF CALLBACK');
-	});
 };
 
 exports.getAllActiveTorrents = () => {
@@ -106,5 +195,26 @@ exports.getAllActiveTorrents = () => {
 				console.log(result.torrents[i].name);
 			}
 		}
+	});
+};
+
+exports.verifyTorrent = (torrentId) => {
+	transmission.verify(torrentId, (err, arg) => {
+		console.log(arg);
+		return arg;
+	});
+};
+
+exports.getFiles = (torrentId) => {
+	transmission.files(torrentId, (err, arg) => {
+		console.log(Util.inspect(arg, { showHidden: false, depth: null }));
+		return arg;
+	});
+};
+
+exports.renameTorrent = (torrentId, path, name) => {
+	transmission.rename(torrentId, path, name, (err, arg) => {
+		console.log(Util.inspect(arg, { showHidden: false, depth: null }));
+		return arg;
 	});
 };

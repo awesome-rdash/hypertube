@@ -22,16 +22,6 @@ router.get('/torrent', (req, res) => {
 	res.render('torrent', { title: 'Torrents' });
 });
 
-router.post('/torrent/AddMagnetLink', (req, res) => {
-	torrentController.addTorrentUrlToQueue(req.body.magnet);
-	res.render('torrent', { title: 'torrent' });
-});
-
-router.post('/torrent/getTorrentInfo', (req, res) => {
-	torrentController.getTorrentInformations(req.body.id);
-	res.render('torrent', { title: 'torrent' });
-});
-
 // Local Auth and Registration
 router.post('/register/local',
 	userController.validateRegister,
@@ -72,15 +62,22 @@ router.get('/fetch/archive', catchErrors(fetchController.fetchArchive));
 router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
 router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 
-// REST Api
-router.get('/movie/:id',
- authController.isLoggedIn,
- catchErrors(movieController.getMovieById)
- /*catchErrors(fetchController.fetchSubs)*/);
+// Movie Search
 router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
 
+// Torrent routes
+router.get('/movie/:id',
+ authController.isLoggedIn,
+ catchErrors(movieController.downloadMovieIfNotExists),
+ catchErrors(movieController.getMovieById));
+
+router.get('/movie/:id/status', authController.isLoggedIn, torrentController.getTorrentStatus);
+
 // Video Routes
-router.get('/video', authController.isLoggedIn, streamController.streamVideo);
+router.get('/video',
+	authController.isLoggedIn,
+	catchErrors(streamController.getVideoPath),
+	streamController.streamVideo);
 
 // Export Routes
 module.exports = router;

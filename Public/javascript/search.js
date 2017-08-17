@@ -37,11 +37,12 @@ $(document).on('click', '.userOfList', (e) => {
 function getMovieInfos(id) {
 	function getFilm() {
 		$.get(`/movie/${id}/status`, null, (data) => {
+			console.log(data);
 			if (data === true) {
 				$('video').html(`<source src="/video?id=${id}" type="video/mp4" />`);
 				$('video')[0].load();
 			} else {
-				setTimeout(getFilm(id), 2000);
+				getFilm(id);
 			}
 		});
 	}
@@ -161,6 +162,7 @@ $(document).ready(() => {
 			$('.infos').html(`${data.title} - ${data.year}<br /><br />${data.rating} / 10<br /><br />${data.description}`);
 			$('.playMovieBtn').attr('id', filmid);
 			$('.vjs-poster').remove();
+			$('video').html(`<source src="/video?id=${filmid}" type="video/mp4" />`);
 			$('video').append(`<div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(${data.image});"></div>`);
 			$('video').attr('poster', data.image);
 			$('#search').fadeOut(50);

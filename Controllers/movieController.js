@@ -1,51 +1,35 @@
 const mongoose = require('mongoose');
+const fetchController = require('./fetchController');
+const torrentController = require('./torrentController');
 
 const Movie = mongoose.model('Movie');
+const Comment = mongoose.model('Comment');
 
-exports.getTopMovies = async () => {
-	const movies = [];
-	const SciFi = await Movie.aggregate([
-		{ $match: { genres: 'Sci-Fi' } },
-		{ $sort: { rating: -1 } },
-		{ $limit: 6 },
-		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
-	]);
 
-	const Action = await Movie.aggregate([
-		{ $match: { genres: 'Action' } },
-		{ $match: { slug: { $nin: SciFi.map(movie => movie.slug) } } },
-		{ $sort: { rating: -1 } },
-		{ $limit: 6 },
-		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
-	]);
-
-	const Comedy = await Movie.aggregate([
-		{ $match: { genres: 'Comedy' } },
-		{ $match: { slug: { $nin: SciFi.map(movie => movie.slug) } } },
-		{ $match: { slug: { $nin: Action.map(movie => movie.slug) } } },
-		{ $sort: { rating: -1 } },
-		{ $limit: 6 },
-		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
-	]);
-	const Drama = await Movie.aggregate([
-		{ $match: { genres: 'Drama' } },
-		{ $match: { slug: { $nin: SciFi.map(movie => movie.slug) } } },
-		{ $match: { slug: { $nin: Action.map(movie => movie.slug) } } },
-		{ $match: { slug: { $nin: Comedy.map(movie => movie.slug) } } },
-		{ $sort: { rating: -1 } },
-		{ $limit: 6 },
-		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
-	]);
-	movies.push(SciFi, Action, Comedy, Drama);
-	return movies;
-};
-
-exports.getMovieById = async (req, res) => {
-	const movie = await Movie.findOne({ _id: req.params.id });
+exports.getMovieById = async (req, res, next) => {
+	const proms = [];
+	proms.push(Movie.findOne({ _id: req.params.id }));
+	proms.push(
+		Comment.find({ movie: req.params.id })
+			.sort({ posted: -1 })
+			.populate('author', ['username', 'photo']));
+	const [movie, coms] = await Promise.all(proms);
 	if (!movie) {
 		return res.send('This movie doesn\'t exist');
 	}
-	return res.json(movie);
+	const ret = {
+		id: movie._id,
+		title: movie.title,
+		description: movie.description,
+		year: movie.year,
+		rating: movie.rating,
+		length: movie.length,
+		image: movie.image,
+		coms,
+	};
+	req.movie = movie;
+	return res.json(ret);
+	// return next();
 };
 
 exports.searchMovie = async (req, res) => {
@@ -91,4 +75,51 @@ exports.searchMovie = async (req, res) => {
 	} });
 	const movies = await Movie.aggregate(agg);
 	return res.json(movies);
+};
+
+exports.downloadMovieIfNotExists = async (req, res, next) => {
+	const movie = await Movie.findOne({ _id: req.params.id });
+	if (movie.path === null || movie.path === undefined) {
+		torrentController.addTorrentUrlToQueue(movie.magnet);
+		fetchController.fetchSubs(movie);
+	}
+	return next();
+};
+
+exports.getTopMovies = async () => {
+	const movies = [];
+	const SciFi = await Movie.aggregate([
+		{ $match: { genres: 'Sci-Fi' } },
+		{ $sort: { rating: -1 } },
+		{ $limit: 6 },
+		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
+	]);
+
+	const Action = await Movie.aggregate([
+		{ $match: { genres: 'Action' } },
+		{ $match: { slug: { $nin: SciFi.map(movie => movie.slug) } } },
+		{ $sort: { rating: -1 } },
+		{ $limit: 6 },
+		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
+	]);
+
+	const Comedy = await Movie.aggregate([
+		{ $match: { genres: 'Comedy' } },
+		{ $match: { slug: { $nin: SciFi.map(movie => movie.slug) } } },
+		{ $match: { slug: { $nin: Action.map(movie => movie.slug) } } },
+		{ $sort: { rating: -1 } },
+		{ $limit: 6 },
+		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
+	]);
+	const Drama = await Movie.aggregate([
+		{ $match: { genres: 'Drama' } },
+		{ $match: { slug: { $nin: SciFi.map(movie => movie.slug) } } },
+		{ $match: { slug: { $nin: Action.map(movie => movie.slug) } } },
+		{ $match: { slug: { $nin: Comedy.map(movie => movie.slug) } } },
+		{ $sort: { rating: -1 } },
+		{ $limit: 6 },
+		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
+	]);
+	movies.push(SciFi, Action, Comedy, Drama);
+	return movies;
 };
