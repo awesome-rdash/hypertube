@@ -16,15 +16,15 @@ exports.writeCom = async (req, res) => {
 		movie: req.body.movieId,
 	});
 	await com.save();
-	const user = await User.findOne({ _id: req.user._id });
+	await com.populate('author');
 	if (com) {
-		return res.send({ param: 'success', com, user });
+		return res.send({ param: 'success', com });
 	}
 	return res.send(false);
 };
 
 exports.getComs = async (req, res) => {
-	const coms = await Comment.find({ movie: req.params.id });
+	const coms = await Comment.find({ movie: req.params.id }).populate('author');
 	if (coms) {
 		return res.json(coms);
 	}

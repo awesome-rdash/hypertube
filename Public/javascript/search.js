@@ -2,6 +2,15 @@ function createFilmElem(indx, id, src, title, year, rating) {
 	return (`<div class="col-md-2 col-xl-1 col-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p>`);
 }
 
+const getCommentOfFilm = ((id) => {
+	$.get(`/comments/${id}`, null, (data) => {
+		// data.forEach((comment) => {
+		// 	$('#commentZone').last().append(`<div style="padding-bottom: 15px;"><div class="row" style="background-color: #171717;"><div class="col-xs-3"><img src="${photo}" style="width: 100%; height: 100%;" /></div><div class="col-xs-9"><p style="color: #919191;">${comment.user.username}<span style="font-size: 12px;"> - ${getFormattedDate(new Date(comment.com.posted))}</span></p><p style="color: white; font-size: 10px;">${comment.com.com}</p></div></div></div>`);
+		// });
+		console.log(data);
+	});
+});
+
 $(document).on('click', '.userOfList', (e) => {
 	const uid = e.currentTarget.id;
 	let comments = '';
@@ -178,6 +187,7 @@ $(document).ready(() => {
 			$('#video').attr('fid', filmid);
 			$('.vjs-poster').remove();
 			$('video').html(`<source src="/video?id=${filmid}" type="video/mp4" />`);
+			getCommentOfFilm(filmid);
 			$('video').append(`<div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(${data.image});"></div>`);
 			$('video').attr('poster', data.image);
 			$('#search').fadeOut(50);
