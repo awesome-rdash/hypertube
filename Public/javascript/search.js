@@ -39,7 +39,7 @@ function getMovieInfos(id) {
 		$.get(`/movie/${id}/status`, null, (data) => {
 			if (data === true) {
 				$('video').html(`<source src="/video?id=${id}" type="video/mp4" />`);
-				$('video').removeClass('hidden');
+				$('video')[0].load();
 			} else {
 				setTimeout(getFilm(id), 2000);
 			}
@@ -152,7 +152,7 @@ $(document).ready(() => {
 		}
 	});
 
-	$('.movieLaunch').click((e) => {
+	$('#vListDiv').on('click', '.movieLaunch', (e) => {
 		const filmid = e.currentTarget.getAttribute('filmid');
 		state = 1;
 		$.get(`/movie/${filmid}`, null, (data) => {
