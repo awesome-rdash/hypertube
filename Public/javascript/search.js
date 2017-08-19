@@ -19,7 +19,6 @@ const getCommentOfFilm = ((id) => {
 });
 
 $(document).on('click', '.userOfList', (e) => {
-	let slug = null;
 	const uid = e.currentTarget.id;
 	let comments = '';
 	$.get(`/user/${uid}`, null, (data) => {
@@ -55,8 +54,21 @@ function getMovieInfos(id) {
 		$.get(`/movie/${id}/status`, null, (data) => {
 			console.log(data);
 			if (data === true) {
-				$('video').append(`<track kind="captions" src="/downloads/${slug}_fr.vtt" srclang="fr" label="Français"></track>`);
-				$('video').append(`<track kind="captions" src="/downloads/${slug}_en.vtt" srclang="en" label="English"></track>`);
+				if (defaultLanguage === 'fr') {
+					$('.vjs-control-bar').append(`<div class="vjs-captions-button vjs-menu-button vjs-menu-button-popup vjs-control vjs-button" tabindex="0" role="menuitem" aria-live="polite" title="Captions" aria-disabled="false" aria-expanded="false" aria-haspopup="true" aria-label="Captions Menu"><div class="vjs-menu" role="presentation"><ul class="vjs-menu-content" role="menu">
+					<li id="offCap" class="vjs-menu-item vjs-selected" tabindex="-1" role="menuitemcheckbox" aria-live="polite" aria-disabled="false" aria-checked="true">captions off<span class="vjs-control-text">, selected</span></li>
+					<li id="frenchCap" class="vjs-menu-item" tabindex="-1" role="menuitemcheckbox" aria-live="polite" aria-disabled="false" aria-checked="true" aria-checked="false">Français<span class="vjs-control-text"> </span></li>
+					<li id="englishCap" class="vjs-menu-item" tabindex="-1" role="menuitemcheckbox" aria-live="polite" aria-disabled="false" aria-checked="false">English<span class="vjs-control-text"> </span></li>
+					</ul></div><span class="vjs-control-text">Captions</span></div>`);
+					$('video').append(`<track kind="captions" src="/downloads/${slug}_fr.vtt" srclang="fr" label="Français" default></track>`);
+				} else {
+					$('.vjs-control-bar').append(`<div class="vjs-captions-button vjs-menu-button vjs-menu-button-popup vjs-control vjs-button" tabindex="0" role="menuitem" aria-live="polite" title="Captions" aria-disabled="false" aria-expanded="false" aria-haspopup="true" aria-label="Captions Menu"><div class="vjs-menu" role="presentation"><ul class="vjs-menu-content" role="menu">
+					<li id="offCap" class="vjs-menu-item vjs-selected" tabindex="-1" role="menuitemcheckbox" aria-live="polite" aria-disabled="false" >captions off<span class="vjs-control-text">, selected</span></li>
+					<li id="frenchCap" class="vjs-menu-item" tabindex="-1" role="menuitemcheckbox" aria-live="polite" aria-disabled="false" aria-checked="false">Français<span class="vjs-control-text"> </span></li>
+					<li id="englishCap" class="vjs-menu-item" tabindex="-1" role="menuitemcheckbox" aria-live="polite" aria-disabled="false" aria-checked="true" aria-checked="false">English<span class="vjs-control-text"> </span></li>
+					</ul></div><span class="vjs-control-text">Captions</span></div>`);
+					$('video').append(`<track kind="captions" src="/downloads/${slug}_en.vtt" srclang="en" label="English" default></track>`);
+				}
 				$('video')[0].load();
 				$('video')[0].play();
 			} else {
@@ -77,6 +89,29 @@ $(document).ready(() => {
 			$('#filmsList').fadeIn(50);
 		}
 	}
+
+	$('.vjs-control-bar').on('click', '#offCap', () => {
+		$('track').remove();
+		$('#offCap').addClass('vjs-selected');
+		$('#frenchCap').removeClass('vjs-selected');
+		$('#englishCap').removeClass('vjs-selected');
+	});
+
+	$('.vjs-control-bar').on('click', '#frenchCap', () => {
+		$('track').remove();
+		$('#offCap').removeClass('vjs-selected');
+		$('#frenchCap').addClass('vjs-selected');
+		$('#englishCap').removeClass('vjs-selected');
+		$('video').append(`<track kind="captions" src="/downloads/${slug}_fr.vtt" srclang="fr" label="Français" default></track>`);
+	});
+
+	$('.vjs-control-bar').on('click', '#englishCap', () => {
+		$('track').remove();
+		$('#offCap').removeClass('vjs-selected');
+		$('#frenchCap').removeClass('vjs-selected');
+		$('#englishCap').addClass('vjs-selected');
+		$('video').append(`<track kind="captions" src="/downloads/${slug}_en.vtt" srclang="en" label="English" default></track>`);
+	});
 
 	$('#video').on('click', 'video, .vjs-big-play-button', () => {
 		if (isFilmLoading === false) {
@@ -190,15 +225,13 @@ $(document).ready(() => {
 		const filmid = e.currentTarget.getAttribute('filmid');
 		state = 1;
 		$.get(`/movie/${filmid}`, null, (data) => {
-			slug = data.slug;
 			$('#videoTitle').html(data.title);
+			slug = data.slug;
 			console.log(data);
 			$('.infos').html(`${data.title} - ${data.year}<br /><br />${data.rating} / 10<br /><br />${data.description}`);
 			$('#video').attr('fid', filmid);
 			$('.vjs-poster').remove();
 			$('video').html(`<source src="/video?id=${filmid}" type="video/mp4" />`);
-			$('video').append(`<track kind="captions" src="/downloads/${data.slug}_fr.vtt" srclang="fr" label="Français"></track>`);
-			$('video').append(`<track kind="captions" src="/downloads/${data.slug}_en.vtt" srclang="en" label="English"></track>`);
 			getCommentOfFilm(filmid);
 			$('video').append(`<div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(${data.image});"></div>`);
 			$('video').attr('poster', data.image);

@@ -53,8 +53,7 @@ $(document).ready(() => {
 	});
 	$('#returnBtn').click(() => {
 		isFilmLoading = false;
-		$('video source').remove();
-		$('video')[0].load();
+		$('video').remove();
 		$('.oneOfTheComment').remove();
 		$('#videos').fadeOut(50, showList);
 	});
