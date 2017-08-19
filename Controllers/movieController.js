@@ -21,6 +21,7 @@ exports.getMovieById = async (req, res, next) => {
 	const ret = {
 		id: movie._id,
 		title: movie.title,
+		slug: movie.slug,
 		description: movie.description,
 		year: movie.year,
 		rating: movie.rating,
