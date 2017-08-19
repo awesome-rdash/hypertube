@@ -19,6 +19,7 @@ const getCommentOfFilm = ((id) => {
 });
 
 $(document).on('click', '.userOfList', (e) => {
+	let slug = null;
 	const uid = e.currentTarget.id;
 	let comments = '';
 	$.get(`/user/${uid}`, null, (data) => {
@@ -54,6 +55,8 @@ function getMovieInfos(id) {
 		$.get(`/movie/${id}/status`, null, (data) => {
 			console.log(data);
 			if (data === true) {
+				$('video').append(`<track kind="captions" src="/downloads/${slug}_fr.vtt" srclang="fr" label="Français"></track>`);
+				$('video').append(`<track kind="captions" src="/downloads/${slug}_en.vtt" srclang="en" label="English"></track>`);
 				$('video')[0].load();
 				$('video')[0].play();
 			} else {
@@ -187,11 +190,15 @@ $(document).ready(() => {
 		const filmid = e.currentTarget.getAttribute('filmid');
 		state = 1;
 		$.get(`/movie/${filmid}`, null, (data) => {
+			slug = data.slug;
 			$('#videoTitle').html(data.title);
+			console.log(data);
 			$('.infos').html(`${data.title} - ${data.year}<br /><br />${data.rating} / 10<br /><br />${data.description}`);
 			$('#video').attr('fid', filmid);
 			$('.vjs-poster').remove();
 			$('video').html(`<source src="/video?id=${filmid}" type="video/mp4" />`);
+			$('video').append(`<track kind="captions" src="/downloads/${data.slug}_fr.vtt" srclang="fr" label="Français"></track>`);
+			$('video').append(`<track kind="captions" src="/downloads/${data.slug}_en.vtt" srclang="en" label="English"></track>`);
 			getCommentOfFilm(filmid);
 			$('video').append(`<div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(${data.image});"></div>`);
 			$('video').attr('poster', data.image);
