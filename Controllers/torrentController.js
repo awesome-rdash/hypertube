@@ -81,13 +81,9 @@ const isPlayable = (movieBytes) => {
 	if (!movieBytes) {
 		return false;
 	}
-	let index = 0;
 	for (let i = 2; i < 10; i += 1) {
 		if (movieBytes[i] === '0') {
-			index += 1;
-			if (index === 2) {
 				return false;
-			}
 		}
 	}
 	return true;
@@ -110,7 +106,7 @@ exports.getTorrentStatus = async (req, res) => {
 	const movie = await Movie.findOne({ _id: req.params.id });
 	transmission.get(movie.hash, async (err, result) => {
 		if (err) {
-			res.send(false);
+			res.send(err);
 		}
 		if (getMovieStatus(result.torrents, movie)) {
 			let filePath = null;

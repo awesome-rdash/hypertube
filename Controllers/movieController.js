@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const fs = require('fs');
 const fetchController = require('./fetchController');
 const torrentController = require('./torrentController');
 

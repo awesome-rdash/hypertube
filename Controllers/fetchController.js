@@ -165,14 +165,25 @@ exports.fetchSubs = async (movie) => {
 		extensions: ['srt'],
 		imdbid: movie.imdbId,
 	}).then((subtitles) => {
-		const file = fs.createWriteStream(`Public/downloads/${movie.slug}.vtt`);
-		const tempFile = fs.createWriteStream(`Public/downloads/${movie.slug}.srt`);
-		const r = http.get(subtitles.en.url, (response) => {
-			response.pipe(tempFile);
-			fs.createReadStream(`Public/downloads/${movie.slug}.srt`).pipe(srt2vtt()).pipe(file);
-			fs.unlinkSync(`Public/downloads/${movie.slug}.srt`);
-		});
-	}).catch((err) => { console.log('api error lol'); });
+		if (subtitles.en && subtitles.en.url) {
+			const file = fs.createWriteStream(`Public/downloads/${movie.slug}_en.vtt`);
+			const tempFile = fs.createWriteStream(`Public/downloads/${movie.slug}_en.srt`);
+			const r = http.get(subtitles.en.url, (response) => {
+				response.pipe(tempFile);
+				fs.createReadStream(`Public/downloads/${movie.slug}_en.srt`).pipe(srt2vtt()).pipe(file);
+				fs.unlinkSync(`Public/downloads/${movie.slug}_en.srt`);
+			});
+		}
+		if (subtitles.fr && subtitles.fr.url) {
+			const file = fs.createWriteStream(`Public/downloads/${movie.slug}_fr.vtt`);
+			const tempFile = fs.createWriteStream(`Public/downloads/${movie.slug}_fr.srt`);
+			const r = http.get(subtitles.fr.url, (response) => {
+				response.pipe(tempFile);
+				fs.createReadStream(`Public/downloads/${movie.slug}_fr.srt`).pipe(srt2vtt()).pipe(file);
+				fs.unlinkSync(`Public/downloads/${movie.slug}_fr.srt`);
+			});
+		}
+	}).catch((err) => { console.log('Api denied request'); });
 };
 
 // exports.fetchSubs = async (movie) => {

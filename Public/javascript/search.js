@@ -52,6 +52,7 @@ $(document).on('click', '.userOfList', (e) => {
 function getMovieInfos(id) {
 	function getFilm() {
 		$.get(`/movie/${id}/status`, null, (data) => {
+			console.log(data);
 			if (data === true) {
 				$('video')[0].load();
 				$('video')[0].play();
