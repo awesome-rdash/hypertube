@@ -1,6 +1,7 @@
+const mongoose = require('mongoose');
+const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 const path = require('path');
-const mongoose = require('mongoose');
 
 const Movie = mongoose.model('Movie');
 
