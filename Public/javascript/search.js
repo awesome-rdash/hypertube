@@ -4,6 +4,7 @@ function createFilmElem(indx, id, src, title, year, rating) {
 
 const getCommentOfFilm = ((id) => {
 	$.get(`/comments/${id}`, null, (data) => {
+		$('.badge-default').html(data.length);
 		data.forEach((comment) => {
 			let photo;
 			if (comment.author.photo) {
@@ -54,6 +55,7 @@ function getMovieInfos(id) {
 		$.get(`/movie/${id}/status`, null, (data) => {
 			console.log(data);
 			if (data === true) {
+				$('.vjs-captions-button').remove();
 				if (defaultLanguage === 'fr') {
 					$('.vjs-control-bar').append(`<div class="vjs-captions-button vjs-menu-button vjs-menu-button-popup vjs-control vjs-button" tabindex="0" role="menuitem" aria-live="polite" title="Captions" aria-disabled="false" aria-expanded="false" aria-haspopup="true" aria-label="Captions Menu"><div class="vjs-menu" role="presentation"><ul class="vjs-menu-content" role="menu">
 					<li id="offCap" class="vjs-menu-item vjs-selected" tabindex="-1" role="menuitemcheckbox" aria-live="polite" aria-disabled="false" aria-checked="true">captions off<span class="vjs-control-text">, selected</span></li>
