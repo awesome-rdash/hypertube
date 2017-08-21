@@ -11,7 +11,6 @@ do
 		IF_TRANSMISSION_VERBOSE="-f"
 		;;
 	r)
-    echo "test";
     mkdir $(pwd)/transmission/build 2> /dev/null || true
 		xcodebuild -project "transmission/source-code/Transmission.xcodeproj" -target transmission-remote -configuration Release build
 		cp -v -a "transmission/source-code/build/Release/transmission-remote" "transmission/build/"
