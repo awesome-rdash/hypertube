@@ -118,7 +118,7 @@ exports.getTorrentStatus = async (req, res) => {
 				}
 			});
 			movie.file = {
-				path: 'Forrest Gump (1994)/Forrest.Gump.1994.720p.BrRip.x264.YIFY.mkv',
+				path: filePath,
 				expires: Date.now(),
 			};
 			await movie.save();

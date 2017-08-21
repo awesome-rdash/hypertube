@@ -6,6 +6,7 @@ const torrentController = require('./Controllers/torrentController');
 const movieController = require('./Controllers/movieController');
 const streamController = require('./Controllers/streamController');
 const commentController = require('./Controllers/commentController');
+const viewController = require('./Controllers/viewController');
 const { catchErrors } = require('./Handlers/errorHandlers');
 
 const router = express.Router();
@@ -70,8 +71,10 @@ router.get('/movie/:id',
  authController.isLoggedIn,
  catchErrors(movieController.downloadMovieIfNotExists),
  catchErrors(movieController.getMovieById));
-
 router.get('/movie/:id/status', authController.isLoggedIn, torrentController.getTorrentStatus);
+
+// View Routes
+router.post('/view', authController.isLoggedIn, catchErrors(viewController.addView));
 
 // Video Routes
 router.get('/video',

@@ -51,8 +51,19 @@ $(document).ready(() => {
 			$('#myAccount').fadeOut(50, showVideo);
 		}
 	});
+	const sendTimeToServer = (currentTime) => {
+		if (currentTime > 0) {
+			$.post('/view', { movieId: $('#video').attr('fid'), currentTime }, (data) => {
+				console.log(data);
+			});
+		}
+	};
+	window.onbeforeunload = (e) => {
+		sendTimeToServer($('video')[0].currentTime);
+	}
 	$('#returnBtn').click(() => {
 		isFilmLoading = false;
+		sendTimeToServer($('video')[0].currentTime);
 		$('video source').remove();
 		$('video')[0].load();
 		$('.oneOfTheComment').remove();

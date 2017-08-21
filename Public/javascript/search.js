@@ -50,10 +50,15 @@ $(document).on('click', '.userOfList', (e) => {
 	}
 });
 
+let stopGetMovieInfos = false;
+
 function getMovieInfos(id) {
 	function getFilm() {
 		$.get(`/movie/${id}/status`, null, (data) => {
-			console.log(data);
+			if (stopGetMovieInfos === true) {
+				stopGetMovieInfos = false;
+				return ;
+			}
 			if (data === true) {
 				$('.vjs-captions-button').remove();
 				if (defaultLanguage === 'fr') {
@@ -83,6 +88,11 @@ function getMovieInfos(id) {
 
 $(document).ready(() => {
 	$('#searchLoading').hide();
+
+	$('#returnBtn').click(() => {
+		stopGetMovieInfos = true;
+	});
+
 	function showList() {
 		$('#search').fadeIn(50);
 		if (search === 0) {
@@ -229,7 +239,6 @@ $(document).ready(() => {
 		$.get(`/movie/${filmid}`, null, (data) => {
 			$('#videoTitle').html(data.title);
 			slug = data.slug;
-			console.log(data);
 			$('.infos').html(`${data.title} - ${data.year}<br /><br />${data.rating} / 10<br /><br />${data.description}`);
 			$('#video').attr('fid', filmid);
 			$('.vjs-poster').remove();
@@ -237,6 +246,7 @@ $(document).ready(() => {
 			getCommentOfFilm(filmid);
 			$('video').append(`<div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(${data.image});"></div>`);
 			$('video').attr('poster', data.image);
+			$('video')[0].currentTime = 50;
 			$('#search').fadeOut(50);
 			$('#filmsList').fadeOut(50);
 			$('#videoList').fadeOut(50, showVideo);
