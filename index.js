@@ -62,15 +62,21 @@ router.get('/fetch/archive', catchErrors(fetchController.fetchArchive));
 router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
 router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 
-// REST Api
+// Torrent route
 router.get('/movie/:id',
  authController.isLoggedIn,
+ catchErrors(torrentController.addTorrent),
+ catchErrors(torrentController.getTorrentInfos),
  catchErrors(movieController.getMovieById)
  /*catchErrors(fetchController.fetchSubs)*/);
+
 router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
 
 // Video Routes
-router.get('/video', authController.isLoggedIn, streamController.streamVideo);
+router.get('/video',
+	authController.isLoggedIn,
+	catchErrors(streamController.getVideoPath),
+	streamController.streamVideo);
 
 // Export Routes
 module.exports = router;

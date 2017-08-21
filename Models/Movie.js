@@ -48,6 +48,9 @@ const movieSchema = new mongoose.Schema({
 			type: String,
 		},
 	},
+	path: {
+		type: String,
+	},
 });
 
 movieSchema.statics.findAndModify = function fAndM(query, callback) {

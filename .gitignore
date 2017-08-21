@@ -1,5 +1,6 @@
 node_modules/*
 .DS_Store
 package-lock.json
-transmission/build/*
 *.mp4
+Downloads/*
+transmission/build/*

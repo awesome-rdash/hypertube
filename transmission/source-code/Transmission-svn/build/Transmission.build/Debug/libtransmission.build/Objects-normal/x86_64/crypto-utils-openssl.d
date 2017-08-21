@@ -1,0 +1,26 @@
+dependencies: \
+  /Users/behamon/work/hypertube/transmission/source-code/Transmission-svn/libtransmission/crypto-utils-openssl.c \
+  third-party/openssl/include/openssl/bn.h \
+  third-party/openssl/include/openssl/e_os2.h \
+  third-party/openssl/include/openssl/opensslconf.h \
+  third-party/openssl/include/openssl/ossl_typ.h \
+  third-party/openssl/include/openssl/dh.h \
+  third-party/openssl/include/openssl/bio.h \
+  third-party/openssl/include/openssl/crypto.h \
+  third-party/openssl/include/openssl/stack.h \
+  third-party/openssl/include/openssl/safestack.h \
+  third-party/openssl/include/openssl/opensslv.h \
+  third-party/openssl/include/openssl/symhacks.h \
+  third-party/openssl/include/openssl/err.h \
+  third-party/openssl/include/openssl/lhash.h \
+  third-party/openssl/include/openssl/evp.h \
+  third-party/openssl/include/openssl/objects.h \
+  third-party/openssl/include/openssl/obj_mac.h \
+  third-party/openssl/include/openssl/asn1.h \
+  third-party/openssl/include/openssl/rand.h \
+  /Users/behamon/work/hypertube/transmission/source-code/Transmission-svn/libtransmission/transmission.h \
+  /Users/behamon/work/hypertube/transmission/source-code/Transmission-svn/libtransmission/crypto-utils.h \
+  /Users/behamon/work/hypertube/transmission/source-code/Transmission-svn/libtransmission/utils.h \
+  /Users/behamon/work/hypertube/transmission/source-code/Transmission-svn/libtransmission/log.h \
+  /Users/behamon/work/hypertube/transmission/source-code/Transmission-svn/libtransmission/file.h \
+  /Users/behamon/work/hypertube/transmission/source-code/Transmission-svn/libtransmission/crypto-utils-fallback.c

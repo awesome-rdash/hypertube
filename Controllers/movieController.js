@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Movie = mongoose.model('Movie');
+const Comment = mongoose.model('Comment');
 
 exports.getTopMovies = async () => {
 	const movies = [];
@@ -41,11 +42,27 @@ exports.getTopMovies = async () => {
 };
 
 exports.getMovieById = async (req, res) => {
-	const movie = await Movie.findOne({ _id: req.params.id });
+	const proms = [];
+	proms.push(Movie.findOne({ _id: req.params.id }));
+	proms.push(
+		Comment.find({ movie: req.params.id })
+			.sort({ posted: -1 })
+			.populate('author', ['username', 'photo']));
+	const [movie, coms] = await Promise.all(proms);
 	if (!movie) {
 		return res.send('This movie doesn\'t exist');
 	}
-	return res.json(movie);
+	const ret = {
+		id: movie._id,
+		title: movie.title,
+		description: movie.description,
+		year: movie.year,
+		rating: movie.rating,
+		length: movie.length,
+		image: movie.image,
+		coms,
+	};
+	return res.json(ret);
 };
 
 exports.searchMovie = async (req, res) => {

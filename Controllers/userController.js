@@ -154,7 +154,11 @@ exports.getUsersByUsername = async (req, res) => {
 exports.userPage = async (req, res) => {
 	const proms = [];
 	proms.push(User.findOne({ _id: req.params.id }, { username: 1, photo: 1 }));
-	proms.push(Comment.find({ author: req.params.id }).sort({ posted: -1 }).limit(10).populate('movie'));
+	proms.push(
+		Comment.find({ author: req.params.id })
+			.sort({ posted: -1 })
+			.limit(10)
+			.populate('movie', ['title', 'image']));
 	const [user, coms] = await Promise.all(proms);
 	if (!fs.existsSync(path.join(__dirname, `../Public/${user.photo}`))) {
 		user.photo = '/assets/empty_user.png';

@@ -1,8 +1,28 @@
 const fs = require('fs');
 const path = require('path');
+const mongoose = require('mongoose');
+
+const Movie = mongoose.model('Movie');
+
+exports.getVideoPath = async (req, res, next) => {
+	const mov = await Movie.findOne({ _id: req.query.id });
+	if (!mov || !mov.path) {
+		return res.send('No Movie or no Path yet');
+	}
+	req.fpath = mov.path;
+	return next();
+};
 
 exports.streamVideo = (req, res) => {
-	const fpath = path.join(__dirname, '../MovieFiles/testFile.mp4');
+	const full = path.join(process.env.DOWNLOAD_DIR, req.fpath);
+	const part = path.join(process.env.DOWNLOAD_DIR, `${req.fpath}.part`);
+	let fpath;
+	if (fs.existsSync(full)) {
+		fpath = full;
+	} else {
+		fpath = part;
+	}
+	console.log('FPATH IN STREAM FUNCT:', fpath);
 	const size = fs.statSync(fpath).size;
 	const range = req.headers.range;
 
