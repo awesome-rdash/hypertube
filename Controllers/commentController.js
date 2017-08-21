@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const Comment = mongoose.model('Comment');
+const User = mongoose.model('User');
 
 exports.writeCom = async (req, res) => {
 	req.checkBody('com', 'errCom').notEmpty();
@@ -15,14 +16,15 @@ exports.writeCom = async (req, res) => {
 		movie: req.body.movieId,
 	});
 	await com.save();
+	const user = await User.findOne({ _id: req.user._id });
 	if (com) {
-		return res.send({ param: 'success', msg: req.body.com });
+		return res.send({ param: 'success', com, user });
 	}
 	return res.send(false);
 };
 
 exports.getComs = async (req, res) => {
-	const coms = await Comment.find({ movie: req.params.id });
+	const coms = await Comment.find({ movie: req.params.id }).populate('author');
 	if (coms) {
 		return res.json(coms);
 	}

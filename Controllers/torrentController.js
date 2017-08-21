@@ -2,6 +2,7 @@ const Transmission = require('transmission');
 const Path = require('path');
 const mongoose = require('mongoose');
 const Util = require('util');
+const exec = require('child_process').execSync;
 
 const Movie = mongoose.model('Movie');
 
@@ -34,23 +35,35 @@ exports.freeSpace = (path) => {
 
 // Controlling queue
 
-exports.addTorrentUrlToQueue = (url) => {
+exports.addTorrentUrlToQueue = url => new Promise((resolve, reject) => {
 	transmission.addUrl(url, {
 		'download-dir': process.env.DOWNLOAD_DIR,
 	}, (err, result) => {
 		if (err) {
-			return console.log(err);
+			reject(err);
 		}
-		id = result.id;
-		console.log('Just added a new torrent.');
-		console.log(`Torrent ID: ${id}`);
-		return id;
+		console.log(`Added Torrent with ID: ${result.id}`);
+		resolve(result.id);
 	});
-};
+});
+
+// exports.addTorrentUrlToQueue = (url) => {
+// 	transmission.addUrl(url, {
+// 		'download-dir': process.env.DOWNLOAD_DIR,
+// 	}, (err, result) => {
+// 		if (err) {
+// 			return err;
+// 		}
+// 		id = result.id;
+// 		console.log('Just added a new torrent.');
+// 		console.log(`Torrent ID: ${id}`);
+// 		return id;
+// 	});
+// };
 
 exports.addTorrent = async (req, res, next) => {
 	const mov = await Movie.findOne({ _id: req.params.id });
-	const magnet = mov.magnet.lowhd;
+	const magnet = mov.magnet;
 	transmission.addUrl(magnet, {
 		'download-dir': process.env.DOWNLOAD_DIR,
 	}, (err, result) => {
@@ -64,31 +77,68 @@ exports.addTorrent = async (req, res, next) => {
 	});
 };
 
-exports.getTorrentInfos = async (req, res, next) => {
-	transmission.get(parseInt(req.id, 10), async (err, result) => {
-		if (err) {
-			res.send('Error while getting torrent infos');
+const isPlayable = (movieBytes) => {
+	if (!movieBytes) {
+		return false;
+	}
+	for (let i = 2; i < 10; i += 1) {
+		if (movieBytes[i] === '0') {
+				return false;
 		}
-		if (result.torrents.length > 0) {
+	}
+	return true;
+};
+
+const getMovieStatus = (infos, movie) => {
+	const movieBytes = exec(`./transmission-remote -t ${movie.hash} -ic`,
+		{ cwd: './transmission/source-code/Transmission-svn/build/Debug/' }).toString('utf8');
+	if (infos && infos.length > 0
+		&& ((infos[0].eta > 0
+			&& infos[0].eta < movie.length * 60
+			&& isPlayable(movieBytes))
+		|| infos[0].percentDone === 1)) {
+		return true;
+	}
+	return false;
+};
+
+exports.getTorrentStatus = async (req, res) => {
+	const movie = await Movie.findOne({ _id: req.params.id });
+	transmission.get(movie.hash, async (err, result) => {
+		if (err) {
+			res.send(err);
+		}
+		if (getMovieStatus(result.torrents, movie)) {
 			let filePath = null;
 			let mlen = 0;
-			await result.torrents[0].files.forEach(async (file) => {
+			result.torrents[0].files.forEach((file) => {
 				if (file.length > mlen) {
 					mlen = file.length;
 					filePath = file.name;
 				}
 			});
-			const mov = await Movie.findOneAndUpdate(
-				{ _id: req.params.id },
-				{ path: filePath },
-				{ new: true });
+			movie.file = {
+				path: 'Forrest Gump (1994)/Forrest.Gump.1994.720p.BrRip.x264.YIFY.mkv',
+				expires: Date.now(),
+			};
+			await movie.save();
+			return res.send(true);
 		}
-		return next();
+		// return res.json(result.torrents[0]);
+		return res.send(false);
 	});
 };
 
-exports.addTorrentFileToQueue = (file) => {
-	transmission.addUrl(file, callback(err, result));
+exports.deleteTorrent = (hash) => {
+	transmission.remove(hash, true, (err, arg) => {
+		if (err) {
+			console.log(err);
+		}
+	});
+};
+
+exports.addTorrentFileToQueue = (filePath) => {
+	transmission.addFile(filePath, callback(err, result));
 };
 
 exports.removeTorrentFromQueue = (torrentId) => {

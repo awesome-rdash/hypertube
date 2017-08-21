@@ -22,6 +22,7 @@ mongoose.connection.on('error', (err) => {
 require('./Models/User');
 require('./Models/Movie');
 require('./Models/Comment');
+require('./Models/View');
 
 // Launch Server
 

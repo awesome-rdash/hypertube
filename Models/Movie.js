@@ -12,6 +12,9 @@ const movieSchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 	},
+	hash: {
+		type: String,
+	},
 	imdbId: {
 		type: String,
 	},
@@ -41,15 +44,16 @@ const movieSchema = new mongoose.Schema({
 		type: String,
 	},
 	magnet: {
-		lowhd: {
-			type: String,
-		},
-		fullhd: {
-			type: String,
-		},
-	},
-	path: {
 		type: String,
+	},
+	file: {
+		path: {
+			type: String,
+		},
+		expires: {
+			type: Date,
+			default: Date.now,
+		},
 	},
 });
 

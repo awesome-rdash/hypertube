@@ -62,15 +62,16 @@ router.get('/fetch/archive', catchErrors(fetchController.fetchArchive));
 router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
 router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 
-// Torrent route
+// Movie Search
+router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
+
+// Torrent routes
 router.get('/movie/:id',
  authController.isLoggedIn,
- catchErrors(torrentController.addTorrent),
- catchErrors(torrentController.getTorrentInfos),
- catchErrors(movieController.getMovieById)
- /*catchErrors(fetchController.fetchSubs)*/);
+ catchErrors(movieController.downloadMovieIfNotExists),
+ catchErrors(movieController.getMovieById));
 
-router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
+router.get('/movie/:id/status', authController.isLoggedIn, torrentController.getTorrentStatus);
 
 // Video Routes
 router.get('/video',

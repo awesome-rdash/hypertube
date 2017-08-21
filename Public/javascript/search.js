@@ -2,11 +2,26 @@ function createFilmElem(indx, id, src, title, year, rating) {
 	return (`<div class="col-md-2 col-xl-1 col-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p>`);
 }
 
+const getCommentOfFilm = ((id) => {
+	$.get(`/comments/${id}`, null, (data) => {
+		data.forEach((comment) => {
+			let photo;
+			if (comment.author.photo) {
+				photo = comment.author.photo;
+			} else {
+				photo = 'assets/empty_user.png';
+			}
+			$('#comment').val('');
+			$('#commentZone').last().prepend(`<div class="oneOfTheComment" style="padding-bottom: 15px;"><div class="row" style="background-color: #171717;"><div class="col-xs-3"><img src="${photo}" style="width: 100%; height: 100%;" /></div><div class="col-xs-9"><p style="color: #919191;">${comment.author.username}<span style="font-size: 12px;"> - ${getFormattedDate(new Date(comment.posted))}</span></p><p style="color: white; font-size: 10px;">${comment.com}</p></div></div></div>`);
+		});
+		$('#commentZone').prepend($('#commentaryEntered'));
+	});
+});
+
 $(document).on('click', '.userOfList', (e) => {
 	const uid = e.currentTarget.id;
 	let comments = '';
 	$.get(`/user/${uid}`, null, (data) => {
-		console.log(data.username);
 		$('#userUsername').html(data.username);
 		$('#userPicture').prop('src', data.photo);
 		data.coms.forEach((com, i) => {
@@ -37,11 +52,12 @@ $(document).on('click', '.userOfList', (e) => {
 function getMovieInfos(id) {
 	function getFilm() {
 		$.get(`/movie/${id}/status`, null, (data) => {
+			console.log(data);
 			if (data === true) {
-				$('video').html(`<source src="/video?id=${id}" type="video/mp4" />`);
-				$('video').removeClass('hidden');
+				$('video')[0].load();
+				$('video')[0].play();
 			} else {
-				setTimeout(getFilm(id), 2000);
+				getFilm(id);
 			}
 		});
 	}
@@ -49,6 +65,7 @@ function getMovieInfos(id) {
 }
 
 $(document).ready(() => {
+	$('#searchLoading').hide();
 	function showList() {
 		$('#search').fadeIn(50);
 		if (search === 0) {
@@ -57,6 +74,13 @@ $(document).ready(() => {
 			$('#filmsList').fadeIn(50);
 		}
 	}
+
+	$('#video').on('click', 'video, .vjs-big-play-button', () => {
+		if (isFilmLoading === false) {
+			isFilmLoading = true;
+			getMovieInfos($('#video').attr('fid'));
+		}
+	});
 
 	const slider = $('#rating');
 
@@ -90,7 +114,6 @@ $(document).ready(() => {
 		}
 	});
 	let index = 0;
-	let searchMode = false;
 	let filmListNumber = 0;
 	function showFilms(films, i) {
 		const w = i - 1;
@@ -103,14 +126,15 @@ $(document).ready(() => {
 					$('#filmsList').append('</div><div style="margin-top: 15px;" class="row"><div class="col-xl-3 col-lg-down-0"></div>');
 				}
 			}
-			$('#filmsList > .row').last().append(createFilmElem(index + (23 * filmListNumber), films[index]._id, films[index].image, films[index].title, films[index].year, films[index].rating));
+			$('#filmsList > .row').last().append(createFilmElem(index + (24 * filmListNumber), films[index]._id, films[index].image, films[index].title, films[index].year, films[index].rating));
 			index += 1;
-			showFilms(films, w);
 		} else {
 			$('#searchBtn').prop('disabled', false);
 			$('#filmsList').append('</div>');
 			index = 0;
+			return false;
 		}
+		return showFilms(films, w);
 	}
 	$('#vListDiv').on('mouseenter', '.movieLaunch', (e) => {
 		const id = e.currentTarget.id;
@@ -129,38 +153,46 @@ $(document).ready(() => {
 		}, 100, () => {});
 	});
 
+	let isLoading = false;
 	$(window).bind('mousewheel', (event) => {
+		let uselessVar = null;
 		if (event.originalEvent.wheelDelta >= 0) {
-			console.log('Scroll up');
-		} else if (searchMode === true) {
+			uselessVar = true;
+		} else if (searchMode === true && isLoading === false) {
 			if ($(window).scrollTop() + $(window).height() >= ($(document).height() - 5)) {
-				filmListNumber += 1;
+				$('#searchLoading').show();
+				isLoading = true;
 				const string = $('#searchValue').val() || null;
 				const genre = $('#categoryValue').val() || null;
 				const sort = $('#orderByValue').val() || null;
 				const rating = $('#rating').val() || null;
+				filmListNumber += 1;
 				const options = { string, genre, sort, rating, index: filmListNumber };
 				$.get('/search', options, (data) => {
 					if (data.length > 0) {
 						$('#filmsList').fadeIn(0);
-						$('#videoList').hide(250, showFilms(data, data.length));
+						$('#videoList').hide(250);
+						isLoading = showFilms(data, data.length);
 					} else {
+						isLoading = false;
 						$('#searchBtn').prop('disabled', false);
 					}
+					$('#searchLoading').hide();
 				});
 			}
 		}
 	});
 
-	$('.movieLaunch').click((e) => {
+	$('#vListDiv').on('click', '.movieLaunch', (e) => {
 		const filmid = e.currentTarget.getAttribute('filmid');
 		state = 1;
 		$.get(`/movie/${filmid}`, null, (data) => {
-			console.log(data);
 			$('#videoTitle').html(data.title);
 			$('.infos').html(`${data.title} - ${data.year}<br /><br />${data.rating} / 10<br /><br />${data.description}`);
-			$('.playMovieBtn').attr('id', filmid);
+			$('#video').attr('fid', filmid);
 			$('.vjs-poster').remove();
+			$('video').html(`<source src="/video?id=${filmid}" type="video/mp4" />`);
+			getCommentOfFilm(filmid);
 			$('video').append(`<div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(${data.image});"></div>`);
 			$('video').attr('poster', data.image);
 			$('#search').fadeOut(50);
@@ -209,7 +241,6 @@ $(document).ready(() => {
 
 	$('.userOfList').click((e) => {
 		const userId = e.id;
-		console.log(userId);
 	});
 
 	$('#searchUserValue').focusout(() => {

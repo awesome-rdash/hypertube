@@ -19,16 +19,18 @@ $(document).ready(() => {
 	$('#comment').keypress((e) => {
 		if (e.which === 13) {
 			const com = $('#comment').val();
-			$.post('/comment', { movieId: '5980a17fc41a4bcdb05dac11', com }, (data) => {
+			$.post('/comment', { movieId: $('#video').attr('fid'), com }, (data) => {
 				let photo;
-				if (data.photo) {
-					photo = data.photo;
+				if (data.user.photo) {
+					photo = data.user.photo;
 				} else {
 					photo = 'assets/empty_user.png';
 				}
 				if (data.param === 'success') {
-					console.log(data);
-					$('#commentZone').last().append(`<div style="padding-bottom: 15px;"><div class="row" style="background-color: #171717;"><div class="col-xs-3"><img src="${photo}" style="width: 100%; height: 100%;" /></div><div class="col-xs-9"><p style="color: #919191;">${data.username}<span style="font-size: 12px;">${getFormattedDate(new Date(com.posted))}</span></p><p style="color: white; font-size: 10px;">${data.msg}</p></div></div></div>`);
+					$('#comment').val('');
+					$('#commentZone').last().prepend(`<div class="oneOfTheComment" style="padding-bottom: 15px;"><div class="row" style="background-color: #171717;"><div class="col-xs-3"><img src="${photo}" style="width: 100%; height: 100%;" /></div><div class="col-xs-9"><p style="color: #919191;">${data.user.username}<span style="font-size: 12px;"> - ${getFormattedDate(new Date(data.com.posted))}</span></p><p style="color: white; font-size: 10px;">${data.com.com}</p></div></div></div>`);
+					$('#commentZone').prepend($('#commentaryEntered'));
+					$('#comment').focus();
 				} else {
 					throwError(data.errors.msg, 5);
 				}
