@@ -14,8 +14,10 @@ const doRequest = url => new Promise((resolve, reject) => {
 	request(url, (error, res, body) => {
 		if (!error && res.statusCode === 200) {
 			resolve(body);
-		} else {
+		} else if (error) {
 			reject(error);
+		} else if (res.statusCode !== 200) {
+			reject(`API rejected request with code ${res.statusCode}`);
 		}
 	});
 });

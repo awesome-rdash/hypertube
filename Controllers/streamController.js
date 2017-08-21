@@ -16,14 +16,15 @@ exports.getVideoPath = async (req, res, next) => {
 };
 
 exports.streamVideo = (req, res) => {
-	const full = path.join(process.env.DOWNLOAD_DIR, req.fpath);
-	const part = path.join(process.env.DOWNLOAD_DIR, `${req.fpath}.part`);
-	let fpath;
-	if (fs.existsSync(full)) {
-		fpath = full;
-	} else {
-		fpath = part;
-	}
+	// const full = path.join(process.env.DOWNLOAD_DIR, req.fpath);
+	// const part = path.join(process.env.DOWNLOAD_DIR, `${req.fpath}.part`);
+	// let fpath;
+	// if (fs.existsSync(full)) {
+	// 	fpath = full;
+	// } else {
+	// 	fpath = part;
+	// }
+	const fpath = '/goinfre/bunny.mkv';
 	const size = fs.statSync(fpath).size;
 	const range = req.headers.range;
 	console.log('Comes in');
@@ -54,7 +55,7 @@ exports.streamVideo = (req, res) => {
 				.on('stderr', (stdline) => {
 					console.log('STDERR: ', stdline);
 				})
-				.stream(res);
+				.pipe(res);
 		} else {
 			file.pipe(res);
 		}
