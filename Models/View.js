@@ -11,9 +11,8 @@ const viewSchema = new mongoose.Schema({
 		ref: 'Movie',
 		required: true,
 	},
-	when: {
-		type: Date,
-		default: Date.now,
+	current: {
+		type: Number,
 	},
 });
 

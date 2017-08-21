@@ -16,21 +16,20 @@ exports.getVideoPath = async (req, res, next) => {
 };
 
 exports.streamVideo = (req, res) => {
-	// const full = path.join(process.env.DOWNLOAD_DIR, req.fpath);
-	// const part = path.join(process.env.DOWNLOAD_DIR, `${req.fpath}.part`);
-	// let fpath;
-	// if (fs.existsSync(full)) {
-	// 	fpath = full;
-	// } else {
-	// 	fpath = part;
-	// }
-	const fpath = '/goinfre/bunny.mkv';
+	const full = path.join(process.env.DOWNLOAD_DIR, req.fpath);
+	const part = path.join(process.env.DOWNLOAD_DIR, `${req.fpath}.part`);
+	let fpath;
+	if (fs.existsSync(full)) {
+		fpath = full;
+	} else {
+		fpath = part;
+	}
 	const size = fs.statSync(fpath).size;
 	const range = req.headers.range;
-	console.log('Comes in');
+	// console.log('Comes in');
 
 	if (range) {
-		console.log(range);
+		// console.log(range);
 		const parts = range.replace(/bytes=/, '').split('-');
 		const start = parseInt(parts[0], 10);
 		const end = parts[1] ? parseInt(parts[1], 10) : size - 1;
@@ -43,43 +42,43 @@ exports.streamVideo = (req, res) => {
 		};
 		const file = fs.createReadStream(fpath, { start, end });
 		res.writeHead(206, head);
-		if (mime.lookup(fpath) !== 'video/mp4') {
-			console.log('Not MP4');
-			ffmpeg(file)
-				// .format('mp4')
-				.preset('divx')
-				.on('error', (err, stdout, stderr) => {
-					console.log('ERROR: ', err);
-					console.log('ERROR: ', stderr);
-				})
-				.on('stderr', (stdline) => {
-					console.log('STDERR: ', stdline);
-				})
-				.pipe(res);
-		} else {
+		// if (mime.lookup(fpath) !== 'video/mp4') {
+		// 	console.log('Not MP4');
+		// 	ffmpeg(file)
+		// 		// .format('mp4')
+		// 		.preset('divx')
+		// 		.on('error', (err, stdout, stderr) => {
+		// 			console.log('ERROR: ', err);
+		// 			console.log('ERROR: ', stderr);
+		// 		})
+		// 		.on('stderr', (stdline) => {
+		// 			console.log('STDERR: ', stdline);
+		// 		})
+		// 		.stream(res);
+		// } else {
 			file.pipe(res);
-		}
+		// }
 	} else {
 		const head = {
 			'Content-Length': size,
 			'Content-Type': 'video/mp4',
 		};
 		res.writeHead(200, head);
-		if (mime.lookup(fpath) !== 'video/mp4') {
-			console.log('Not MP4');
-			ffmpeg(fpath)
-				// .format('mp4')
-				.preset('divx')
-				.on('error', (err, stdout, strerr) => {
-					console.log('ERROR: ', err);
-					console.log('ERROR: ', stderr);
-				})
-				.on('stderr', (stdline) => {
-					console.log('STDERR: ', stdline);
-				})
-				.stream(res);
-		} else {
+		// if (mime.lookup(fpath) !== 'video/mp4') {
+		// 	console.log('Not MP4');
+		// 	ffmpeg(fpath)
+		// 		// .format('mp4')
+		// 		.preset('divx')
+		// 		.on('error', (err, stdout, strerr) => {
+		// 			console.log('ERROR: ', err);
+		// 			console.log('ERROR: ', stderr);
+		// 		})
+		// 		.on('stderr', (stdline) => {
+		// 			console.log('STDERR: ', stdline);
+		// 		})
+		// 		.stream(res);
+		// } else {
 			fs.createReadStream(fpath).pipe(res);
-		}
+		// }
 	}
 };
