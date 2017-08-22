@@ -55,6 +55,7 @@ let stopGetMovieInfos = false;
 function getMovieInfos(id) {
 	function getFilm() {
 		$.get(`/movie/${id}/status`, null, (data) => {
+			console.log(data);
 			if (stopGetMovieInfos === true) {
 				stopGetMovieInfos = false;
 				return ;

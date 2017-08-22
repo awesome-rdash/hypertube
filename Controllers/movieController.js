@@ -138,7 +138,6 @@ exports.getTopMovies = async (userId) => {
 	const views = await Promise.all(proms);
 	let n = 0;
 	movies.forEach((cat) => {
-		console.log(n);
 		cat.map((movie, i) => { movie.current = (views[i + n] && views[i + n].current) || null; });
 		n += 6;
 	})

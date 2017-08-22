@@ -12,8 +12,3 @@ exports.addView = async (req, res) => {
 	{ upsert: true, new: true });
 	res.json(newView);
 };
-
-exports.getUserViews = async (req, res) => {
-	const views = await View.find({ author: req.query.user }).populate('movie', ['title', 'slug']);
-	res.json(views);
-};
