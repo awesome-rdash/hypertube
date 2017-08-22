@@ -81,7 +81,7 @@ exports.searchMovie = async (req, res) => {
 		proms.push(View.findOne({ movie: movie._id, user: req.user.id }));
 	});
 	const views = await Promise.all(proms);
-	movies.map((movie, i) => { movie.current = (views[i] && views[i].current) || null; });
+	movies.map((movie, i) => { movie.current = (views[i] && views[i].current) || 0; });
 	return res.json(movies);
 };
 
@@ -138,8 +138,7 @@ exports.getTopMovies = async (userId) => {
 	const views = await Promise.all(proms);
 	let n = 0;
 	movies.forEach((cat) => {
-		console.log(n);
-		cat.map((movie, i) => { movie.current = (views[i + n] && views[i + n].current) || null; });
+		cat.map((movie, i) => { movie.current = (views[i + n] && views[i + n].current) || 0; });
 		n += 6;
 	})
 	return movies;

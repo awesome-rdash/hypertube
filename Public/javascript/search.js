@@ -1,18 +1,5 @@
-function createFilmElem(indx, id, src, title, year, rating, length) {
-	return (`<div class="col-md-2 col-xl-1 col-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}">
-		<a href="#" style="color: white">
-			<img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" />
-			<div class="filmMiniature">
-				<p class="text-center filmTitle">
-					<b>${title}</b>
-				</p>
-				<p class="text-center filmYear">${year}</p>
-				<p class="text-center filmRate">${rating} / 10</p>
-			</div>
-		</a>
-		<div style="background-color: rgba(0, 0, 0, 0.66); height: 4px;">
-			<div style="background-color: green; height: 100%; width: ${((current) / (length * 60)) * 100}%;")></div>
-		</div>`);
+function createFilmElem(indx, id, src, title, year, rating, length, current) {
+	return (`<div class="col-md-2 col-xl-1 col-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}" filmLength="${length}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p></div></a><div style="background-color: rgba(0, 0, 0, 0.66); height: 4px;"><div class="filmReaded" style="background-color: green; height: 100%; width: ${((current) / (length * 60)) * 100}%;")></div></div>`);
 }
 
 const getCommentOfFilm = ((id) => {
@@ -273,7 +260,8 @@ $(document).ready(() => {
 	$('#searchBtn').click(() => {
 		filmListNumber = 0;
 		$('#searchBtn').prop('disabled', true);
-		const string = $('#searchValue').val() || null;
+		const string = $('#searchValue').val() || '[A-Za-z0-9.-`+?!,#$%&*()|"\'-]+';
+		console.log(string);
 		const genre = $('#categoryValue').val() || null;
 		const sort = $('#orderByValue').val() || null;
 		const rating = slider[0].noUiSlider.get() || null;
