@@ -14,7 +14,7 @@ const router = express.Router();
 router.get('/', async (req, res) => {
 	let movies = null;
 	if (req.user) {
-		movies = await movieController.getTopMovies();
+		movies = await movieController.getTopMovies(req.user.id);
 	}
 	res.render('home', { title: 'Home', user: req.user, movies });
 });
@@ -22,6 +22,8 @@ router.get('/', async (req, res) => {
 router.get('/torrent', (req, res) => {
 	res.render('torrent', { title: 'Torrents' });
 });
+
+router.get('/topmovies', movieController.getTopMovies);
 
 // Local Auth and Registration
 router.post('/register/local',
@@ -67,11 +69,11 @@ router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
 
 // Torrent routes
+router.get('/movie/:id/status', authController.isLoggedIn, torrentController.getTorrentStatus);
 router.get('/movie/:id',
  authController.isLoggedIn,
  catchErrors(movieController.downloadMovieIfNotExists),
  catchErrors(movieController.getMovieById));
-router.get('/movie/:id/status', authController.isLoggedIn, torrentController.getTorrentStatus);
 
 // View Routes
 router.post('/view', authController.isLoggedIn, catchErrors(viewController.addView));

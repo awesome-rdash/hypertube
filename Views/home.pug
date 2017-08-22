@@ -2,6 +2,7 @@ extends layout
 
 block content
 	+hiddenVar()
+	- console.log('IN PUG: ', (user && user.username))
 	if user
 		.container-fluid
 			+homepage()

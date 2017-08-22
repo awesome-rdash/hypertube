@@ -5,9 +5,10 @@ const torrentController = require('./torrentController');
 
 const Movie = mongoose.model('Movie');
 const Comment = mongoose.model('Comment');
+const View = mongoose.model('View');
 
 
-exports.getMovieById = async (req, res, next) => {
+exports.getMovieById = async (req, res) => {
 	const proms = [];
 	proms.push(Movie.findOne({ _id: req.params.id }));
 	proms.push(
@@ -31,7 +32,6 @@ exports.getMovieById = async (req, res, next) => {
 	};
 	req.movie = movie;
 	return res.json(ret);
-	// return next();
 };
 
 exports.searchMovie = async (req, res) => {
@@ -76,6 +76,12 @@ exports.searchMovie = async (req, res) => {
 		length: 1,
 	} });
 	const movies = await Movie.aggregate(agg);
+	const proms = [];
+	movies.forEach((movie) => {
+		proms.push(View.findOne({ movie: movie._id, user: req.user.id }));
+	});
+	const views = await Promise.all(proms);
+	movies.map((movie, i) => { movie.current = (views[i] && views[i].current) || null; });
 	return res.json(movies);
 };
 
@@ -88,8 +94,9 @@ exports.downloadMovieIfNotExists = async (req, res, next) => {
 	return next();
 };
 
-exports.getTopMovies = async () => {
+exports.getTopMovies = async (userId) => {
 	const movies = [];
+	const proms = [];
 	const SciFi = await Movie.aggregate([
 		{ $match: { genres: 'Sci-Fi' } },
 		{ $sort: { rating: -1 } },
@@ -123,5 +130,17 @@ exports.getTopMovies = async () => {
 		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1, length: 1 } },
 	]);
 	movies.push(SciFi, Action, Comedy, Drama);
+	movies.forEach((cat) => {
+		cat.forEach((movie) => {
+			proms.push(View.findOne({ movie: movie._id, user: userId }));
+		});
+	});
+	const views = await Promise.all(proms);
+	let n = 0;
+	movies.forEach((cat) => {
+		console.log(n);
+		cat.map((movie, i) => { movie.current = (views[i + n] && views[i + n].current) || null; });
+		n += 6;
+	})
 	return movies;
 };
