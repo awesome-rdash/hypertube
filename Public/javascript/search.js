@@ -60,6 +60,7 @@ function getMovieInfos(id) {
 				return ;
 			}
 			if (data === true) {
+				$('#downloadInfo').fadeOut();
 				$('.vjs-captions-button').remove();
 				if (defaultLanguage === 'fr') {
 					$('.vjs-control-bar').append(`<div class="vjs-captions-button vjs-menu-button vjs-menu-button-popup vjs-control vjs-button" tabindex="0" role="menuitem" aria-live="polite" title="Captions" aria-disabled="false" aria-expanded="false" aria-haspopup="true" aria-label="Captions Menu"><div class="vjs-menu" role="presentation"><ul class="vjs-menu-content" role="menu">
@@ -79,6 +80,7 @@ function getMovieInfos(id) {
 				$('video')[0].load();
 				$('video')[0].play();
 			} else {
+				$('#downloadInfo').fadeIn();
 				getFilm(id);
 			}
 		});
@@ -237,7 +239,8 @@ $(document).ready(() => {
 		const filmid = e.currentTarget.getAttribute('filmid');
 		state = 1;
 		$.get(`/movie/${filmid}`, null, (data) => {
-			$('#videoTitle').html(data.title);
+			$('#videoTitle > span, #videoTitle > br').remove();
+			$('#videoTitle').prepend(`<span>${data.title}</span><br />`);
 			slug = data.slug;
 			$('.infos').html(`${data.title} - ${data.year}<br /><br />${data.rating} / 10<br /><br />${data.description}`);
 			$('#video').attr('fid', filmid);
@@ -246,7 +249,7 @@ $(document).ready(() => {
 			getCommentOfFilm(filmid);
 			$('video').append(`<div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(${data.image});"></div>`);
 			$('video').attr('poster', data.image);
-			$('video')[0].currentTime = 50;
+			// $('video')[0].currentTime = 50;
 			$('#search').fadeOut(50);
 			$('#filmsList').fadeOut(50);
 			$('#videoList').fadeOut(50, showVideo);

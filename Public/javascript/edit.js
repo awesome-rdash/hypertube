@@ -67,6 +67,7 @@ $(document).ready(() => {
 		$('video source').remove();
 		$('video')[0].load();
 		$('.oneOfTheComment').remove();
+		$('#downloadInfo').fadeOut();
 		$('#videos').fadeOut(50, showList);
 	});
 	$('#sendEdit').click(() => {
