@@ -12,6 +12,7 @@ mixin videoList()
 			.row
 				.offset-xl-3
 				each movie, n in movieList
+					- var currentTime = 3600;
 					if i === 0
 						- var x = 1 * n;
 					else
@@ -24,5 +25,8 @@ mixin videoList()
 									b #{movie.title}
 								p.text-center.filmYear #{movie.year}
 								p.text-center.filmRate #{movie.rating} / 10
+						if movie.length > 0
+							div(style="background-color: rgba(0, 0, 0, 0.66); height: 4px;")
+									div(style=`background-color: green; height: 100%; width: ${((movie.current) / (movie.length * 60)) * 100}%;`)
 	#filmsList
 	img#searchLoading.offset-5.col-3(src="/assets/loading.gif" style="width: 250px; text-align: center;")
