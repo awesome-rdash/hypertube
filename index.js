@@ -67,11 +67,11 @@ router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
 
 // Torrent routes
+router.get('/movie/:id/status', authController.isLoggedIn, torrentController.getTorrentStatus);
 router.get('/movie/:id',
  authController.isLoggedIn,
  catchErrors(movieController.downloadMovieIfNotExists),
  catchErrors(movieController.getMovieById));
-router.get('/movie/:id/status', authController.isLoggedIn, torrentController.getTorrentStatus);
 
 // View Routes
 router.post('/view', authController.isLoggedIn, catchErrors(viewController.addView));

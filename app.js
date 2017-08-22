@@ -13,7 +13,7 @@ const helpers = require('./Handlers/helpers');
 const routines = require('./Handlers/routines');
 const fetchController = require('./Controllers/fetchController');
 const errorHandlers = require('./Handlers/errorHandlers');
-const routes = require('./index.js');
+const routes = require('./index');
 require('./handlers/passport');
 
 const app = express();
