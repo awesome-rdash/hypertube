@@ -260,8 +260,7 @@ $(document).ready(() => {
 	$('#searchBtn').click(() => {
 		filmListNumber = 0;
 		$('#searchBtn').prop('disabled', true);
-		const string = $('#searchValue').val() || '[A-Za-z0-9.-`+?!,#$%&*()|"\'-]+';
-		console.log(string);
+		const string = $('#searchValue').val();
 		const genre = $('#categoryValue').val() || null;
 		const sort = $('#orderByValue').val() || null;
 		const rating = slider[0].noUiSlider.get() || null;
