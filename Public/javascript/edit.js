@@ -54,7 +54,8 @@ $(document).ready(() => {
 	const sendTimeToServer = (currentTime) => {
 		if (currentTime > 0) {
 			$.post('/view', { movieId: $('#video').attr('fid'), currentTime }, (data) => {
-				console.log(data);
+				const len = $(`div[filmid=${data.movie}]`).attr('filmLength');
+				$(`div[filmid=${data.movie}] .filmReaded`).css('width', `${((data.current) / (len * 60)) * 100}%`);
 			});
 		}
 	};
@@ -67,6 +68,7 @@ $(document).ready(() => {
 		$('video source').remove();
 		$('video')[0].load();
 		$('.oneOfTheComment').remove();
+		$('#downloadInfo').fadeOut();
 		$('#videos').fadeOut(50, showList);
 	});
 	$('#sendEdit').click(() => {

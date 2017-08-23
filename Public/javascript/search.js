@@ -1,5 +1,5 @@
-function createFilmElem(indx, id, src, title, year, rating) {
-	return (`<div class="col-md-2 col-xl-1 col-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p>`);
+function createFilmElem(indx, id, src, title, year, rating, length, current) {
+	return (`<div class="col-md-2 col-xl-1 col-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}" filmLength="${length}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p></div></a><div style="background-color: rgba(0, 0, 0, 0.66); height: 4px;"><div class="filmReaded" style="background-color: green; height: 100%; width: ${((current) / (length * 60)) * 100}%;")></div></div>`);
 }
 
 const getCommentOfFilm = ((id) => {
@@ -25,6 +25,7 @@ $(document).on('click', '.userOfList', (e) => {
 	$.get(`/user/${uid}`, null, (data) => {
 		$('#userUsername').html(data.username);
 		$('#userPicture').prop('src', data.photo);
+		console.log(data);
 		data.coms.forEach((com, i) => {
 			comments = `${comments}<div class="row" style="background-color: #171717; margin-bottom: 5px;"><div class="col-3"><img style="width: 100%;" src="${com.movie.image}" /></div><div class="col-9"><p style="color: #919191;">${com.movie.title}<br /><span style="font-size: 13px;">${getFormattedDate(new Date(com.posted))}</span></p><p style="color: white; font-size: 10px;">${com.com}</p></div></div></div>`;
 		});
@@ -61,6 +62,7 @@ function getMovieInfos(id) {
 				return ;
 			}
 			if (data === true) {
+				$('#downloadInfo').fadeOut();
 				$('.vjs-captions-button').remove();
 				if (defaultLanguage === 'fr') {
 					$('.vjs-control-bar').append(`<div class="vjs-captions-button vjs-menu-button vjs-menu-button-popup vjs-control vjs-button" tabindex="0" role="menuitem" aria-live="polite" title="Captions" aria-disabled="false" aria-expanded="false" aria-haspopup="true" aria-label="Captions Menu"><div class="vjs-menu" role="presentation"><ul class="vjs-menu-content" role="menu">
@@ -80,6 +82,7 @@ function getMovieInfos(id) {
 				$('video')[0].load();
 				$('video')[0].play();
 			} else {
+				$('#downloadInfo').fadeIn();
 				getFilm(id);
 			}
 		});
@@ -172,12 +175,12 @@ $(document).ready(() => {
 		if (i > 0) {
 			if ((index % 6) === 0) {
 				if (index === 0) {
-					$('#filmsList').append('<div style="margin-top: 15px;" class="row"><div class="col-xl-3 col-lg-down-0"></div>');
+					$('#filmsList').append(`<div style="margin-top: 15px;" class="row"><div class="col-xl-3 col-lg-down-0"></div>`);
 				} else {
-					$('#filmsList').append('</div><div style="margin-top: 15px;" class="row"><div class="col-xl-3 col-lg-down-0"></div>');
+					$('#filmsList').append(`</div><div style="margin-top: 15px;" class="row"><div class="col-xl-3 col-lg-down-0"></div>`);
 				}
 			}
-			$('#filmsList > .row').last().append(createFilmElem(index + (24 * filmListNumber), films[index]._id, films[index].image, films[index].title, films[index].year, films[index].rating));
+			$('#filmsList > .row').last().append(createFilmElem(index + (24 * filmListNumber), films[index]._id, films[index].image, films[index].title, films[index].year, films[index].rating, films[index].length, films[index].current));
 			index += 1;
 		} else {
 			$('#searchBtn').prop('disabled', false);
@@ -238,7 +241,8 @@ $(document).ready(() => {
 		const filmid = e.currentTarget.getAttribute('filmid');
 		state = 1;
 		$.get(`/movie/${filmid}`, null, (data) => {
-			$('#videoTitle').html(data.title);
+			$('#videoTitle > span, #videoTitle > br').remove();
+			$('#videoTitle').prepend(`<span>${data.title}</span><br />`);
 			slug = data.slug;
 			$('.infos').html(`${data.title} - ${data.year}<br /><br />${data.rating} / 10<br /><br />${data.description}`);
 			$('#video').attr('fid', filmid);
@@ -247,7 +251,7 @@ $(document).ready(() => {
 			getCommentOfFilm(filmid);
 			$('video').append(`<div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(${data.image});"></div>`);
 			$('video').attr('poster', data.image);
-			$('video')[0].currentTime = 50;
+			// $('video')[0].currentTime = 50;
 			$('#search').fadeOut(50);
 			$('#filmsList').fadeOut(50);
 			$('#videoList').fadeOut(50, showVideo);
@@ -257,7 +261,7 @@ $(document).ready(() => {
 	$('#searchBtn').click(() => {
 		filmListNumber = 0;
 		$('#searchBtn').prop('disabled', true);
-		const string = $('#searchValue').val() || null;
+		const string = $('#searchValue').val();
 		const genre = $('#categoryValue').val() || null;
 		const sort = $('#orderByValue').val() || null;
 		const rating = slider[0].noUiSlider.get() || null;
