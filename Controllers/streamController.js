@@ -48,4 +48,5 @@ exports.streamVideo = (req, res) => {
 		};
 		res.writeHead(200, head);
 		fs.createReadStream(fpath).pipe(res);
+	}
 };
