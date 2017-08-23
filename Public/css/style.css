@@ -1,5 +1,9 @@
 @import url('http://getbootstrap.com/dist/css/bootstrap.css');
 
+html, body, .container-table {
+    height: 100%;
+}
+
 body {
 	background: url('/assets/background.png') no-repeat center center fixed;
 	-webkit-background-size: cover;
@@ -7,12 +11,6 @@ body {
 	-o-background-size: cover;
   	overflow-x: hidden;
 	background-size: cover;
-}
-
-#searchValue {
-	color: white;
-	background-color: rgba(0, 0, 0, 0.3);
-	border: 0;
 }
 
 output {
@@ -29,6 +27,7 @@ output {
   left: 0;
   margin-left: -1%;
 }
+
 output:after {
   content: "";
   position: absolute;
@@ -43,10 +42,57 @@ output:after {
   margin-top: -1px;
 }
 
+hr {
+    display: block;
+    border-top: 3px solid rgba(255, 255, 255, 1);
+    margin: 0em 0;
+    padding: 0;
+}
+
+i {
+	font-size: 9px;
+}
+
+form {
+	margin-bottom: -30px;
+}
+
+#searchValue {
+	color: white;
+	background-color: rgba(0, 0, 0, 0.3);
+	border: 0;
+}
+
 #close, #closeUserInfo {
 	position: absolute;
 	top: 2%;
 	left: 90%;
+}
+
+#ratings .slider-selection {
+	background: gray;
+}
+
+#videoList {
+	color: red;
+}
+
+#dropdownMenu1 {
+	background-color: rgba(0, 0, 0, 0);
+	border-color: rgba(0, 0, 0, 0);
+	color: grey;
+	-webkit-box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+}
+#dropdownMenu1:focus {
+	color: white;
+	border-color: rgba(0, 0, 0, 0);
+	-webkit-box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+}
+
+#step1 {
+	height: 500px;
 }
 
 .filmMiniature {
@@ -57,14 +103,6 @@ output:after {
 	top: 30%;
 	font-size: 9px;
 	background-color: rgba(0, 0, 0, 0.7);
-}
-
-#ratings .slider-selection {
-	background: gray;
-}
-
-#videoList {
-	color: red;
 }
 
 .text-center {
@@ -85,45 +123,9 @@ output:after {
 	color: white;
 }
 
-@media (max-width: 768px) {
-	.center-xs {
-		text-align: center;
-	}
-	.dropdown-menu {
-		margin-left: 40%;
-	}
-}
-
-@media (max-width: 400px) {
-	.dropdown-menu {
-		margin-left: 30%;
-	}
-}
-
-#dropdownMenu1 {
-	background-color: rgba(0, 0, 0, 0);
-	border-color: rgba(0, 0, 0, 0);
-	color: grey;
-	-webkit-box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
-	box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
-}
-#dropdownMenu1:focus {
-	color: white;
-	border-color: rgba(0, 0, 0, 0);
-	-webkit-box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
-	box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
-}
-
 .btn:focus, .btn:active:focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn.active.focus {
      outline: 0px auto -webkit-focus-ring-color;
      outline-offset: -0px;
-}
-
-hr {
-    display: block;
-    border-top: 3px solid rgba(255, 255, 255, 1);
-    margin: 0em 0;
-    padding: 0;
 }
 
 .btn-styler {
@@ -140,10 +142,6 @@ hr {
 	color: black;
 }
 
-html, body, .container-table {
-    height: 100%;
-}
-
 .container-table {
     display: table;
 }
@@ -156,20 +154,8 @@ html, body, .container-table {
 	border-color: black;
 }
 
-#step1 {
-	height: 500px;
-}
-
-i {
-	font-size: 9px;
-}
-
 .innerJumbotron {
 	margin-top: -40px;
-}
-
-form {
-	margin-bottom: -30px;
 }
 
 .loginBtn {
@@ -197,9 +183,11 @@ form {
   width: 34px;
   height: 100%;
 }
+
 .loginBtn:focus {
   outline: none;
 }
+
 .loginBtn:active {
   box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
 }
@@ -208,32 +196,46 @@ form {
 	margin-bottom: 0px;
 }
 
-
-/* Google */
 .loginBtn--google {
-  /*font-family: "Roboto", Roboto, arial, sans-serif;*/
   background: #DD4B39;
 }
+
 .loginBtn--google:before {
   border-right: #BB3F30 1px solid;
   background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_google.png') 6px 6px no-repeat;
 }
+
 .loginBtn--google:hover,
 .loginBtn--google:focus {
   background: #f24c37;
 }
 
-/* 42 */
 .loginBtn--42 {
-  /*font-family: "Roboto", Roboto, arial, sans-serif;*/
   background: #35353b;
 }
+
 .loginBtn--42:before {
   border-right: #2b2b30 1px solid;
   background: url('https://profile.intra.42.fr/assets/42_logo-7dfc9110a5319a308863b96bda33cea995046d1731cebb735e41b16255106c12.svg') 5px 5px no-repeat;
 	background-size: 75% 75%;
 }
+
 .loginBtn--42:hover,
 .loginBtn--42:focus {
   background: #44444c;
+}
+
+@media (max-width: 768px) {
+	.center-xs {
+		text-align: center;
+	}
+	.dropdown-menu {
+		margin-left: 40%;
+	}
+}
+
+@media (max-width: 400px) {
+	.dropdown-menu {
+		margin-left: 30%;
+	}
 }
