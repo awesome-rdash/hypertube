@@ -18,7 +18,10 @@ require('./handlers/passport');
 
 const app = express();
 
-// setInterval(fetchController.fetchYts, 1000000);
+setInterval(fetchController.fetchYts, 10000);
+// setInterval(fetchController.fetchYts, 18000000);
+setInterval(fetchController.fetchArchive, 10000);
+// setInterval(fetchController.fetchArchive, 18000000);
 setInterval(routines.cleanMovies, 86400000);
 
 // View Engine

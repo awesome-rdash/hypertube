@@ -12,11 +12,12 @@ const { catchErrors } = require('./Handlers/errorHandlers');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-	let movies = null;
-	if (req.user) {
-		movies = await movieController.getTopMovies(req.user.id);
-	}
-	res.render('home', { title: 'Home', user: req.user, movies });
+	let movies = await movieController.getTopMovies(req.user && req.user.id);
+	res.render('home', {
+		title: 'Home',
+		user: (req.user || null),
+		movies,
+	});
 });
 
 router.get('/torrent', (req, res) => {

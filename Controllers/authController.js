@@ -36,6 +36,6 @@ exports.hasAccount = async (req, res) => {
 };
 
 exports.logout = (req, res) => {
-	req.logout();
-	res.redirect('/');
+	req.logOut();
+	req.session.destroy((err) => { res.redirect('/'); });
 };

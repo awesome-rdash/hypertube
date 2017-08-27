@@ -57,10 +57,10 @@ function getMovieInfos(id) {
 	function getFilm() {
 		$.get(`/movie/${id}/status`, null, (data) => {
 			console.log(data);
-			if (stopGetMovieInfos === true) {
-				stopGetMovieInfos = false;
-				return ;
-			}
+			// if (stopGetMovieInfos === true) {
+			// 	stopGetMovieInfos = false;
+			// 	return ;
+			// }
 			if (data === true) {
 				$('#downloadInfo').fadeOut();
 				$('.vjs-captions-button').remove();

@@ -93,6 +93,9 @@ exports.downloadMovieIfNotExists = async (req, res, next) => {
 };
 
 exports.getTopMovies = async (userId) => {
+	if (!userId) {
+		return null;
+	}
 	const movies = [];
 	const proms = [];
 	const SciFi = await Movie.aggregate([
