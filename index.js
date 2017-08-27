@@ -11,6 +11,7 @@ const { catchErrors } = require('./Handlers/errorHandlers');
 
 const router = express.Router();
 
+// Main Application Page
 router.get('/', async (req, res) => {
 	let movies = await movieController.getTopMovies(req.user && req.user.id);
 	res.render('home', {
@@ -19,12 +20,6 @@ router.get('/', async (req, res) => {
 		movies,
 	});
 });
-
-router.get('/torrent', (req, res) => {
-	res.render('torrent', { title: 'Torrents' });
-});
-
-router.get('/topmovies', movieController.getTopMovies);
 
 // Local Auth and Registration
 router.post('/register/local',
@@ -61,7 +56,7 @@ router.get('/user/:id', authController.isLoggedIn, userController.userPage);
 router.post('/comment', authController.isLoggedIn, catchErrors(commentController.writeCom));
 router.get('/comments/:id', authController.isLoggedIn, catchErrors(commentController.getComs));
 
-// Fetchers
+// DEV APIs Fetchers
 router.get('/fetch/archive', catchErrors(fetchController.fetchArchive));
 router.get('/fetch/yts', catchErrors(fetchController.fetchYts));
 router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
