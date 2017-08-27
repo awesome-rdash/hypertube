@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const movieSchema = new mongoose.Schema({
@@ -56,9 +55,5 @@ const movieSchema = new mongoose.Schema({
 		},
 	},
 });
-
-movieSchema.statics.findAndModify = function fAndM(query, callback) {
-	return this.collection.findAndModify(query, callback);
-};
 
 module.exports = mongoose.model('Movie', movieSchema);
