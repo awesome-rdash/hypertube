@@ -6,21 +6,25 @@ const torrentController = require('./Controllers/torrentController');
 const movieController = require('./Controllers/movieController');
 const streamController = require('./Controllers/streamController');
 const commentController = require('./Controllers/commentController');
+const viewController = require('./Controllers/viewController');
 const { catchErrors } = require('./Handlers/errorHandlers');
 
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-	let movies = null;
-	if (req.user) {
-		movies = await movieController.getTopMovies();
-	}
-	res.render('home', { title: 'Home', user: req.user, movies });
+	let movies = await movieController.getTopMovies(req.user && req.user.id);
+	res.render('home', {
+		title: 'Home',
+		user: (req.user || null),
+		movies,
+	});
 });
 
 router.get('/torrent', (req, res) => {
 	res.render('torrent', { title: 'Torrents' });
 });
+
+router.get('/topmovies', movieController.getTopMovies);
 
 // Local Auth and Registration
 router.post('/register/local',
@@ -66,12 +70,14 @@ router.get('/fetch/subs', catchErrors(fetchController.fetchSubs));
 router.get('/search', authController.isLoggedIn, catchErrors(movieController.searchMovie));
 
 // Torrent routes
+router.get('/movie/:id/status', authController.isLoggedIn, torrentController.getTorrentStatus);
 router.get('/movie/:id',
  authController.isLoggedIn,
  catchErrors(movieController.downloadMovieIfNotExists),
  catchErrors(movieController.getMovieById));
 
-router.get('/movie/:id/status', authController.isLoggedIn, torrentController.getTorrentStatus);
+// View Routes
+router.post('/view', authController.isLoggedIn, catchErrors(viewController.addView));
 
 // Video Routes
 router.get('/video',

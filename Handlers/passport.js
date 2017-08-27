@@ -50,5 +50,6 @@ passport.use(new FortyTwoStrategy({
 	return done(null, user);
 }));
 
+
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());

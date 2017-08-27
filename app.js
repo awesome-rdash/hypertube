@@ -13,12 +13,15 @@ const helpers = require('./Handlers/helpers');
 const routines = require('./Handlers/routines');
 const fetchController = require('./Controllers/fetchController');
 const errorHandlers = require('./Handlers/errorHandlers');
-const routes = require('./index.js');
+const routes = require('./index');
 require('./handlers/passport');
 
 const app = express();
 
-// setInterval(fetchController.fetchYts, 1000000);
+setInterval(fetchController.fetchYts, 10000);
+// setInterval(fetchController.fetchYts, 18000000);
+setInterval(fetchController.fetchArchive, 10000);
+// setInterval(fetchController.fetchArchive, 18000000);
 setInterval(routines.cleanMovies, 86400000);
 
 // View Engine

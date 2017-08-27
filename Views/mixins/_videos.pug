@@ -7,10 +7,11 @@ mixin videos()
 				.col-2.hidden-lg-up
 				.col-5.text-center
 					h2#videoTitle
+						i#downloadInfo(style="display: none;" tkey="pleaseWait")
 				.col-2.hidden-md-down
 				.col-3.hidden-md-down
 					h2.text-center(style="color: white;") Commentary 
-						span.badge.badge-default 27
+						span.badge.badge-default
 		br
 		br
 		br
@@ -18,7 +19,7 @@ mixin videos()
 		.col-lg-9
 			.row
 				.col-lg-12
-					video(id="video", class="video-js", controls, preload="none", style="min-height: 500px; width: 100%;", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}')
+					video(id="video", class="video-js", controls, style="min-height: 500px; width: 100%;", poster="//vjs.zencdn.net/v/oceans.png", data-setup='{}')
 					br
 				.col-lg-12.hidden-md-down
 					h2(style="color: white;").text-center Infos
@@ -30,14 +31,14 @@ mixin videos()
 				p.infos(style="color: white;")
 		.col-lg-3#commentZone
 			h2.hidden-lg-up.text-center(style="color: white;") Commentary 
-				span.badge.badge-default 27
+				span.badge.badge-default
 			div#commentaryEntered(style="padding-bottom: 15px;")
 				.row(style="background-color: #171717;")
 					.col-3
 						if user.photo
 							img(src=`${user.photo}` style="width: 100%; height: 100%;")
 						else
-							img(src="/assets/empty_user.png")
+							img(src="/assets/empty_user.png" style="width: 100%; height: 100%;")
 					.col-9
 						p(style="color: #919191;") #{user.username}
 						.form-group

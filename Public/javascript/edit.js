@@ -51,11 +51,24 @@ $(document).ready(() => {
 			$('#myAccount').fadeOut(50, showVideo);
 		}
 	});
+	const sendTimeToServer = (currentTime) => {
+		if (currentTime > 0) {
+			$.post('/view', { movieId: $('#video').attr('fid'), currentTime }, (data) => {
+				const len = $(`div[filmid=${data.movie}]`).attr('filmLength');
+				$(`div[filmid=${data.movie}] .filmReaded`).css('width', `${((data.current) / (len * 60)) * 100}%`);
+			});
+		}
+	};
+	window.onbeforeunload = (e) => {
+		sendTimeToServer($('video')[0].currentTime);
+	}
 	$('#returnBtn').click(() => {
 		isFilmLoading = false;
+		sendTimeToServer($('video')[0].currentTime);
 		$('video source').remove();
 		$('video')[0].load();
 		$('.oneOfTheComment').remove();
+		$('#downloadInfo').fadeOut();
 		$('#videos').fadeOut(50, showList);
 	});
 	$('#sendEdit').click(() => {

@@ -5,9 +5,10 @@ const torrentController = require('./torrentController');
 
 const Movie = mongoose.model('Movie');
 const Comment = mongoose.model('Comment');
+const View = mongoose.model('View');
 
 
-exports.getMovieById = async (req, res, next) => {
+exports.getMovieById = async (req, res) => {
 	const proms = [];
 	proms.push(Movie.findOne({ _id: req.params.id }));
 	proms.push(
@@ -31,21 +32,18 @@ exports.getMovieById = async (req, res, next) => {
 	};
 	req.movie = movie;
 	return res.json(ret);
-	// return next();
 };
 
 exports.searchMovie = async (req, res) => {
-	if (!req.query.string || !req.query.string.match(/^[a-z0-9]+$/i)) {
+	if (req.query.string !== '' && !req.query.string.match(/^[a-z0-9]+$/i)) {
 		return res.send(null);
 	}
 	const agg = [];
 	const regex = new RegExp(`${req.query.string}`);
-	if (req.query.string && req.query.string.length) {
-		agg.push({ $match: { $or: [
-			{ title: { $regex: regex, $options: 'i' } },
-			{ genres: { $regex: regex, $options: 'i' } },
-		] } });
-	}
+	agg.push({ $match: { $or: [
+		{ title: { $regex: regex, $options: 'i' } },
+		{ genres: { $regex: regex, $options: 'i' } },
+	] } });
 	if (req.query.genre && req.query.genre.length) {
 		agg.push({ $match: { genres: req.query.genre } });
 	}
@@ -76,6 +74,12 @@ exports.searchMovie = async (req, res) => {
 		length: 1,
 	} });
 	const movies = await Movie.aggregate(agg);
+	const proms = [];
+	movies.forEach((movie) => {
+		proms.push(View.findOne({ movie: movie._id, user: req.user.id }));
+	});
+	const views = await Promise.all(proms);
+	movies.map((movie, i) => { movie.current = (views[i] && views[i].current) || 0; });
 	return res.json(movies);
 };
 
@@ -88,13 +92,17 @@ exports.downloadMovieIfNotExists = async (req, res, next) => {
 	return next();
 };
 
-exports.getTopMovies = async () => {
+exports.getTopMovies = async (userId) => {
+	if (!userId) {
+		return null;
+	}
 	const movies = [];
+	const proms = [];
 	const SciFi = await Movie.aggregate([
 		{ $match: { genres: 'Sci-Fi' } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 6 },
-		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
+		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1, length: 1 } },
 	]);
 
 	const Action = await Movie.aggregate([
@@ -102,7 +110,7 @@ exports.getTopMovies = async () => {
 		{ $match: { slug: { $nin: SciFi.map(movie => movie.slug) } } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 6 },
-		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
+		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1, length: 1 } },
 	]);
 
 	const Comedy = await Movie.aggregate([
@@ -111,7 +119,7 @@ exports.getTopMovies = async () => {
 		{ $match: { slug: { $nin: Action.map(movie => movie.slug) } } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 6 },
-		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
+		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1, length: 1 } },
 	]);
 	const Drama = await Movie.aggregate([
 		{ $match: { genres: 'Drama' } },
@@ -120,8 +128,19 @@ exports.getTopMovies = async () => {
 		{ $match: { slug: { $nin: Comedy.map(movie => movie.slug) } } },
 		{ $sort: { rating: -1 } },
 		{ $limit: 6 },
-		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1 } },
+		{ $project: { _id: 1, slug: 1, rating: 1, year: 1, title: 1, image: 1, length: 1 } },
 	]);
 	movies.push(SciFi, Action, Comedy, Drama);
+	movies.forEach((cat) => {
+		cat.forEach((movie) => {
+			proms.push(View.findOne({ movie: movie._id, user: userId }));
+		});
+	});
+	const views = await Promise.all(proms);
+	let n = 0;
+	movies.forEach((cat) => {
+		cat.map((movie, i) => { movie.current = (views[i + n] && views[i + n].current) || 0; });
+		n += 6;
+	});
 	return movies;
 };

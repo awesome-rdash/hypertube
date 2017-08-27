@@ -47,20 +47,6 @@ exports.addTorrentUrlToQueue = url => new Promise((resolve, reject) => {
 	});
 });
 
-// exports.addTorrentUrlToQueue = (url) => {
-// 	transmission.addUrl(url, {
-// 		'download-dir': process.env.DOWNLOAD_DIR,
-// 	}, (err, result) => {
-// 		if (err) {
-// 			return err;
-// 		}
-// 		id = result.id;
-// 		console.log('Just added a new torrent.');
-// 		console.log(`Torrent ID: ${id}`);
-// 		return id;
-// 	});
-// };
-
 exports.addTorrent = async (req, res, next) => {
 	const mov = await Movie.findOne({ _id: req.params.id });
 	const magnet = mov.magnet;
@@ -118,7 +104,7 @@ exports.getTorrentStatus = async (req, res) => {
 				}
 			});
 			movie.file = {
-				path: 'Forrest Gump (1994)/Forrest.Gump.1994.720p.BrRip.x264.YIFY.mkv',
+				path: filePath,
 				expires: Date.now(),
 			};
 			await movie.save();
