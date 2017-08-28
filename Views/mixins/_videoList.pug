@@ -19,7 +19,7 @@ mixin videoList()
 						- var x = 1 * n;
 					else
 						- var x = i * 6 + n;
-					.col-md-2.col-xl-1.col-4.movieLaunch(id=`image${x}` filmid=`${movie._id}` filmLength=`${movie.length}`)
+					.col-md-2.col-xl-1.col-4.movieLaunch(id=`image${x}` filmid=`${movie._id}` filmCurrent=`${movie.current}` filmLength=`${movie.length}`)
 						a(href="#" style="color: white")
 							img(style="width: 100%;" src=`${movie.image}` alt=`Image not found..` title=`${movie.title}`)
 							div.filmMiniature
