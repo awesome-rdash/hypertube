@@ -1,4 +1,4 @@
-// Require Modules
+0.// Require Modules
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -18,14 +18,19 @@ require('./handlers/passport');
 
 const app = express();
 
-// setInterval(fetchController.fetchYts, 1000000);
+// Fetching APIs every ~5 hours
+setInterval(fetchController.fetchYtsDaily, 18000000);
+setInterval(fetchController.fetchArchiveDaily, 18001000);
+
+// Cleaning Unwatched Movies every 24 hours
 setInterval(routines.cleanMovies, 86400000);
 
 // View Engine
 app.set('views', path.join(__dirname, 'Views'));
 app.set('view engine', 'pug');
 
-app.use(express.static(path.join(__dirname, 'public')));
+// Serving '/Public' folder to client
+app.use(express.static(path.join(__dirname, 'Public')));
 
 // Makes raw requests readable in req.body
 app.use(bodyParser.json({ limit: '5mb' }));

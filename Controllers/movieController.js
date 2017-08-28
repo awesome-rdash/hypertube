@@ -93,6 +93,9 @@ exports.downloadMovieIfNotExists = async (req, res, next) => {
 };
 
 exports.getTopMovies = async (userId) => {
+	if (!userId) {
+		return null;
+	}
 	const movies = [];
 	const proms = [];
 	const SciFi = await Movie.aggregate([
@@ -138,6 +141,6 @@ exports.getTopMovies = async (userId) => {
 	movies.forEach((cat) => {
 		cat.map((movie, i) => { movie.current = (views[i + n] && views[i + n].current) || 0; });
 		n += 6;
-	})
+	});
 	return movies;
 };

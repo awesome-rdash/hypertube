@@ -47,20 +47,6 @@ exports.addTorrentUrlToQueue = url => new Promise((resolve, reject) => {
 	});
 });
 
-// exports.addTorrentUrlToQueue = (url) => {
-// 	transmission.addUrl(url, {
-// 		'download-dir': process.env.DOWNLOAD_DIR,
-// 	}, (err, result) => {
-// 		if (err) {
-// 			return err;
-// 		}
-// 		id = result.id;
-// 		console.log('Just added a new torrent.');
-// 		console.log(`Torrent ID: ${id}`);
-// 		return id;
-// 	});
-// };
-
 exports.addTorrent = async (req, res, next) => {
 	const mov = await Movie.findOne({ _id: req.params.id });
 	const magnet = mov.magnet;
