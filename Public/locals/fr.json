@@ -39,6 +39,8 @@
 	"newPwd": "Nouveau mot de passe : ",
 	"emailSended": "Email de réinitialisation envoyé.",
 	"reNewPwd": "Confirmation du nouveau mot de passe : ",
-	"pleaseWait": "Film demandé pour la première fois, veuillez patienter le temps de le télécharger.",
-	"pleaseReload": "Le film est maintenant téléchargé. Si vous ne le voyez pas, veuillez actualiser votre page."
+	"pleaseWait": "Film demandé pour la première fois, veuillez patienter le temps de la préparation.",
+	"pleaseReload": "Bon visionnage.",
+	"myAccount": "Mon compte",
+	"logout": "Déconnexion"
 }

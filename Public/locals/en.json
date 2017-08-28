@@ -40,5 +40,7 @@
 	"emailSended": "Reset email sent.",
 	"reNewPwd": "Confirm new Password : ",
 	"pleaseWait": "Film asked for the first time. Please wait until we downloaded enough",
-	"pleaseReload": "Film is now readable. If you don't see it, please reload the page."
+	"pleaseReload": "Enjoy your movie.",
+	"myAccount": "My account",
+	"logout": "Logout"
 }

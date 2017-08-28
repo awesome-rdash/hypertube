@@ -89,9 +89,12 @@ function getMovieInfos(id) {
 
 $(document).ready(() => {
 	$('#searchLoading').hide();
-
+	let isReaded = false;
 	$('#returnBtn').click(() => {
 		$('video')[0].remainingTime = 0;
+		$('downloadInfo').fadeOut();
+		$('reloadVideoInfo').fadeOut();
+		isReaded = false;
 		isFilmLoading = false;
 	});
 
@@ -156,6 +159,7 @@ $(document).ready(() => {
 	$('.noUi-tooltip').hide();
 
 	function showVideo() {
+		isReaded = true;
 		$('#videos').fadeIn(50);
 	}
 	$('#closeUserInfo').click(() => {
@@ -207,30 +211,32 @@ $(document).ready(() => {
 
 	let isLoading = false;
 	$(window).bind('mousewheel', (event) => {
-		let uselessVar = null;
-		if (event.originalEvent.wheelDelta >= 0) {
-			uselessVar = true;
-		} else if (searchMode === true && isLoading === false) {
-			if ($(window).scrollTop() + $(window).height() >= ($(document).height() - 5)) {
-				$('#searchLoading').show();
-				isLoading = true;
-				const string = $('#searchValue').val() || null;
-				const genre = $('#categoryValue').val() || null;
-				const sort = $('#orderByValue').val() || null;
-				const rating = $('#rating').val() || null;
-				filmListNumber += 1;
-				const options = { string, genre, sort, rating, index: filmListNumber };
-				$.get('/search', options, (data) => {
-					if (data.length > 0) {
-						$('#filmsList').fadeIn(0);
-						$('#videoList').hide(250);
-						isLoading = showFilms(data, data.length);
-					} else {
-						isLoading = false;
-						$('#searchBtn').prop('disabled', false);
-					}
-					$('#searchLoading').hide();
-				});
+		if (isReaded === false) {
+			let uselessVar = null;
+			if (event.originalEvent.wheelDelta >= 0) {
+				uselessVar = true;
+			} else if (searchMode === true && isLoading === false) {
+				if ($(window).scrollTop() + $(window).height() >= ($(document).height() - 5)) {
+					$('#searchLoading').show();
+					isLoading = true;
+					const string = $('#searchValue').val() || null;
+					const genre = $('#categoryValue').val() || null;
+					const sort = $('#orderByValue').val() || null;
+					const rating = $('#rating').val() || null;
+					filmListNumber += 1;
+					const options = { string, genre, sort, rating, index: filmListNumber };
+					$.get('/search', options, (data) => {
+						if (data.length > 0) {
+							$('#filmsList').fadeIn(0);
+							$('#videoList').hide(250);
+							isLoading = showFilms(data, data.length);
+						} else {
+							isLoading = false;
+							$('#searchBtn').prop('disabled', false);
+						}
+						$('#searchLoading').hide();
+					});
+				}
 			}
 		}
 	});
