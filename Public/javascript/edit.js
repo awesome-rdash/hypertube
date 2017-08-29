@@ -56,6 +56,7 @@ $(document).ready(() => {
 			$.post('/view', { movieId: $('#video').attr('fid'), currentTime }, (data) => {
 				const len = $(`div[filmid=${data.movie}]`).attr('filmLength');
 				$(`div[filmid=${data.movie}] .filmReaded`).css('width', `${((data.current) / (len * 60)) * 100}%`);
+				$(`div[filmid=${data.movie}]`).attr('filmCurrent', `${data.current}`);
 			});
 		}
 	};
@@ -69,8 +70,10 @@ $(document).ready(() => {
 		$('video')[0].load();
 		$('.oneOfTheComment').remove();
 		$('#downloadInfo').fadeOut();
+		$('#reloadVideoInfo').fadeOut();
 		$('#videos').fadeOut(50, showList);
 	});
+
 	$('#sendEdit').click(() => {
 		const imgFileSize = Math.round((($('#picture').prop('src').length - 22) * 3) / 4) / 1000;
 		if (edited === false || imgFileSize < 400) {

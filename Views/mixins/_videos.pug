@@ -7,7 +7,8 @@ mixin videos()
 				.col-2.hidden-lg-up
 				.col-5.text-center
 					h2#videoTitle
-						i#downloadInfo(style="display: none;" tkey="pleaseWait")
+						i#downloadInfo(style="display: none; color: red;" tkey="pleaseWait")
+						i#reloadVideoInfo(style="display: none; color: green;" tkey="pleaseReload")
 				.col-2.hidden-md-down
 				.col-3.hidden-md-down
 					h2.text-center(style="color: white;") Commentary 

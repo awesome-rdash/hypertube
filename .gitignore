@@ -5,3 +5,5 @@ package-lock.json
 Downloads/*
 transmission/build/*
 *.vtt
+*.log
+variables.env

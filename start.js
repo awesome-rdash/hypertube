@@ -6,28 +6,28 @@ if (major < 7 || (major === 7 && minor < 6)) {
 	process.exit();
 }
 
-// Load *variables.env* into proccess.env
+// Load *variables.env* into process.env
 require('dotenv').config({ path: 'variables.env' });
 
+// Mongoose Setup
 const mongoose = require('mongoose');
 
 mongoose.connect(process.env.DATABASE, { useMongoClient: true });
 mongoose.Promise = global.Promise;
 mongoose.connection.on('error', (err) => {
-	console.error(`🙅 🚫 🙅 🚫 🙅 🚫 🙅 🚫 → ${err.message}`);
+	console.error(`🚫 → ${err.message}`);
 });
 
-// Import Models
+// Import Models and App
 
 require('./Models/User');
 require('./Models/Movie');
 require('./Models/Comment');
 require('./Models/View');
 
-// Launch Server
-
 const app = require('./app');
 
+// Launch Server
 app.set('port', process.env.PORT || 8888);
 const server = app.listen(app.get('port'), () => {
 	console.log(`Express running → PORT ${server.address().port}`);
