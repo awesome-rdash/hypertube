@@ -141,7 +141,6 @@ exports.getUsersByUsername = async (req, res) => {
 		const ret = [];
 		users.forEach((user, i) => {
 			ret.push(user);
-			console.log(user);
 			if (!fs.existsSync(path.join(__dirname, `../Public/${user.photo}`))) {
 				ret[i].photo = '/assets/empty_user.png';
 			}
@@ -163,7 +162,6 @@ exports.userPage = async (req, res) => {
 	if (!fs.existsSync(path.join(__dirname, `../Public/${user.photo}`))) {
 		user.photo = '/assets/empty_user.png';
 	}
-	console.log(coms);
 	const ret = {
 		id: user._id,
 		username: user.username,
