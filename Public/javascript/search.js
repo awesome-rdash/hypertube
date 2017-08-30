@@ -1,5 +1,5 @@
 function createFilmElem(indx, id, src, title, year, rating, length, current) {
-	return (`<div class="col-md-2 col-xl-1 col-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}" filmLength="${length}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p></div></a><div style="background-color: rgba(0, 0, 0, 0.66); height: 4px;"><div class="filmReaded" style="background-color: green; height: 100%; width: ${((current) / (length * 60)) * 100}%;")></div></div>`);
+	return (`<div class="col-md-2 col-xl-1 col-4 movieLaunch imgListFilms" filmid="${id}" id="img${indx}" filmCurrent="${current}" filmLength="${length}"><a href="#" style="color: white"><img style="width: 100%;" src="${src}" alt="Image not found.." title="${title}" /><div class="filmMiniature"><p class="text-center filmTitle"><b>${title}</b></p><p class="text-center filmYear">${year}</p><p class="text-center filmRate">${rating} / 10</p></div></a><div style="background-color: rgba(0, 0, 0, 0.66); height: 4px;"><div class="filmReaded" style="background-color: green; height: 100%; width: ${((current) / (length * 60)) * 100}%;")></div></div>`);
 }
 
 const getCommentOfFilm = ((id) => {
@@ -25,7 +25,6 @@ $(document).on('click', '.userOfList', (e) => {
 	$.get(`/user/${uid}`, null, (data) => {
 		$('#userUsername').html(data.username);
 		$('#userPicture').prop('src', data.photo);
-		console.log(data);
 		data.coms.forEach((com, i) => {
 			comments = `${comments}<div class="row" style="background-color: #171717; margin-bottom: 5px;"><div class="col-3"><img style="width: 100%;" src="${com.movie.image}" /></div><div class="col-9"><p style="color: #919191;">${com.movie.title}<br /><span style="font-size: 13px;">${getFormattedDate(new Date(com.posted))}</span></p><p style="color: white; font-size: 10px;">${com.com}</p></div></div></div>`;
 		});
@@ -51,16 +50,10 @@ $(document).on('click', '.userOfList', (e) => {
 	}
 });
 
-let stopGetMovieInfos = false;
-
 function getMovieInfos(id) {
+	let turn = 0;
 	function getFilm() {
 		$.get(`/movie/${id}/status`, null, (data) => {
-			console.log(data);
-			// if (stopGetMovieInfos === true) {
-			// 	stopGetMovieInfos = false;
-			// 	return ;
-			// }
 			if (data === true) {
 				$('#downloadInfo').fadeOut();
 				$('.vjs-captions-button').remove();
@@ -79,9 +72,13 @@ function getMovieInfos(id) {
 					</ul></div><span class="vjs-control-text">Captions</span></div>`);
 					$('video').append(`<track kind="captions" src="/downloads/${slug}_en.vtt" srclang="en" label="English" default></track>`);
 				}
-				$('video')[0].load();
-				$('video')[0].play();
+				if (turn > 0) {
+					$('video')[0].load();
+					$('video')[0].play();
+					$('#reloadVideoInfo').fadeIn();
+				}
 			} else {
+				turn++;
 				$('#downloadInfo').fadeIn();
 				getFilm(id);
 			}
@@ -92,9 +89,13 @@ function getMovieInfos(id) {
 
 $(document).ready(() => {
 	$('#searchLoading').hide();
-
+	let isReaded = false;
 	$('#returnBtn').click(() => {
-		stopGetMovieInfos = true;
+		$('video')[0].remainingTime = 0;
+		$('downloadInfo').fadeOut();
+		$('reloadVideoInfo').fadeOut();
+		isReaded = false;
+		isFilmLoading = false;
 	});
 
 	function showList() {
@@ -158,6 +159,7 @@ $(document).ready(() => {
 	$('.noUi-tooltip').hide();
 
 	function showVideo() {
+		isReaded = true;
 		$('#videos').fadeIn(50);
 	}
 	$('#closeUserInfo').click(() => {
@@ -209,30 +211,32 @@ $(document).ready(() => {
 
 	let isLoading = false;
 	$(window).bind('mousewheel', (event) => {
-		let uselessVar = null;
-		if (event.originalEvent.wheelDelta >= 0) {
-			uselessVar = true;
-		} else if (searchMode === true && isLoading === false) {
-			if ($(window).scrollTop() + $(window).height() >= ($(document).height() - 5)) {
-				$('#searchLoading').show();
-				isLoading = true;
-				const string = $('#searchValue').val() || null;
-				const genre = $('#categoryValue').val() || null;
-				const sort = $('#orderByValue').val() || null;
-				const rating = $('#rating').val() || null;
-				filmListNumber += 1;
-				const options = { string, genre, sort, rating, index: filmListNumber };
-				$.get('/search', options, (data) => {
-					if (data.length > 0) {
-						$('#filmsList').fadeIn(0);
-						$('#videoList').hide(250);
-						isLoading = showFilms(data, data.length);
-					} else {
-						isLoading = false;
-						$('#searchBtn').prop('disabled', false);
-					}
-					$('#searchLoading').hide();
-				});
+		if (isReaded === false) {
+			let uselessVar = null;
+			if (event.originalEvent.wheelDelta >= 0) {
+				uselessVar = true;
+			} else if (searchMode === true && isLoading === false) {
+				if ($(window).scrollTop() + $(window).height() >= ($(document).height() - 5)) {
+					$('#searchLoading').show();
+					isLoading = true;
+					const string = $('#searchValue').val() || null;
+					const genre = $('#categoryValue').val() || null;
+					const sort = $('#orderByValue').val() || null;
+					const rating = $('#rating').val() || null;
+					filmListNumber += 1;
+					const options = { string, genre, sort, rating, index: filmListNumber };
+					$.get('/search', options, (data) => {
+						if (data.length > 0) {
+							$('#filmsList').fadeIn(0);
+							$('#videoList').hide(250);
+							isLoading = showFilms(data, data.length);
+						} else {
+							isLoading = false;
+							$('#searchBtn').prop('disabled', false);
+						}
+						$('#searchLoading').hide();
+					});
+				}
 			}
 		}
 	});
@@ -251,7 +255,7 @@ $(document).ready(() => {
 			getCommentOfFilm(filmid);
 			$('video').append(`<div class="vjs-poster" tabindex="-1" aria-disabled="false" style="background-image: url(${data.image});"></div>`);
 			$('video').attr('poster', data.image);
-			// $('video')[0].currentTime = 50;
+			$('video')[0].currentTime = $(`div[filmid=${data.id}]`).attr('filmCurrent');
 			$('#search').fadeOut(50);
 			$('#filmsList').fadeOut(50);
 			$('#videoList').fadeOut(50, showVideo);

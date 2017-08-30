@@ -1,4 +1,4 @@
-0.// Require Modules
+// Require Modules
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -64,7 +64,6 @@ app.use(errorHandlers.notFound);
 
 // Otherwise this was a really bad error we didn't expect! Shoot eh
 if (app.get('env') === 'development') {
-	/* Development Error Handler - Prints stack trace */
 	app.use(errorHandlers.developmentErrors);
 }
 
