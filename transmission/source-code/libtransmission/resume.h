@@ -37,7 +37,6 @@ enum
   TR_FR_TIME_DOWNLOADING    = (1 << 19),
   TR_FR_FILENAMES           = (1 << 20),
   TR_FR_NAME                = (1 << 21),
-  TR_FR_SEQUENTIAL          = (1 << 22),
 };
 
 /**

@@ -21,6 +21,8 @@ router.get('/', async (req, res) => {
 	});
 });
 
+router.get('/topmovies', movieController.getTopMovies);
+
 // Local Auth and Registration
 router.post('/register/local',
 	userController.validateRegister,

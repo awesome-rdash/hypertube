@@ -511,8 +511,6 @@ tr_torrentCheckSeedLimit (tr_torrent * tor)
       tor->isStopping = true;
       tor->finishedSeedingByIdle = true;
 
-      tor->sequentialDownload = false;
-
       /* maybe notify the client */
       if (tor->idle_limit_hit_func != NULL)
         tor->idle_limit_hit_func (tor, tor->idle_limit_hit_func_user_data);
@@ -2460,28 +2458,6 @@ tr_torrentSetPriority (tr_torrent * tor, tr_priority_t priority)
   if (tor->bandwidth.priority != priority)
     {
       tor->bandwidth.priority = priority;
-
-      tr_torrentSetDirty (tor);
-    }
-}
-
-bool
-tr_torrentGetSequentialDownload (const tr_torrent * tor)
-{
-  assert (tr_isTorrent (tor));
-
-  return tor->sequentialDownload;
-}
-
-void
-tr_torrentSetSequentialDownload (tr_torrent * tor, bool sequential)
-{
-  assert (tr_isTorrent (tor));
-
-
-  if (tor->sequentialDownload != sequential)
-    {
-      tor->sequentialDownload = sequential;
 
       tr_torrentSetDirty (tor);
     }

@@ -24,8 +24,6 @@ dist_data_DATA = \
   toolbar-info.png \
   toolbar-pause.png \
   toolbar-start.png \
-  toolbar-download-random.png \
-  toolbar-download-sequential.png \
   toolbar-pause-all.png \
   toolbar-start-all.png \
   turtle.png \

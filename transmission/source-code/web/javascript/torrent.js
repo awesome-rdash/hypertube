@@ -102,7 +102,6 @@ Torrent.Fields.StatsExtra = [
     'haveUnchecked',
     'haveValid',
     'peers',
-    'sequential',
     'startDate',
     'trackerStats'
 ];
