@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const ffmpeg = require('fluent-ffmpeg');
-const mime = require('mime');
 const fs = require('fs');
 const path = require('path');
 
