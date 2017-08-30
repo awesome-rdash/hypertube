@@ -58,7 +58,6 @@ exports.addTorrent = async (req, res, next) => {
 			res.send('error while adding torrent');
 		}
 		req.id = result.id;
-		console.log(`Added Torrent. ID: ${req.id}`);
 		return next();
 	});
 };

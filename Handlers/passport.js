@@ -11,17 +11,18 @@ passport.use(new GoogleStrategy({
 	clientSecret: process.env.G_SECRET,
 	callbackURL: '/login/google/cb',
 }, async (token, refreshToken, profile, done) => {
+
 	let user = await User.findOne({ email: profile.emails[0].value });
 	if (!user) {
 		user = new User({
-			username: `${profile.name.givenName} ${profile.name.familyName[0]}`,
+			username: `${profile.name.givenName || ''} ${profile.name.familyName[0] || ''}`,
 			email: profile.emails[0].value,
 			auth: {
 				type: profile.provider,
 				id: profile.id,
 				token,
 			},
-			photo: profile.photos[0].value,
+			photo: profile.photos[0].value || '/assets/empty_user.png',
 		});
 		await user.save();
 	}
@@ -36,14 +37,14 @@ passport.use(new FortyTwoStrategy({
 	let user = await User.findOne({ email: profile.emails[0].value });
 	if (!user) {
 		user = new User({
-			username: `${profile.name.givenName} ${profile.name.familyName[0]}`,
+			username: `${profile.name.givenName || ''} ${profile.name.familyName[0] || ''}`,
 			email: profile.emails[0].value,
 			auth: {
 				type: profile.provider,
 				id: profile.id,
 				token,
 			},
-			photo: profile.photos[0].value,
+			photo: profile.photos[0].value || '/assets/empty_user.png',
 		});
 		await user.save();
 	}

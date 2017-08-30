@@ -141,9 +141,6 @@ exports.getUsersByUsername = async (req, res) => {
 		const ret = [];
 		users.forEach((user, i) => {
 			ret.push(user);
-			if (!fs.existsSync(path.join(__dirname, `../Public/${user.photo}`))) {
-				ret[i].photo = '/assets/empty_user.png';
-			}
 		});
 		return res.json(ret);
 	}
@@ -159,9 +156,6 @@ exports.userPage = async (req, res) => {
 			.limit(10)
 			.populate('movie', ['title', 'image']));
 	const [user, coms] = await Promise.all(proms);
-	if (!fs.existsSync(path.join(__dirname, `../Public/${user.photo}`))) {
-		user.photo = '/assets/empty_user.png';
-	}
 	const ret = {
 		id: user._id,
 		username: user.username,
