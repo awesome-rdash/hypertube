@@ -30,24 +30,12 @@ $(document).on('click', '.userOfList', (e) => {
 		});
 		$('#userComments').html(comments);
 	});
-	$('#myAccount').fadeOut(50);
-
-	function showUser() {
-		$('#userInformations').fadeIn(50);
-	}
-
-	function ftTwo() {
-		$('#videoList').fadeOut(0, showUser);
-	}
-
-	function ftOne() {
-		$('#filmsList').fadeOut(0, ftTwo);
-	}
-	if (state === 0) {
-		$('#search').fadeOut(0, ftOne);
-	} else {
-		$('#videos').fadeOut(50, showUser);
-	}
+	$('#myAccount').fadeOut(0);
+	$('#videoList').fadeOut(0);
+	$('#filmsList').fadeOut(0);
+	$('#search').fadeOut(0);
+	$('#videos').fadeOut(0);
+	$('#userInformations').fadeIn(100);
 });
 
 function getMovieInfos(id) {
@@ -96,6 +84,7 @@ $(document).ready(() => {
 		$('reloadVideoInfo').fadeOut();
 		isReaded = false;
 		isFilmLoading = false;
+		state = 0;
 	});
 
 	function showList() {

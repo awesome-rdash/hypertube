@@ -3,13 +3,13 @@ mixin videoList()
 		each movieList, i in movies
 			br
 			if i === 0
-				h3.text-center Sci-Fi
+				h3.text-center(tkey="sciFi")
 			else if i === 1
-				h3.text-center Action
+				h3.text-center(tkey="action")
 			else if i === 2
-				h3.text-center Comedy
+				h3.text-center(tkey="comedy")
 			else if i === 3
-				h3.text-center Drama
+				h3.text-center(tkey="drama")
 			br
 			.row
 				.offset-xl-3

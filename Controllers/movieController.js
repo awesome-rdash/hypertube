@@ -35,7 +35,7 @@ exports.getMovieById = async (req, res) => {
 };
 
 exports.searchMovie = async (req, res) => {
-	if (req.query.string !== '' && !req.query.string.match(/^[a-z0-9]+$/i)) {
+	if (req.query.string !== '' && !req.query.string.match(/^[a-z 0-9]+$/i)) {
 		return res.send(null);
 	}
 	const agg = [];

@@ -69,5 +69,7 @@
 	"western": "Western",
 	"alphabetical": "Alphabétique",
 	"releaseYear": "Date de Sortie",
-	"duration": "Durée"
+	"duration": "Durée",
+	"commentary": "Commentaires",
+	"info": "Informations"
 }
