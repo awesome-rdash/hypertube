@@ -21,38 +21,36 @@ mixin search()
 					label.form-control-label(for="catagory" style="color: red;" tkey="category")  :
 					br
 					select.custom-select#categoryValue(name="category")
-						option(value="") All
-						option(value="Action") Action
-						option(value="Adventure") Adventure
-						option(value="Animation") Animation
-						option(value="Biography") Biography
-						option(value="Comedy") Comedy
-						option(value="Crime") Crime
-						option(value="Documentary") Documentary
-						option(value="Drama") Drama
-						option(value="Family") Family
-						option(value="Fantasy") Fantasy
-						option(value="Film-noir") Film-Noir
-						option(value="Game-show") Game-Show
-						option(value="History") History
-						option(value="Horror") Horror
-						option(value="Music") Music
-						option(value="Musical") Musical
-						option(value="Mystery") Mystery
-						option(value="News") News
-						option(value="Reality-tv") Reality-TV
-						option(value="Romance") Romance
-						option(value="Sci-fi") Sci-Fi
-						option(value="Sport") Sport
-						option(value="Talk-show") Talk-Show
-						option(value="Thriller") Thriller
-						option(value="War") War
-						option(value="Western") Western
+						option(value="", tkey="all")
+						option(value="Action" tkey="action")
+						option(value="Adventure" tkey="adventure")
+						option(value="Animation" tkey="animation")
+						option(value="Biography" tkey="biography")
+						option(value="Comedy" tkey="comedy")
+						option(value="Crime" tkey="crime")
+						option(value="Documentary" tkey="documentary")
+						option(value="Drama" tkey="drama")
+						option(value="Family" tkey="family")
+						option(value="Fantasy" tkey="fantasy")
+						option(value="History" tkey="histoy")
+						option(value="Horror" tkey="horror")
+						option(value="Music" tkey="music")
+						option(value="Musical" tkey="musical")
+						option(value="Mystery" tkey="mystery")
+						option(value="News" tkey="news")
+						option(value="Reality-tv" tkey="realityTv")
+						option(value="Romance" tkey="romance")
+						option(value="Sci-fi" tkey="sciFi")
+						option(value="Sport" tkey="sport")
+						option(value="Talk-show" tkey="talkShow")
+						option(value="Thriller" tkey="thriller")
+						option(value="War" tkey="war")
+						option(value="Western" tkey="western")
 			.col-4.col-xl-2
 					label.form-control-label(for="orderBy" style="color: red;" tkey="orderBy")  :
 					br
 					select.custom-select#orderByValue(name="orderBy")
-						option(value="title") Alphabetical
-						option(value="year") Realease year
-						option(value="rating") Rating
-						option(value="length") Duration
+						option(value="title" tkey="alphabetical")
+						option(value="year" tkey="realeaseYear")
+						option(value="rating" tkey="rating")
+						option(value="length" tkey="duration")
