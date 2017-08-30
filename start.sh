@@ -35,8 +35,11 @@ do
     mkdir $(pwd)/transmission/build 2> /dev/null || true
 		xcodebuild -project "transmission/source-code/Transmission.xcodeproj" -target transmission-daemon -configuration Release build
 		cp -v -a "transmission/source-code/build/Release/transmission-daemon" "transmission/build/"
+		xcodebuild -project "transmission/source-code/Transmission.xcodeproj" -target transmission-remote -configuration Release build
+		cp -v -a "transmission/source-code/build/Release/transmission-remote" "transmission/build/"
     export TRANSMISSION_WEB_HOME="$(pwd)/transmission/build/web/"
     cp -v -a "transmission/source-code/web" "$TRANSMISSION_WEB_HOME"
+		pkill -15 "transmission-daemon"
     transmission/build/transmission-daemon
     npm start
 		;;

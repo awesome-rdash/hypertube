@@ -77,7 +77,7 @@ const isPlayable = (movieBytes) => {
 
 const getMovieStatus = (infos, movie) => {
 	const movieBytes = exec(`./transmission-remote -t ${movie.hash} -ic`,
-		{ cwd: './transmission/source-code/Transmission-svn/build/Debug/' }).toString('utf8');
+		{ cwd: './transmission/build/' }).toString('utf8');
 	if (infos && infos.length > 0
 		&& ((infos[0].eta > 0
 			&& infos[0].eta < movie.length * 60
