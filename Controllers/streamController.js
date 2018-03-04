@@ -1,3 +1,8 @@
+/*
+Note de Justin Rouzier :
+Ce morceau de code permets de streamer en temps réel un fichier en cours de téléchargement vers le navigateur
+*/
+
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
